@@ -82,6 +82,7 @@ This work is **motivated by prior work** on [**Knowledge3D**](https://github.com
 - **Damir Cavar** (Indiana University) → Computational linguistics, AI energy efficiency, Quantum AI, NLP (20+ years)
 - **Henrique Santos** (RPI/Tetherless World Constellation) → Director of Semantic Applications, DARPA Machine Common Sense, knowledge graphs + LLMs
 - **Anisa Rula** (University of Brescia) 🇮🇹 → **CO-AUTHOR OF THE KNOWLEDGE GRAPHS BOOK** (Springer 2021), KG quality & validation expert, Linked Data quality, data profiling
+- **Oserebameh Beckley** → WebGPU compute shaders expert, GPU memory management, ray tracing, graphics programming (Medium technical writer)
 
 ### Institutions
 - **Rensselaer Polytechnic Institute** (Tetherless World Constellation - world's top knowledge graph center, led by Deborah McGuinness)
