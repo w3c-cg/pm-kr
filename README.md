@@ -83,6 +83,7 @@ This work is **motivated by prior work** on [**Knowledge3D**](https://github.com
 - **Henrique Santos** (RPI/Tetherless World Constellation) → Director of Semantic Applications, DARPA Machine Common Sense, knowledge graphs + LLMs
 - **Anisa Rula** (University of Brescia) 🇮🇹 → **CO-AUTHOR OF THE KNOWLEDGE GRAPHS BOOK** (Springer 2021), KG quality & validation expert, Linked Data quality, data profiling
 - **Oserebameh Beckley** → WebGPU compute shaders expert, GPU memory management, ray tracing, graphics programming (Medium technical writer)
+- **Majid Babaei** (McGill University) 🇨🇦 → AI explainability via knowledge graphs, LLMs & AI agents research, Software Engineering (6 funded research internships May-Oct 2026, top-tier publications: ICSE, ICPE, MODELS)
 
 ### Institutions
 - **Rensselaer Polytechnic Institute** (Tetherless World Constellation - world's top knowledge graph center, led by Deborah McGuinness)
@@ -91,6 +92,7 @@ This work is **motivated by prior work** on [**Knowledge3D**](https://github.com
 - **LinkedIn** (Production-scale GNNs)
 - **Digital Bazaar** (Semantic Web technologies)
 - **INRIA** (Hanna Abi Akl - neuro-symbolic AI)
+- **McGill University** 🇨🇦 (Majid Babaei - AI explainability, LLM/AI agent research)
 
 ---
 
