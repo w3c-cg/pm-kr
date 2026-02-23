@@ -76,17 +76,20 @@ This work is **motivated by prior work** on [**Knowledge3D**](https://github.com
 - **OpenFn Organization** → Real-world validation (40+ countries, 10M+ transactions/year)
 
 ### Key Contributors
-- **Marko Rodriguez** (Apache TinkerPop founder, Gremlin creator) → Graph traversal expertise
+- **Marko Rodriguez** (Apache TinkerPop founder, Gremlin creator) → Graph traversal expertise, repository collaborator
 - **Milton Ponson** (Mathematician) → Godelian critique of LLM scaling, Domains of Discourse
 - **José Vázquez-Jaramillo** (Philosopher) → Epistemology and philosophical grounding
-- **Damir Cavar** (Indiana University) → Computational linguistics, AI energy efficiency, Quantum AI
+- **Damir Cavar** (Indiana University) → Computational linguistics, AI energy efficiency, Quantum AI, NLP (20+ years)
 - **Henrique Santos** (RPI/Tetherless World Constellation) → Director of Semantic Applications, DARPA Machine Common Sense, knowledge graphs + LLMs
+- **Anisa Rula** (University of Brescia) 🇮🇹 → **CO-AUTHOR OF THE KNOWLEDGE GRAPHS BOOK** (Springer 2021), KG quality & validation expert, Linked Data quality, data profiling
 
 ### Institutions
-- **Rensselaer Polytechnic Institute** (Tetherless World Constellation - world's top knowledge graph center)
-- **Indiana University** (Computational linguistics program)
+- **Rensselaer Polytechnic Institute** (Tetherless World Constellation - world's top knowledge graph center, led by Deborah McGuinness)
+- **Indiana University** (Computational linguistics program, founded by Damir Cavar)
+- **University of Brescia** 🇮🇹 (Knowledge graph validation, semantic web research)
 - **LinkedIn** (Production-scale GNNs)
 - **Digital Bazaar** (Semantic Web technologies)
+- **INRIA** (Hanna Abi Akl - neuro-symbolic AI)
 
 ---
 
@@ -127,6 +130,84 @@ This work is **motivated by prior work** on [**Knowledge3D**](https://github.com
 
 ### For Cognitive AI
 **Hippocampus-Inspired Architecture**: Spatial memory mirrors biological hippocampus (episodic memory, spatial mapping, memory consolidation). Same spatial substrate for temporary reasoning + long-term knowledge.
+
+---
+
+## 🤝 Early Collaborative Insights (Pre-Launch Discussions)
+
+Even before the official PM-KR launch, deep technical discussions with founding members have shaped the group's direction:
+
+### Jonathan DeRouchie: Cognitive Load & Familiar Technical Concepts
+
+**Key Insight**: "Users are more likely to adopt a framework that uses or simplifies existing language, concept or structure."
+
+**Contributions**:
+- **Form→Meaning Framework**: Recognized that K3D mirrors 40,000 years of human knowledge evolution (cave paintings → letters → words → grammar → philosophy)
+- **Familiar Technical Labels**: Recommended mapping K3D concepts to universal terms (tree, node, file system, OOP, graph database, 3D modeling)
+- **Multiple Mental Models**: Proposed explaining K3D through multiple lenses:
+  - **File System**: House = directories, Rooms = folders, Objects = files
+  - **OOP**: Classes, inheritance, procedural composition
+  - **Graph Database**: Gremlin-style traversal (with Marko Rodriguez collaboration)
+  - **3D Modeling**: Blender/Maya/Unity analogy (scenes, objects, materials, animation)
+
+**Impact**: Led to **Track 6 proposal** for Year 1: "Developer Adoption & Cognitive Load Minimization"
+- Familiar Technical Labels Mapping
+- Multiple Mental Models Guide (file system, OOP, graph DB, 3D modeling)
+- Getting Started for Different Roles (designers, devs, PMs)
+- Gremlin → K3D Migration Guide
+
+### Adam Sobieski: Hippocampus, Execution State Embeddings, Ethics/Safety
+
+**Key Insight**: "Based on your interest in spatial approaches, I assume you've also studied the hippocampus?"
+
+**Biological Grounding**:
+- **Hippocampus Connection**: Validated K3D's biological inspiration (spatial navigation, episodic memory, memory consolidation)
+- **Computational Analogue**: K3D House Universe mirrors hippocampus functions (place cells → 3D rooms, memory consolidation → SleepTime protocol)
+
+**Technical Contributions**:
+- **Execution State Embeddings**: Predicted (and K3D already implements!) 768-dim vectors encoding procedural state + semantic context
+- **Incremental Validation**: "At point X during procedure Y, is candidate action A_i correct, efficient, safe, and ethical?"
+- **Faith Engine**: K3D's 0.70 confidence threshold for safety validation
+- **Audit Message Schema**: "at point X during Y, observed Z" (credited to Adam in PM-KR spec)
+- **OpenTelemetry Mapping**: Traces, spans, context propagation for procedural execution
+
+**Track 5 Proposal**: "Ethics & Safety for AI Agents and Robots"
+- Multi-agent coordination via Galaxy Universe (centralized trusted resource)
+- Safety predicates in procedural forms (MUST/MUST NOT constraints)
+- Policy compliance validation (building on his Schema.org work, GitHub #4569)
+- Structured validation reports for audit compliance
+
+**Multimodal Narrative Vision**:
+- Natural language narration (Galaxy introspection mode)
+- Procedural video generation (K3D-VID, 200:1 compression)
+- 3D visualization (humans walk through robot's "memory palace")
+- Structured audit trail (machine-verifiable + human-readable)
+
+### Marko Rodriguez: Graph Traversal Expertise
+
+**Role**: Apache TinkerPop founder, Gremlin creator, Knowledge3D repository collaborator
+
+**Contribution**:
+- **Gremlin → K3D Mapping**: K3D Galaxy navigation = 3D graph traversal (extends Gremlin concepts to spatial reasoning)
+- **Familiar Technical Concept**: Gremlin is industry-standard (DataStax, Neo4j, major graph databases)
+- **Validation**: Ensures K3D builds on established graph theory, not inventing unfamiliar abstractions
+
+**Connection**:
+```
+Gremlin (2D graph traversal)  →  K3D Galaxy (3D graph traversal)
+Graph nodes                   →  K3D Nodes (stars in 3D space)
+Graph edges                   →  Semantic proximity (spatial distance)
+g.V().has('name','X')        →  galaxy.query(embedding, top_k=10)
+```
+
+### Year 1 Tracks (Shaped by Early Discussions)
+
+**Track 1**: OpenFn Integration Architecture (production validation)
+**Track 2**: BPMN → PM-KR Compilation Strategy (workflow verification)
+**Track 3**: State/Context Ontology (Adam's audit schema)
+**Track 4**: Lean4 Formalization (theorem proving for correctness)
+**Track 5**: Ethics & Safety for AI Agents/Robots (Adam's proposal)
+**Track 6**: Developer Adoption & Cognitive Load (Jonathan's proposal)
 
 ---
 
