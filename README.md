@@ -72,7 +72,7 @@ This work is **motivated by prior work** on [**Knowledge3D**](https://github.com
 - **Adam Sobieski** → WICG #188 (5-year-old stateful procedural execution proposal), audit message schema
 - **Jonathan DeRouchie** → Persistent memory AI architecture, public/private knowledge separation
 - **Nitin Pasumarthy** (LinkedIn LLM/GNN) → Production-scale systems perspective
-- **Hanna Abi Akl** → W3C Community Group expertise
+- **Hanna Abi Akl** (INRIA) 🇫🇷 → Neuro-symbolic AI, officially representing Institut National de Recherche en Informatique et en Automatique (French national research institute for computer science and automation)
 - **OpenFn Organization** → Real-world validation (40+ countries, 10M+ transactions/year)
 
 ### Key Contributors
@@ -92,7 +92,7 @@ This work is **motivated by prior work** on [**Knowledge3D**](https://github.com
 - **University of Brescia** 🇮🇹 (Knowledge graph validation, semantic web research)
 - **LinkedIn** (Production-scale GNNs)
 - **Digital Bazaar** (Semantic Web technologies)
-- **INRIA** (Hanna Abi Akl - neuro-symbolic AI)
+- **INRIA** 🇫🇷 (Institut National de Recherche en Informatique et en Automatique - French national research institute for computer science, Hanna Abi Akl - neuro-symbolic AI)
 - **McGill University** 🇨🇦 (Majid Babaei - AI explainability, LLM/AI agent research)
 
 ---
