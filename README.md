@@ -68,8 +68,6 @@ This work is **motivated by prior work** on [**Knowledge3D**](https://github.com
 ## 🤝 Who's Participating (February 2026)
 
 ### Founding Members
-- **Manu Sporny** (JSON-LD co-creator, Digital Bazaar CTO) → CBOR-LD compression, procedural canonicalization
-- **Adam Sobieski** → WICG #188 (5-year-old stateful procedural execution proposal), audit message schema
 - **Jonathan DeRouchie** → Persistent memory AI architecture, public/private knowledge separation
 - **Nitin Pasumarthy** (LinkedIn LLM/GNN) → Production-scale systems perspective
 - **Hanna Abi Akl** (INRIA) 🇫🇷 → Neuro-symbolic AI, officially representing Institut National de Recherche en Informatique et en Automatique (French national research institute for computer science and automation)
