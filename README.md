@@ -158,25 +158,25 @@ Even before the official PM-KR launch, deep technical discussions with founding 
 - Getting Started for Different Roles (designers, devs, PMs)
 - Gremlin → K3D Migration Guide
 
-### Adam Sobieski: Hippocampus, Execution State Embeddings, Ethics/Safety
+### Biological Grounding: Hippocampus, Execution State Embeddings, Ethics/Safety
 
-**Key Insight**: "Based on your interest in spatial approaches, I assume you've also studied the hippocampus?"
+**Key Insight**: PM-KR's spatial architecture has deep biological roots in hippocampal function.
 
 **Biological Grounding**:
-- **Hippocampus Connection**: Validated K3D's biological inspiration (spatial navigation, episodic memory, memory consolidation)
+- **Hippocampus Connection**: K3D's biological inspiration (spatial navigation, episodic memory, memory consolidation)
 - **Computational Analogue**: K3D House Universe mirrors hippocampus functions (place cells → 3D rooms, memory consolidation → SleepTime protocol)
 
-**Technical Contributions**:
-- **Execution State Embeddings**: Predicted (and K3D already implements!) 768-dim vectors encoding procedural state + semantic context
+**Technical Foundations**:
+- **Execution State Embeddings**: 768-dim vectors encoding procedural state + semantic context
 - **Incremental Validation**: "At point X during procedure Y, is candidate action A_i correct, efficient, safe, and ethical?"
 - **Faith Engine**: K3D's 0.70 confidence threshold for safety validation
-- **Audit Message Schema**: "at point X during Y, observed Z" (credited to Adam in PM-KR spec)
+- **Audit Message Schema**: "at point X during Y, observed Z"
 - **OpenTelemetry Mapping**: Traces, spans, context propagation for procedural execution
 
-**Track 5 Proposal**: "Ethics & Safety for AI Agents and Robots"
+**Track 5: Ethics & Safety for AI Agents and Robots**
 - Multi-agent coordination via Galaxy Universe (centralized trusted resource)
 - Safety predicates in procedural forms (MUST/MUST NOT constraints)
-- Policy compliance validation (building on his Schema.org work, GitHub #4569)
+- Policy compliance validation
 - Structured validation reports for audit compliance
 
 **Multimodal Narrative Vision**:
@@ -206,9 +206,9 @@ g.V().has('name','X')        →  galaxy.query(embedding, top_k=10)
 
 **Track 1**: OpenFn Integration Architecture (production validation)
 **Track 2**: BPMN → PM-KR Compilation Strategy (workflow verification)
-**Track 3**: State/Context Ontology (Adam's audit schema)
+**Track 3**: State/Context Ontology (audit schema, provenance)
 **Track 4**: Lean4 Formalization (theorem proving for correctness)
-**Track 5**: Ethics & Safety for AI Agents/Robots (Adam's proposal)
+**Track 5**: Ethics & Safety for AI Agents/Robots
 **Track 6**: Developer Adoption & Cognitive Load (Jonathan's proposal)
 
 ---
