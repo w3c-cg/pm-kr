@@ -232,7 +232,8 @@ g.V().has('name','X')        →  galaxy.query(embedding, top_k=10)
 - **[Multi-Language Playlist](https://www.youtube.com/playlist?list=PLmWTHH0cS_OgQ7h_xRMhZ6UqE5mRYAhD7)** — 12 languages (English, Portuguese, Spanish, French, German, Italian, Mandarin, Japanese, Korean, Russian, Hindi, Arabic)
 
 ### Deep Dive Resources
-- **[NotebookLM Research Space](https://notebooklm.google.com/notebook/1bd10bda-8900-4c41-931e-c9ec67ac865f)** — Best place to explore Knowledge3D/PM-KR in depth
+- **[PM-KR NotebookLM Research Space](https://notebooklm.google.com/notebook/98ffd298-1314-477f-b1e1-8d29da4f3848)** — Best place to explore PM-KR standards, architecture, and procedural knowledge representation
+- **[K3D Theory Research Space](https://notebooklm.google.com/notebook/1bd10bda-8900-4c41-931e-c9ec67ac865f)** — Deep dive into the Knowledge3D reference implementation
 
 ---
 
