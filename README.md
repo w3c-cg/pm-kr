@@ -310,9 +310,6 @@ g.V().has('name','X')        →  galaxy.query(embedding, top_k=10)
 
 ## 🙏 Acknowledgments
 
-### W3C Leadership
-- **Ian Jacobs** (W3C Head of Communications) → PM-KR CG launch, editorial guidance
-
 ### Inspiration & Heritage
 - **Gutenberg Press** (1440) → Democratized knowledge
 - **Aaron Swartz** → Guerrilla Open Access Manifesto, open knowledge philosophy
