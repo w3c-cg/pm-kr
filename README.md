@@ -67,7 +67,7 @@ This work is **motivated by prior work** on [**Knowledge3D**](https://github.com
 
 ## 🤝 Who's Participating (February 2026)
 
-### Founding Members
+### Early Ingressors
 - **Jonathan DeRouchie** → Persistent memory AI architecture, public/private knowledge separation
 - **Nitin Pasumarthy** (LinkedIn LLM/GNN) → Production-scale systems perspective
 - **Hanna Abi Akl** (INRIA) 🇫🇷 → Neuro-symbolic AI, officially representing Institut National de Recherche en Informatique et en Automatique (French national research institute for computer science and automation)
@@ -137,7 +137,7 @@ This work is **motivated by prior work** on [**Knowledge3D**](https://github.com
 
 ## 🤝 Early Collaborative Insights (Pre-Launch Discussions)
 
-Even before the official PM-KR launch, deep technical discussions with founding members have shaped the group's direction:
+Even before the official PM-KR launch, deep technical discussions with early ingressors have shaped the group's direction:
 
 ### Jonathan DeRouchie: Cognitive Load & Familiar Technical Concepts
 
