@@ -1,274 +1,216 @@
-# Procedural Memory Knowledge Representation (PM-KR) Community Group
+# Procedural Memory Knowledge Representation (PM-KR)
 
-**W3C Community Group**: https://www.w3.org/community/pm-kr/
-**Published**: February 20, 2026
-**Status**: OPEN for participation
+**W3C Community Group** | [Join](https://www.w3.org/community/pm-kr/) | [GitHub](https://github.com/w3c-cg/pm-kr) | [Reference Implementation](https://github.com/danielcamposramos/Knowledge3D)
 
----
-
-## 🎯 Mission
-
-Develop **open standards** for storing knowledge as **executable procedures** (like font programs or mathematical formula definitions) with **symlink-style composition**, enabling both humans and AI systems to consume the same procedural source.
-
-**Core Problem**: Current knowledge representation systems suffer from **massive duplication and fragmentation**. The same knowledge (e.g., a Unicode character, mathematical symbol, or spatial concept) is duplicated across fonts, embeddings, accessibility metadata, and visual renderings. This creates maintenance, performance, security, and licensing issues.
-
-**PM-KR Solution**: Knowledge stored **once** as executable procedures, referenced via symlink-style composition (like Debian's APT package system), enabling:
-- **70% compression** (zero duplication)
-- **Dual-client reality** (same procedural source → human visual + AI executable)
-- **Sovereign execution** (zero external dependencies in runtime hot path)
-- **Multi-modal accessibility** (visual, semantic, tactile, auditory from single source)
+**Chair:** Daniel Campos Ramos (EchoSystems AI Studios)
+**Co-Chair:** Milton Ponson (Rainbow Warriors Core Foundation CIAMSD)
+**Status:** OPEN for participation | Published February 2026
 
 ---
 
-## 📚 Key Specifications (Phase 1: Foundation)
+## The User-Facing Problem
 
-These documents establish the scope, technical depth, and biological inspiration for PM-KR:
+A single Unicode character today exists as: a font glyph, an embedding vector, accessibility metadata, a visual rendering, and an AI token — **five separate copies of the same knowledge**, maintained independently, drifting apart. Multiply by every character, formula, and concept on the web.
 
-1. **[INTERCONNECTEDNESS_MAP_v3.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/INTERCONNECTEDNESS_MAP_v3.md)**
-   - **103+ cross-disciplinary connections** spanning 586 years (1440-2026)
-   - **22 synthesis chains**: Operating systems, GPU computing, typography, game industry, robotics, neuroscience, accessibility, video compression, carbon impact, philosophy
-   - **Rarity estimate**: Top 0.001-0.01% (1 in 10,000 to 1 in 100,000) for cross-disciplinary synthesis at this scale
-   - **Why it matters**: Shows PM-KR builds on giants' shoulders while contributing unique architectural innovations
+**For end users:**
+- A blind student's screen reader, a sighted student's display, and a classroom AI each consume different representations of the same lesson — none can share context with the others
+- Knowledge on the web is flat: documents, search bars, chat windows. You can't walk through it, point at it, or explore it spatially
+- When AI systems reason about knowledge, users can't inspect how or why — the reasoning is hidden in opaque parameters
 
-2. **[KNOWLEDGEVERSE_SPECIFICATION.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/KNOWLEDGEVERSE_SPECIFICATION.md)**
-   - **7-region unified VRAM architecture**: Cranium (reasoning), Galaxy Universe (active memory), House Universe (persistent memory), TRM (routing), Audit Journal, Routing Metadata, I/O Buffers
-   - **Sovereign execution**: PTX-only hot path, zero numpy/cupy/scipy/torch
-   - **Persistent memory**: Unified context across tasks (Grammar Galaxy grows during use)
-   - **Why it matters**: Technical foundation for procedural knowledge representation
+**For developers:**
+- The same knowledge must be encoded separately for each modality (visual, semantic, tactile, audio) — massive duplication and maintenance burden
+- No W3C standard exists for storing knowledge once as an executable procedure consumable by both humans and machines
+- Accessibility, internationalization, and semantic meaning require separate implementation passes over the same content
 
-3. **[ROBOTIC_EMBODIMENT_SPECIFICATION.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/ROBOTIC_EMBODIMENT_SPECIFICATION.md)**
-   - **Hippocampus-inspired spatial memory**: Biological precedent for PM-KR architecture
-   - **Hardware-agnostic avatar**: Human VR, AI agent, or physical robot use same code
-   - **Form→Meaning bridge**: Sensors (FORM) → Galaxy (MEANING) → RPN (ACTION)
-   - **Zero robot-specific training**: "Same architecture, different actuators"
-   - **Why it matters**: Shows biological grounding and practical applications beyond traditional knowledge graphs
+**For the web platform:**
+- Tim Berners-Lee's Giant Global Graph vision remains unrealized — knowledge is siloed in format-specific representations, not linked by meaning
+- Accessibility is bolted on after the fact, not built into the knowledge representation itself
+- AI systems and human interfaces consume fundamentally different formats for the same knowledge, making interoperability a per-integration effort
 
 ---
 
-## 🌟 Reference Implementation: Knowledge3D
+## Proposed Approach
 
-This work is **motivated by prior work** on [**Knowledge3D**](https://github.com/danielcamposramos/Knowledge3D), which serves as the **reference implementation** for PM-KR concepts.
+PM-KR standardizes storing knowledge **once** as executable procedures (like TrueType font programs or mathematical definitions) with symlink-style composition. One procedural source renders visually for humans, executes semantically for AI, produces Braille for tactile readers, and synthesizes audio descriptions — all from the same canonical entry.
 
-**Important**: That work does not constrain the group's discussions, nor will it be a deliverable of this group. **We welcome alternative implementations and approaches!**
+### How It Works (Conceptual Example)
 
-### Knowledge3D → PM-KR Relationship
+The letter "A" stored as a single procedural entry:
 
-| Repository | Purpose | Status | Link |
-|------------|---------|--------|------|
-| **Knowledge3D** | Reference implementation, production system | Active development | [GitHub](https://github.com/danielcamposramos/Knowledge3D) |
-| **pm-kr** (this repo) | Open standards, specifications, test suites | Standards track | [W3C CG](https://www.w3.org/community/pm-kr/) |
+```
+Procedural Source (RPN):
+  Visual:  SET_COLOR 0 0 0 1 STROKE_WIDTH 0.05 MOVE -0.3 -0.5 LINE 0.0 0.5 LINE 0.3 -0.5 STROKE
+  Meaning: CONCEPT LETTER LATIN UPPERCASE PUSH
+  Surface: { "en": "letter A", "pt": "letra A", "ja": "エー", "ar": "أَلِف" }
 
-**Think of it like**:
-- **WebKit/Chromium** → standards-compliant browser implementations
-- **W3C HTML/CSS specs** → open standards everyone can implement
-- **Knowledge3D** is the browser; **pm-kr** is the spec
+Output (from same source):
+  Screen → renders the glyph
+  AI     → executes the semantic identity
+  Braille → drives tactile cell pattern
+  Audio  → "uppercase Latin letter A"
+```
+
+**No duplication.** The visual program draws it. The meaning program identifies it. The surface forms link to language-specific words without duplicating them. Every client reads the same canonical entry.
+
+### Core Principles
+
+- **Zero duplication** — one procedural source, referenced everywhere (like Debian's APT package model)
+- **Dual-client reality** — same source serves both humans and AI without translation layers
+- **Multi-modal accessibility** — visual, semantic, tactile, auditory output from single canonical procedure
+- **Meaning-centric** — knowledge is organized by meaning, not by language ("cat" = one concept with surface forms in every language)
+- **Sovereign execution** — implementations can run with zero external dependencies in the hot path
 
 ---
 
-## 🤝 Who's Participating (February 2026)
+## Use Cases
+
+### 1. Inclusive Education
+A physics teacher says "demonstrate a pulley system." The classroom AI builds a working 3D pulley — visible on screen, navigable by screen reader, explorable by touch. The blind student and sighted student share the **same** spatial lesson from the **same** procedural source, not parallel approximations maintained separately.
+
+### 2. Knowledge Deduplication at Web Scale
+A university stores "photosynthesis" once — as a procedural entry with RPN programs for the biochemical process, visual diagrams, audio explanations, and multi-language surface forms. Every course, every modality, every AI assistant references the same canonical entry. Today, this knowledge exists in dozens of incompatible formats across the institution.
+
+### 3. Auditable AI Reasoning
+When an AI reasons about "Is water an element?", PM-KR implementations make the reasoning path inspectable: navigate from "water" to "compound" to "hydrogen + oxygen" via executable procedural links. Every step is traceable and auditable — not hidden in matrix multiplications.
+
+### 4. Multi-Modal Accessibility from Single Source
+The same procedural font program that renders "A" on screen also drives a Braille cell, generates an audio description, and provides AI with semantic identity — all from one compact RPN program. No separate accessibility layer to maintain.
+
+### 5. Cross-Platform Knowledge Sharing
+A knowledge entry authored in one PM-KR implementation can be consumed by any other — human or machine. A VR application, a screen reader, a web API, and an AI agent all read the same procedural source. The standard defines the format; implementations choose their rendering.
+
+---
+
+## Non-Goals
+
+- **Replacing RDF/OWL** — PM-KR complements Semantic Web standards with executable semantics, not replaces them. Bidirectional mapping is a deliverable.
+- **Mandating GPU execution** — Sovereign GPU execution is a design principle of the reference implementation, not a requirement of the standard. CPU implementations are valid.
+- **Defining a game engine** — PM-KR uses spatial representation concepts but standardizes knowledge representation, not entertainment rendering.
+- **Constraining AI architectures** — PM-KR defines how knowledge is stored and composed, not how AI systems must reason over it.
+
+---
+
+## Why This Over Alternatives
+
+### Why Not Traditional Knowledge Graphs (RDF/OWL) Alone?
+Knowledge graphs describe what things ARE (declarative). PM-KR describes how things WORK (procedural). A KG says "A is a letter"; PM-KR stores the executable program that draws A, pronounces A, and reasons about A. KGs require external reasoners; PM-KR knowledge executes itself. **PM-KR interoperates with RDF/OWL** — it adds an executable layer, not a competing one.
+
+### Why Not LLM Embeddings as Knowledge Representation?
+Embeddings are opaque vectors — you can't inspect why two concepts are similar, and every model generates its own. PM-KR entries carry explicit executable programs, surface forms, and taxonomic references. The knowledge is auditable, shareable, and model-independent. Embeddings duplicate knowledge per model; PM-KR stores it once.
+
+### Why Not Existing Multimedia Standards (SMIL, SVG, MathML)?
+These standards excel at their modalities but don't compose into a unified knowledge entry. SVG draws; MathML represents formulas; SMIL sequences media. None stores the **meaning** — the executable semantic identity — that lets a single source serve all modalities and both human and machine clients.
+
+### Why Procedural (RPN) Instead of Declarative?
+Procedural programs are inherently executable: they produce output when run. Declarative descriptions require an interpreter. A procedural font program **draws the glyph**; a declarative font description **describes how someone else should draw it**. For dual-client reality (humans see, AI executes), executable procedures eliminate the translation layer.
+
+### Why Spatial Representation?
+The IT industry borrowed spatial metaphors (windows, desktop, doors, folders, addresses) and kept them flat. PM-KR's reference implementation reverses this: spatial metaphors become actual spatial objects. Research in spatial cognition (Method of Loci, hippocampal spatial memory) shows humans and AI both benefit from spatial organization. The standard accommodates but does not mandate spatial representation.
+
+---
+
+## Accessibility, Internationalization, Privacy, and Security Considerations
+
+### Accessibility
+Multi-modal output is architectural, not an add-on. The same procedural source renders for visual displays, Braille readers, audio synthesis, and haptic devices. The Dual-Client Contract ensures humans and AI consume identical knowledge — a blind user accesses the same semantic content as a sighted user, from the same source.
+
+### Internationalization
+Knowledge is meaning-centric, not language-centric. "Cat" is one entry containing surface forms for every language (English "cat", Portuguese "gato", Japanese "猫"). Reasoning operates on meaning, not language surface. New languages add surface forms to existing entries — they don't create new knowledge.
+
+### Privacy
+PM-KR is designed for local-first execution. The standard does not require cloud connectivity. Knowledge can remain on the user's device. Network interfaces between knowledge spaces are explicit and permissioned.
+
+### Security
+Procedural canonicalization enables content-addressed knowledge with cryptographic provenance. Sovereign execution (zero external dependencies) eliminates supply chain risk from ML frameworks. Every procedural execution is auditable via the Audit Journal pattern.
+
+---
+
+## Relevance Across W3C Groups
+
+| W3C Area | PM-KR Contribution |
+|----------|-------------------|
+| **WebGPU** | GPU-native procedural execution patterns for compute shaders |
+| **Spatial Data on the Web** | 3D spatial knowledge navigation (semantic proximity = spatial proximity) |
+| **Publishing & Math** | Procedural typography (168,206 glyph-text pairs) and math symbols as RPN templates |
+| **Web Performance** | 200:1 to 1000:1 compression via procedural canonicalization |
+| **JSON-LD / Semantic Web** | Executable semantics complementing RDF; symlink composition reducing redundancy |
+| **Immersive Web (WebXR)** | Spatial knowledge in 3D assets; dual-client reality in VR/AR |
+| **Web Accessibility (WAI)** | Multi-modal rendering from single procedural source; zero dual-maintenance |
+| **Verifiable Credentials / Solid** | Content-addressed knowledge with cryptographic provenance; decentralized trust |
+| **Distributed Tracing** | Procedural execution audit trail bridging observability and explainability |
+
+---
+
+## Reference Implementation: Knowledge3D
+
+This work is **motivated by prior work** on [**Knowledge3D**](https://github.com/danielcamposramos/Knowledge3D), which serves as the reference implementation for PM-KR concepts.
+
+**Important**: That work does not constrain the group's discussions, nor will it be a deliverable of this group. **We welcome alternative implementations and approaches.**
+
+| Repository | Purpose | Status |
+|------------|---------|--------|
+| **[Knowledge3D](https://github.com/danielcamposramos/Knowledge3D)** | Reference implementation, production system | Active development |
+| **[pm-kr](https://github.com/w3c-cg/pm-kr)** (this repo) | Open standards, specifications, test suites | Standards track |
+
+**Think of it like**: Knowledge3D is the browser; pm-kr is the spec. Like WebKit implements W3C HTML/CSS.
+
+---
+
+## Participants (March 2026)
 
 ### Early Ingressors
-- **Jonathan DeRouchie** → Persistent memory AI architecture, public/private knowledge separation
-- **Nitin Pasumarthy** (LinkedIn LLM/GNN) → Production-scale systems perspective
-- **Hanna Abi Akl** (INRIA) 🇫🇷 → Neuro-symbolic AI, officially representing Institut National de Recherche en Informatique et en Automatique (French national research institute for computer science and automation)
-- **OpenFn Organization** → Real-world validation (40+ countries, 10M+ transactions/year)
+- **Jonathan DeRouchie** — Persistent memory AI architecture, public/private knowledge separation
+- **Nitin Pasumarthy** (LinkedIn LLM/GNN) — Production-scale systems perspective
+- **Hanna Abi Akl** (INRIA, France) — Neuro-symbolic AI, representing Institut National de Recherche en Informatique et en Automatique
+- **OpenFn Organization** — Real-world validation (40+ countries, 10M+ transactions/year)
 
 ### Key Contributors
-- **Marko Rodriguez** (Apache TinkerPop founder, Gremlin creator) → Graph traversal expertise, repository collaborator
-- **Milton Ponson** (Mathematician) → Godelian critique of LLM scaling, Domains of Discourse
-- **José Vázquez-Jaramillo** (Philosopher) → Epistemology and philosophical grounding
-- **Damir Cavar** (Indiana University) → Computational linguistics, AI energy efficiency, Quantum AI, NLP (20+ years)
-- **Henrique Santos** (RPI/Tetherless World Constellation) → Director of Semantic Applications, DARPA Machine Common Sense, knowledge graphs + LLMs
-- **Anisa Rula** (University of Brescia) 🇮🇹 → **CO-AUTHOR OF THE KNOWLEDGE GRAPHS BOOK** (Springer 2021), KG quality & validation expert, Linked Data quality, data profiling
-- **Oserebameh Beckley** → WebGPU compute shaders expert, GPU memory management, ray tracing, graphics programming (Medium technical writer)
-- **Majid Babaei** (McGill University) 🇨🇦 → AI explainability via knowledge graphs, LLMs & AI agents research, Software Engineering (6 funded research internships May-Oct 2026, top-tier publications: ICSE, ICPE, MODELS)
-- **Charles Waweru** → W3C Meta-Layer Infrastructure CG supporter, contextual annotation & semantic overlays, Web Annotation standards, layering interpretable meaning on existing content, decentralized civic infrastructure
+- **Christoph Dorn** (K3D main contributor, PM-KR group member) — Coined "semantic gravity cohered by meaning"; TerraVision spatial heritage
+- **Marko Rodriguez** (Apache TinkerPop founder, Gremlin creator) — Graph traversal expertise, repository collaborator
+- **Milton Ponson** (Co-Chair, Mathematician) — Godelian critique of LLM scaling, Domains of Discourse
+- **Jose Vazquez-Jaramillo** (Philosopher) — Epistemology and philosophical grounding
+- **Damir Cavar** (Indiana University) — Computational linguistics, AI energy efficiency, Quantum AI, NLP (20+ years)
+- **Henrique Santos** (RPI/Tetherless World Constellation) — Director of Semantic Applications, DARPA Machine Common Sense
+- **Anisa Rula** (University of Brescia, Italy) — Co-author of the Knowledge Graphs book (Springer 2021), KG quality and validation
+- **Oserebameh Beckley** — WebGPU compute shaders, GPU memory management, ray tracing
+- **Majid Babaei** (McGill University, Canada) — AI explainability via knowledge graphs, LLMs and AI agents research
+- **Charles Waweru** — W3C Meta-Layer Infrastructure CG, contextual annotation and semantic overlays
 
 ### Institutions
-- **Rensselaer Polytechnic Institute** (Tetherless World Constellation - world's top knowledge graph center, led by Deborah McGuinness)
-- **Indiana University** (Computational linguistics program, founded by Damir Cavar)
-- **University of Brescia** 🇮🇹 (Knowledge graph validation, semantic web research)
+- **Rensselaer Polytechnic Institute** (Tetherless World Constellation — world's top knowledge graph center)
+- **Indiana University** (Computational linguistics program)
+- **University of Brescia** (Knowledge graph validation, semantic web research)
+- **INRIA** (French national research institute for computer science)
+- **McGill University** (AI explainability, LLM/AI agent research)
 - **LinkedIn** (Production-scale GNNs)
 - **Digital Bazaar** (Semantic Web technologies)
-- **INRIA** 🇫🇷 (Institut National de Recherche en Informatique et en Automatique - French national research institute for computer science, Hanna Abi Akl - neuro-symbolic AI)
-- **McGill University** 🇨🇦 (Majid Babaei - AI explainability, LLM/AI agent research)
 
 ---
 
-## 🎯 Relevance Across W3C Groups
+## Early Collaborative Insights
 
-### For GPU for the Web (WebGPU)
-**Sovereign GPU-Native Execution**: PM-KR demonstrates PTX (CUDA) kernels with zero external dependencies, showing GPU-first knowledge representation patterns relevant for WebGPU compute shaders.
-
-### For Spatial Data on the Web
-**3D Spatial Knowledge Navigation**: Semantic proximity = spatial proximity in 3D workspace. Hippocampus-inspired architecture enables humans and AI to navigate knowledge spatially.
-
-### For Publishing & Math on the Web
-**Procedural Typography & Math Symbols**: 2,713 fonts stored as procedural programs (168,206 glyph-text pairs), mathematical symbols as RPN templates. One procedural source → multiple client modalities.
-
-### For Distributed Tracing
-**Procedural Execution Audit Trail**: Audit Journal traces every procedural execution: "at point X during procedure Y, observed Z." Bridges observability and explainability.
-
-### For Web Performance
-**Extreme Compression & Carbon Impact**: 200:1 to 1000:1 compression via procedural canonicalization. Projected 2.2 Gt CO₂e/year savings by 2035 (6% global emissions).
-
-### For Verifiable Credentials & Solid
-**Sovereign Audit + Decentralized Trust**: Zero external dependencies aligns with decentralized identity. Procedural canonicalization enables content-addressed knowledge with cryptographic provenance.
-
-### For JSON-LD & Semantic Web
-**Procedural Canonicalization**: Complements RDF/JSON-LD with executable semantics. Symlink-style composition reduces knowledge graph redundancy while preserving semantic fidelity.
-
-### For Immersive Web (WebXR)
-**Spatial Knowledge in XR**: Extends glTF's `extras.k3d` field for spatial knowledge in 3D assets. Dual-client reality where humans (VR) and AI (Galaxy) navigate same workspace.
-
-### For Web Accessibility (WAI)
-**Multimodal Accessibility from Single Source**: Procedural sources render as visual glyphs, semantic descriptions, tactile patterns, all from same canonical procedure. No dual-maintenance overhead.
-
-### For AI & Machine Learning
-**AI Knowledge Representation Integration**: Explainability, sovereignty, multi-modal reasoning. Symlink composition (not black-box embeddings), zero external dependencies, auditable procedural sources.
-
-### For Knowledge Graphs
-**Graph Compression + Procedural Execution**: Procedural canonicalization stores graph patterns as reusable procedures. Collaboration with Apache TinkerPop founder brings graph traversal expertise.
-
-### For Cognitive AI
-**Hippocampus-Inspired Architecture**: Spatial memory mirrors biological hippocampus (episodic memory, spatial mapping, memory consolidation). Same spatial substrate for temporary reasoning + long-term knowledge.
-
----
-
-## 🤝 Early Collaborative Insights (Pre-Launch Discussions)
-
-Even before the official PM-KR launch, deep technical discussions with early ingressors have shaped the group's direction:
-
-### Jonathan DeRouchie: Cognitive Load & Familiar Technical Concepts
-
-**Key Insight**: "Users are more likely to adopt a framework that uses or simplifies existing language, concept or structure."
-
-**Contributions**:
-- **Form→Meaning Framework**: Recognized that K3D mirrors 40,000 years of human knowledge evolution (cave paintings → letters → words → grammar → philosophy)
-- **Familiar Technical Labels**: Recommended mapping K3D concepts to universal terms (tree, node, file system, OOP, graph database, 3D modeling)
-- **Multiple Mental Models**: Proposed explaining K3D through multiple lenses:
-  - **File System**: House = directories, Rooms = folders, Objects = files
-  - **OOP**: Classes, inheritance, procedural composition
-  - **Graph Database**: Gremlin-style traversal (with Marko Rodriguez collaboration)
-  - **3D Modeling**: Blender/Maya/Unity analogy (scenes, objects, materials, animation)
-
-**Impact**: Led to **Track 6 proposal** for Year 1: "Developer Adoption & Cognitive Load Minimization"
-- Familiar Technical Labels Mapping
-- Multiple Mental Models Guide (file system, OOP, graph DB, 3D modeling)
-- Getting Started for Different Roles (designers, devs, PMs)
-- Gremlin → K3D Migration Guide
-
-### Biological Grounding: Hippocampus, Execution State Embeddings, Ethics/Safety
-
-**Key Insight**: PM-KR's spatial architecture has deep biological roots in hippocampal function.
-
-**Biological Grounding**:
-- **Hippocampus Connection**: K3D's biological inspiration (spatial navigation, episodic memory, memory consolidation)
-- **Computational Analogue**: K3D House Universe mirrors hippocampus functions (place cells → 3D rooms, memory consolidation → SleepTime protocol)
-
-**Technical Foundations**:
-- **Execution State Embeddings**: 768-dim vectors encoding procedural state + semantic context
-- **Incremental Validation**: "At point X during procedure Y, is candidate action A_i correct, efficient, safe, and ethical?"
-- **Faith Engine**: K3D's 0.70 confidence threshold for safety validation
-- **Audit Message Schema**: "at point X during Y, observed Z"
-- **OpenTelemetry Mapping**: Traces, spans, context propagation for procedural execution
-
-**Track 5: Ethics & Safety for AI Agents and Robots**
-- Multi-agent coordination via Galaxy Universe (centralized trusted resource)
-- Safety predicates in procedural forms (MUST/MUST NOT constraints)
-- Policy compliance validation
-- Structured validation reports for audit compliance
-
-**Multimodal Narrative Vision**:
-- Natural language narration (Galaxy introspection mode)
-- Procedural video generation (K3D-VID, 200:1 compression)
-- 3D visualization (humans walk through robot's "memory palace")
-- Structured audit trail (machine-verifiable + human-readable)
+### Jonathan DeRouchie: Cognitive Load and Familiar Technical Concepts
+"Users are more likely to adopt a framework that uses or simplifies existing language, concept or structure." Led to Track 6 proposal: Developer Adoption and Cognitive Load Minimization — mapping PM-KR concepts to familiar mental models (file system, OOP, graph database, 3D modeling).
 
 ### Marko Rodriguez: Graph Traversal Expertise
+Apache TinkerPop founder, Gremlin creator. Ensuring PM-KR builds on established graph theory. Gremlin-style 2D graph traversal extends naturally to PM-KR's 3D spatial traversal.
 
-**Role**: Apache TinkerPop founder, Gremlin creator, Knowledge3D repository collaborator
-
-**Contribution**:
-- **Gremlin → K3D Mapping**: K3D Galaxy navigation = 3D graph traversal (extends Gremlin concepts to spatial reasoning)
-- **Familiar Technical Concept**: Gremlin is industry-standard (DataStax, Neo4j, major graph databases)
-- **Validation**: Ensures K3D builds on established graph theory, not inventing unfamiliar abstractions
-
-**Connection**:
-```
-Gremlin (2D graph traversal)  →  K3D Galaxy (3D graph traversal)
-Graph nodes                   →  K3D Nodes (stars in 3D space)
-Graph edges                   →  Semantic proximity (spatial distance)
-g.V().has('name','X')        →  galaxy.query(embedding, top_k=10)
-```
-
-### Year 1 Tracks (Shaped by Early Discussions)
-
-**Track 1**: OpenFn Integration Architecture (production validation)
-**Track 2**: BPMN → PM-KR Compilation Strategy (workflow verification)
-**Track 3**: State/Context Ontology (audit schema, provenance)
-**Track 4**: Lean4 Formalization (theorem proving for correctness)
-**Track 5**: Ethics & Safety for AI Agents/Robots
-**Track 6**: Developer Adoption & Cognitive Load (Jonathan's proposal)
+### Biological Grounding: Hippocampus-Inspired Architecture
+PM-KR's spatial architecture has biological roots in hippocampal function: place cells map to 3D rooms, memory consolidation maps to sleep-time protocols, episodic memory maps to procedural audit trails. This grounding informs Track 5: Ethics and Safety for AI Agents and Robots.
 
 ---
 
-## 📖 Technical Documentation
+## Timeline and Deliverables
 
-### Core Specifications (Live in Knowledge3D)
-- **[THREE_BRAIN_SYSTEM_SPECIFICATION.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/THREE_BRAIN_SYSTEM_SPECIFICATION.md)** — Cranium + Galaxy + House architecture
-- **[DUAL_CLIENT_CONTRACT_SPECIFICATION.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/DUAL_CLIENT_CONTRACT_SPECIFICATION.md)** — Form→Meaning evolution (40,000 years)
-- **[MATH_CORE_SPECIFICATION.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/MATH_CORE_SPECIFICATION.md)** — 3-tier sovereign architecture example
-- **[Complete Vocabulary Index](https://github.com/danielcamposramos/Knowledge3D/tree/main/docs/vocabulary)**
+### NOW (Q1 2026)
+- Community Group published and open
+- Foundation documents available
+- 24+ participants from 7+ institutions
+- First working sessions upcoming
 
-### W3C Standardization Documentation
-- **[PM_KR_PROBLEM_STATEMENT.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/W3C/PM_KR_PROBLEM_STATEMENT.md)** — Why PM-KR? (70%+ knowledge duplication crisis)
-- **[PM_KR_NORMATIVE_MODEL.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/W3C/PM_KR_NORMATIVE_MODEL.md)** — RFC 2119 compliant specification
-- **[PM_KR_CONFORMANCE_PROFILES.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/W3C/PM_KR_CONFORMANCE_PROFILES.md)** — Level A/B/C implementation requirements
-- **[PM_KR_INTEROPERABILITY_GUIDE.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/W3C/PM_KR_INTEROPERABILITY_GUIDE.md)** — RDF/OWL/JSON-LD bidirectional mapping
-
-### Video Presentations
-- **[Knowledge3D — A Universe of Meaning (6 min)](https://www.youtube.com/watch?v=D1k_uCPBjLc)** — Perfect for W3C PM-KR members
-- **[Multi-Language Playlist](https://www.youtube.com/playlist?list=PLmWTHH0cS_OgQ7h_xRMhZ6UqE5mRYAhD7)** — 12 languages (English, Portuguese, Spanish, French, German, Italian, Mandarin, Japanese, Korean, Russian, Hindi, Arabic)
-
-### Deep Dive Resources
-- **[PM-KR NotebookLM Research Space](https://notebooklm.google.com/notebook/98ffd298-1314-477f-b1e1-8d29da4f3848)** — Best place to explore PM-KR standards, architecture, and procedural knowledge representation
-- **[K3D Theory Research Space](https://notebooklm.google.com/notebook/1bd10bda-8900-4c41-931e-c9ec67ac865f)** — Deep dive into the Knowledge3D reference implementation
-
----
-
-## 🚀 How to Participate
-
-### Join the Community Group
-1. **Visit**: https://www.w3.org/community/pm-kr/
-2. **Create W3C account** (free): https://www.w3.org/accounts/request
-3. **Join the group** (no membership fees, open participation)
-
-### Contribute to Discussions
-- **Review specifications** and share feedback
-- **Propose use cases** from your domain (accessibility, XR, knowledge graphs, AI, robotics, spatial data, GPU computing, performance, trust)
-- **Participate in interoperability studies** (RDF/OWL/JSON-LD mapping, WebGPU integration, glTF extensions)
-- **Help shape conformance levels** and test suites
-
-### For Implementers
-- **Explore procedural canonicalization** patterns
-- **Test bidirectional mapping** (RDF ↔ PM-KR, glTF ↔ PM-KR)
-- **Validate compression claims** (200:1-1000:1 ratios)
-- **Contribute sovereign execution patterns** (zero external dependencies)
-
----
-
-## 📅 Timeline and Deliverables
-
-### NOW (February 2026)
-- ✅ Community Group published and open
-- ✅ Phase 1 foundation documents available
-- ✅ World-class experts participating
-- ⏳ First working sessions upcoming
-
-### Q1-Q2 2026
+### Q2 2026
 - Public comment period, gather use cases
-- First collaborative working sessions
+- Collaborative working sessions
 - Interoperability studies (RDF/JSON-LD mapping, WebGPU integration, spatial data standards)
 
 ### Q3-Q4 2026
@@ -278,57 +220,77 @@ g.V().has('name','X')        →  galaxy.query(embedding, top_k=10)
 
 ### Potential Outputs (Subject to Group Consensus)
 - Data model specification (procedural composition, symlink references, content-addressing)
-- Execution semantics (dual-client rendering, canonical procedures, sovereign runtime)
-- Audit & tracing specification (temporal metadata, provenance, explainability)
+- Execution semantics (dual-client rendering, canonical procedures)
+- Audit and tracing specification (temporal metadata, provenance, explainability)
 - Compression guidelines (procedural canonicalization, carbon impact assessment)
-- Interoperability guidelines (RDF/OWL/JSON-LD, WebGPU compute, glTF extensions, Trace Context)
-- Accessibility specification (multimodal rendering from procedural sources)
+- Interoperability guidelines (RDF/OWL/JSON-LD, WebGPU compute, glTF extensions)
+- Accessibility specification (multi-modal rendering from procedural sources)
 - Use case documentation (accessibility, XR, knowledge graphs, AI systems, robotics, spatial data)
 
 ---
 
-## 💡 Philosophy
+## Year 1 Tracks
+
+| Track | Focus | Champion |
+|-------|-------|----------|
+| **1** | OpenFn Integration Architecture | Production validation |
+| **2** | BPMN to PM-KR Compilation Strategy | Workflow verification |
+| **3** | State/Context Ontology | Audit schema, provenance |
+| **4** | Lean4 Formalization | Theorem proving for correctness |
+| **5** | Ethics and Safety for AI Agents/Robots | Safety predicates, multi-agent coordination |
+| **6** | Developer Adoption and Cognitive Load | Familiar technical labels, mental models |
+
+---
+
+## Technical Documentation
+
+### Core Specifications (Live in Knowledge3D)
+- [THREE_BRAIN_SYSTEM_SPECIFICATION.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/THREE_BRAIN_SYSTEM_SPECIFICATION.md) — Cranium + Galaxy + House architecture
+- [DUAL_CLIENT_CONTRACT_SPECIFICATION.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/DUAL_CLIENT_CONTRACT_SPECIFICATION.md) — Form to Meaning evolution
+- [MEANING_CENTRIC_STAR_SCHEMA_SPECIFICATION.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/MEANING_CENTRIC_STAR_SCHEMA_SPECIFICATION.md) — Atomic knowledge unit
+- [Complete Vocabulary Index](https://github.com/danielcamposramos/Knowledge3D/tree/main/docs/vocabulary)
+
+### W3C Standardization Documentation
+- [PM_KR_PROBLEM_STATEMENT.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/W3C/PM_KR_PROBLEM_STATEMENT.md) — Why PM-KR?
+- [PM_KR_NORMATIVE_MODEL.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/W3C/PM_KR_NORMATIVE_MODEL.md) — RFC 2119 compliant specification
+- [PM_KR_CONFORMANCE_PROFILES.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/W3C/PM_KR_CONFORMANCE_PROFILES.md) — Level A/B/C implementation requirements
+- [PM_KR_INTEROPERABILITY_GUIDE.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/W3C/PM_KR_INTEROPERABILITY_GUIDE.md) — RDF/OWL/JSON-LD bidirectional mapping
+
+### Video Presentations
+- [Knowledge3D — A Universe of Meaning (6 min)](https://www.youtube.com/watch?v=D1k_uCPBjLc) — Overview
+- [Multi-Language Playlist (12 languages)](https://www.youtube.com/playlist?list=PLmWTHH0cS_OgQ7h_xRMhZ6UqE5mRYAhD7)
+
+### Deep Dive Resources
+- [PM-KR NotebookLM Research Space](https://notebooklm.google.com/notebook/98ffd298-1314-477f-b1e1-8d29da4f3848) — Explore PM-KR standards and architecture
+- [K3D Theory Research Space](https://notebooklm.google.com/notebook/1bd10bda-8900-4c41-931e-c9ec67ac865f) — Deep dive into the reference implementation
+
+---
+
+## How to Participate
+
+### Join the Community Group
+1. Visit: https://www.w3.org/community/pm-kr/
+2. Create W3C account (free): https://www.w3.org/accounts/request
+3. Join the group (no membership fees, open participation)
+
+### Contribute
+- **Review specifications** and share feedback
+- **Propose use cases** from your domain
+- **Participate in interoperability studies** (RDF/OWL/JSON-LD mapping, WebGPU integration, glTF extensions)
+- **Help shape conformance levels** and test suites
+- **Explore procedural canonicalization** patterns
+- **Test bidirectional mapping** (RDF ↔ PM-KR, glTF ↔ PM-KR)
+
+---
+
+## Philosophy
 
 **"We patent nothing. We publish everything. We build in the open."**
 
 - **No patents**: Apache 2.0 license for all contributions
 - **Public mailing lists**: Transparent decision-making
 - **Open collaboration**: Alternative implementations welcomed
-- **Cross-domain impact**: Work benefits accessibility, XR, knowledge graphs, AI, robotics, spatial data, performance, trust—simultaneously
-
----
-
-## 📞 Contact
-
-**Mailing List** (once launched): public-pm-kr@w3.org
-**GitHub**: https://github.com/w3c-cg/pm-kr
-**W3C Page**: https://www.w3.org/community/pm-kr/
-**Reference Implementation**: https://github.com/danielcamposramos/Knowledge3D
-
-**Questions?** Email: daniel@echosystems.ai
-
----
-
-## 🙏 Acknowledgments
-
-### Inspiration & Heritage
-- **Gutenberg Press** (1440) → Democratized knowledge
-- **Aaron Swartz** → Guerrilla Open Access Manifesto, open knowledge philosophy
-- **Tim Berners-Lee** → Giant Global Graph vision, Semantic Web
-- **Nikola Tesla** → 3-6-9 sacred geometry, ternary logic inspiration
-
-### Technical Foundations
-- **NVIDIA** → CUDA, PTX ISA
-- **W3C Semantic Web Community** → RDF, OWL, JSON-LD foundations
-- **Game Industry** → glTF, spatial rendering, procedural generation
-- **Unicode Consortium** → Character representation standards
-- **Khronos Group** → Vulkan, OpenGL, GPU standards
-
-**Complete Attributions**: [Knowledge3D ATTRIBUTIONS.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/ATTRIBUTIONS.md)
-
----
-
-**Built with collective intelligence. Shared with open hearts. For a sovereign, spatial future.** ✨
+- **Cross-domain impact**: Work benefits accessibility, XR, knowledge graphs, AI, robotics, spatial data, performance, and trust — simultaneously
 
 ---
 
@@ -336,22 +298,47 @@ g.V().has('name','X')        →  galaxy.query(embedding, top_k=10)
 
 ```
 pm-kr/
-├── README.md                      # This file
-├── CONTRIBUTING.md                # Contribution guidelines (TBD)
+├── README.md                     # This file
+├── CONTRIBUTING.md               # Contribution guidelines (TBD)
 ├── CODE_OF_CONDUCT.md            # W3C Code of Conduct
-├── LICENSE                        # W3C Community Group License
-├── specifications/                # Draft specifications (collaborative)
-│   └── (TBD - group will develop together)
-├── use-cases/                     # Use case documentation
-│   └── (TBD - contributions welcome)
-├── interoperability/              # Interop studies and mappings
-│   └── (TBD - RDF/JSON-LD/glTF mappings)
-└── tests/                         # Test suites and validation
-    └── (TBD - conformance tests)
+├── LICENSE                       # W3C Community Group License
+├── specifications/               # Draft specifications (collaborative)
+├── use-cases/                    # Use case documentation
+├── interoperability/             # Interop studies and mappings
+└── tests/                        # Test suites and validation
 ```
 
-**Note**: This repository structure will evolve as the group develops specifications collaboratively. For now, all technical documentation lives in [Knowledge3D](https://github.com/danielcamposramos/Knowledge3D) as the reference implementation.
+This structure will evolve as the group develops specifications collaboratively. Technical documentation currently lives in [Knowledge3D](https://github.com/danielcamposramos/Knowledge3D) as the reference implementation.
 
 ---
 
-**Ready to help build the future of knowledge representation? [Join us!](https://www.w3.org/community/pm-kr/)** 🚀
+## References and Acknowledgments
+
+### Inspiration and Heritage
+- **Gutenberg Press** (1440) — Democratized knowledge
+- **Aaron Swartz** — Guerrilla Open Access Manifesto, open knowledge philosophy
+- **Tim Berners-Lee** — Giant Global Graph vision, Semantic Web
+- **Nikola Tesla** — 3-6-9 sacred geometry, ternary logic inspiration
+
+### Technical Foundations
+- **NVIDIA** — CUDA, PTX ISA
+- **W3C Semantic Web Community** — RDF, OWL, JSON-LD foundations
+- **Game Industry** — glTF, spatial rendering, procedural generation
+- **Unicode Consortium** — Character representation standards
+- **Khronos Group** — Vulkan, OpenGL, GPU standards
+
+**Complete Attributions**: [Knowledge3D ATTRIBUTIONS.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/ATTRIBUTIONS.md)
+
+---
+
+## Contact
+
+**Mailing List**: public-pm-kr@w3.org
+**GitHub**: https://github.com/w3c-cg/pm-kr
+**W3C Page**: https://www.w3.org/community/pm-kr/
+**Reference Implementation**: https://github.com/danielcamposramos/Knowledge3D
+**Questions?** Email: daniel@echosystems.ai
+
+---
+
+**Ready to help build the future of knowledge representation? [Join us.](https://www.w3.org/community/pm-kr/)**
