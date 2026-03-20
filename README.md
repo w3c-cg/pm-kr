@@ -164,11 +164,9 @@ This work is **motivated by prior work** on [**Knowledge3D**](https://github.com
 - **Hanna Abi Akl** (INRIA, France) — Neuro-symbolic AI, representing Institut National de Recherche en Informatique et en Automatique
 - **OpenFn Organization** — Real-world validation (40+ countries, 10M+ transactions/year)
 
-### Key Contributors
-- **Christoph Dorn** (K3D main contributor, PM-KR group member) — Coined "semantic gravity cohered by meaning"; TerraVision spatial heritage
-- **Marko Rodriguez** (Apache TinkerPop founder, Gremlin creator) — Graph traversal expertise, repository collaborator
+### Key Participants
 - **Milton Ponson** (Co-Chair, Mathematician) — Godelian critique of LLM scaling, Domains of Discourse
-- **Jose Vazquez-Jaramillo** (Philosopher) — Epistemology and philosophical grounding
+- **Christoph Dorn** (K3D main contributor, PM-KR group member) — Coined "semantic gravity cohered by meaning"; TerraVision spatial heritage
 - **Damir Cavar** (Indiana University) — Computational linguistics, AI energy efficiency, Quantum AI, NLP (20+ years)
 - **Henrique Santos** (RPI/Tetherless World Constellation) — Director of Semantic Applications, DARPA Machine Common Sense
 - **Anisa Rula** (University of Brescia, Italy) — Co-author of the Knowledge Graphs book (Springer 2021), KG quality and validation
