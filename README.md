@@ -19,7 +19,7 @@ A single Unicode character today exists as: a font glyph, an embedding vector, a
 
 **For developers:**
 - The same knowledge must be encoded separately for each modality (visual, semantic, tactile, audio) — massive duplication and maintenance burden
-- No W3C standard exists for storing knowledge once as an executable procedure consumable by both humans and machines
+- No W3C technology exists for storing knowledge once as an executable procedure consumable by both humans and machines
 - Accessibility, internationalization, and semantic meaning require separate implementation passes over the same content
 
 **For the web platform:**
@@ -31,7 +31,7 @@ A single Unicode character today exists as: a font glyph, an embedding vector, a
 
 ## Proposed Approach
 
-PM-KR standardizes storing knowledge **once** as executable procedures (like TrueType font programs or mathematical definitions) with symlink-style composition. One procedural source renders visually for humans, executes semantically for AI, produces Braille for tactile readers, and synthesizes audio descriptions — all from the same canonical entry.
+PM-KR defines a technology for storing knowledge **once** as executable procedures (like TrueType font programs or mathematical definitions) with symlink-style composition. One procedural source renders visually for humans, executes semantically for AI, produces Braille for tactile readers, and synthesizes audio descriptions — all from the same canonical entry.
 
 ### How It Works (Conceptual Example)
 
@@ -77,15 +77,15 @@ When an AI reasons about "Is water an element?", PM-KR implementations make the 
 The same procedural font program that renders "A" on screen also drives a Braille cell, generates an audio description, and provides AI with semantic identity — all from one compact RPN program. No separate accessibility layer to maintain.
 
 ### 5. Cross-Platform Knowledge Sharing
-A knowledge entry authored in one PM-KR implementation can be consumed by any other — human or machine. A VR application, a screen reader, a web API, and an AI agent all read the same procedural source. The standard defines the format; implementations choose their rendering.
+A knowledge entry authored in one PM-KR implementation can be consumed by any other — human or machine. A VR application, a screen reader, a web API, and an AI agent all read the same procedural source. The technology defines the format; implementations choose their rendering.
 
 ---
 
 ## Non-Goals
 
 - **Replacing RDF/OWL** — PM-KR complements Semantic Web standards with executable semantics, not replaces them. Bidirectional mapping is a deliverable.
-- **Mandating GPU execution** — Sovereign GPU execution is a design principle of the reference implementation, not a requirement of the standard. CPU implementations are valid.
-- **Defining a game engine** — PM-KR uses spatial representation concepts but standardizes knowledge representation, not entertainment rendering.
+- **Mandating GPU execution** — Sovereign GPU execution is a design principle of the reference implementation, not a requirement of the technology. CPU implementations are valid.
+- **Defining a game engine** — PM-KR uses spatial representation concepts but defines technology for knowledge representation, not entertainment rendering.
 - **Constraining AI architectures** — PM-KR defines how knowledge is stored and composed, not how AI systems must reason over it.
 
 ---
@@ -105,7 +105,7 @@ These standards excel at their modalities but don't compose into a unified knowl
 Procedural programs are inherently executable: they produce output when run. Declarative descriptions require an interpreter. A procedural font program **draws the glyph**; a declarative font description **describes how someone else should draw it**. For dual-client reality (humans see, AI executes), executable procedures eliminate the translation layer.
 
 ### Why Spatial Representation?
-The IT industry borrowed spatial metaphors (windows, desktop, doors, folders, addresses) and kept them flat. PM-KR's reference implementation reverses this: spatial metaphors become actual spatial objects. Research in spatial cognition (Method of Loci, hippocampal spatial memory) shows humans and AI both benefit from spatial organization. The standard accommodates but does not mandate spatial representation.
+The IT industry borrowed spatial metaphors (windows, desktop, doors, folders, addresses) and kept them flat. PM-KR's reference implementation reverses this: spatial metaphors become actual spatial objects. Research in spatial cognition (Method of Loci, hippocampal spatial memory) shows humans and AI both benefit from spatial organization. The technology accommodates but does not mandate spatial representation.
 
 ---
 
@@ -118,7 +118,7 @@ Multi-modal output is architectural, not an add-on. The same procedural source r
 Knowledge is meaning-centric, not language-centric. "Cat" is one entry containing surface forms for every language (English "cat", Portuguese "gato", Japanese "猫"). Reasoning operates on meaning, not language surface. New languages add surface forms to existing entries — they don't create new knowledge.
 
 ### Privacy
-PM-KR is designed for local-first execution. The standard does not require cloud connectivity. Knowledge can remain on the user's device. Network interfaces between knowledge spaces are explicit and permissioned.
+PM-KR is designed for local-first execution. The technology does not require cloud connectivity. Knowledge can remain on the user's device. Network interfaces between knowledge spaces are explicit and permissioned.
 
 ### Security
 Procedural canonicalization enables content-addressed knowledge with cryptographic provenance. Sovereign execution (zero external dependencies) eliminates supply chain risk from ML frameworks. Every procedural execution is auditable via the Audit Journal pattern.
@@ -150,7 +150,7 @@ This work is **motivated by prior work** on [**Knowledge3D**](https://github.com
 | Repository | Purpose | Status |
 |------------|---------|--------|
 | **[Knowledge3D](https://github.com/danielcamposramos/Knowledge3D)** | Reference implementation, production system | Active development |
-| **[pm-kr](https://github.com/w3c-cg/pm-kr)** (this repo) | Open standards, specifications, test suites | Standards track |
+| **[pm-kr](https://github.com/w3c-cg/pm-kr)** (this repo) | Specifications, test suites, Community Group Reports | Active |
 
 **Think of it like**: Knowledge3D is the browser; pm-kr is the spec. Like WebKit implements W3C HTML/CSS.
 
@@ -248,7 +248,7 @@ PM-KR's spatial architecture has biological roots in hippocampal function: place
 - [MEANING_CENTRIC_STAR_SCHEMA_SPECIFICATION.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/MEANING_CENTRIC_STAR_SCHEMA_SPECIFICATION.md) — Atomic knowledge unit
 - [Complete Vocabulary Index](https://github.com/danielcamposramos/Knowledge3D/tree/main/docs/vocabulary)
 
-### W3C Standardization Documentation
+### W3C Community Group Documentation
 - [PM_KR_PROBLEM_STATEMENT.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/W3C/PM_KR_PROBLEM_STATEMENT.md) — Why PM-KR?
 - [PM_KR_NORMATIVE_MODEL.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/W3C/PM_KR_NORMATIVE_MODEL.md) — RFC 2119 compliant specification
 - [PM_KR_CONFORMANCE_PROFILES.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/W3C/PM_KR_CONFORMANCE_PROFILES.md) — Level A/B/C implementation requirements
@@ -259,7 +259,7 @@ PM-KR's spatial architecture has biological roots in hippocampal function: place
 - [Multi-Language Playlist (12 languages)](https://www.youtube.com/playlist?list=PLmWTHH0cS_OgQ7h_xRMhZ6UqE5mRYAhD7)
 
 ### Deep Dive Resources
-- [PM-KR NotebookLM Research Space](https://notebooklm.google.com/notebook/98ffd298-1314-477f-b1e1-8d29da4f3848) — Explore PM-KR standards and architecture
+- [PM-KR NotebookLM Research Space](https://notebooklm.google.com/notebook/98ffd298-1314-477f-b1e1-8d29da4f3848) — Explore PM-KR technology and architecture
 - [K3D Theory Research Space](https://notebooklm.google.com/notebook/1bd10bda-8900-4c41-931e-c9ec67ac865f) — Deep dive into the reference implementation
 
 ---
