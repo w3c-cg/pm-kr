@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Canonical Procedural Knowledge Interoperability Report</title>
+    <script class="remove">
+      const respecConfig = {
+        specStatus: "CG-DRAFT",
+        shortName: "pm-kr-transition-report",
+        group: "cg/pm-kr",
+        github: "w3c-cg/pm-kr",
+        latestVersion: "https://w3c-cg.github.io/pm-kr/",
+        editors: [
+          {
+            name: "Daniel Campos Ramos",
+            company: "EchoSystems AI Studios",
+            url: "https://github.com/danielcamposramos",
+          },
+        ],
+      };
+    </script>
+    <script
+      async
+      class="remove"
+      src="https://www.w3.org/Tools/respec/respec-w3c"
+    ></script>
+  </head>
+  <body>
+    <section id="abstract">
+      <p>
+        This report explains why the PM-KR Community Group should prepare
+        Procedural Memory Knowledge Representation for transition to the W3C
+        standards track, identifies the normative subset that is mature enough to
+        incubate toward a Working Group deliverable, and positions Knowledge3D
+        as the current reference implementation and evidence base.
+      </p>
+      <p>
+        The report is based on the complete Knowledge3D architecture vocabulary
+        corpus, not on a single summary document. It treats the K3D codebase and
+        vocabulary as the current implementation and design record from which a
+        standards-track PM-KR profile can be extracted.
+      </p>
+    </section>
+
+    <section id="sotd">
+      <p>
+        This is a Draft Community Group Report prepared by the PM-KR Community
+        Group. It is not a W3C Standard and does not imply W3C
+        endorsement. Its purpose is to support Community Group incubation,
+        convergence, and later transition to a standards-track venue.
+      </p>
+    </section>
+
+    <section>
+      <h2>Participate</h2>
+      <ul>
+        <li>
+          Community Group:
+          <a href="https://www.w3.org/community/pm-kr/">
+            https://www.w3.org/community/pm-kr/
+          </a>
+        </li>
+        <li>
+          Repository:
+          <a href="https://github.com/w3c-cg/pm-kr">
+            https://github.com/w3c-cg/pm-kr
+          </a>
+        </li>
+        <li>
+          Issue tracker:
+          <a href="https://github.com/w3c-cg/pm-kr/issues">
+            https://github.com/w3c-cg/pm-kr/issues
+          </a>
+        </li>
+        <li>
+          Commit history:
+          <a href="https://github.com/w3c-cg/pm-kr/commits/main/">
+            https://github.com/w3c-cg/pm-kr/commits/main/
+          </a>
+        </li>
+        <li>
+          Reference implementation:
+          <a href="https://github.com/danielcamposramos/Knowledge3D">
+            https://github.com/danielcamposramos/Knowledge3D
+          </a>
+        </li>
+        <li>
+          Community Group report requirements:
+          <a href="https://www.w3.org/community/reports/reqs/">
+            https://www.w3.org/community/reports/reqs/
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Introduction</h2>
+      <p>
+        PM-KR is a proposal for a procedural, reference-preserving knowledge
+        representation in which canonical knowledge can be stored once, linked
+        compositionally across layers, and consumed consistently by both humans
+        and machines. The current work is incubated in the PM-KR Community Group
+        and implemented in the Knowledge3D project.
+      </p>
+      <p>
+        Community Group reports are not standards-track documents, but they can
+        become input to the Recommendation Track. W3C’s process and Community
+        Group guidance make that transition easier when the group builds clear
+        reports, maintains continuity of IPR commitments, and develops work that
+        can be adopted by an existing or newly chartered Working Group.
+      </p>
+      <p>
+        This document is therefore not an explainer for the K3D project. It is a
+        W3C-facing transition report: what PM-KR is trying to standardize, which
+        parts are grounded enough to move forward, what remains reference
+        implementation detail, and what evidence the group should gather before a
+        standards-track handoff.
+      </p>
+    </section>
+
+    <section>
+      <h2>User-Facing Problem</h2>
+      <p>
+        Knowledge that needs to be shared between humans, software, and AI
+        systems is usually fragmented across incompatible representations. The
+        same concept may appear as prose in a document, duplicated entries in a
+        graph or database, runtime-only program state, and hidden model-internal
+        parameters. This fragmentation makes knowledge harder to verify, less
+        portable, and more expensive to maintain.
+      </p>
+      <p>
+        The web standards ecosystem already knows how to standardize
+        interoperable documents, linked data, graphics, and APIs. PM-KR targets
+        a different but adjacent need: a portable way to preserve canonical
+        procedural knowledge, explicit references between layers of meaning, and
+        dual-client equivalence between human-facing and machine-facing views of
+        the same node.
+      </p>
+
+      <section>
+        <h3>Goals</h3>
+        <ul>
+          <li>
+            Define a canonical knowledge object model that distinguishes form,
+            meaning, executable rules, and higher-order control.
+          </li>
+          <li>
+            Preserve references to canonical lower layers instead of duplicating
+            payloads across authoring, storage, and execution systems.
+          </li>
+          <li>
+            Support deterministic reconstruction and auditability for a fixed
+            implementation profile.
+          </li>
+          <li>
+            Preserve equivalence across human and synthetic-user views of the
+            same canonical node.
+          </li>
+          <li>
+            Define an interoperability target that is independent from any single
+            runtime engine while still benefiting from a working reference
+            implementation.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>Non-goals</h3>
+        <ul>
+          <li>
+            This report does not propose to standardize a specific GPU backend,
+            a specific sovereign kernel runtime, or a specific neural model.
+          </li>
+          <li>
+            This report does not attempt to move the entire K3D architecture to
+            the standards track as one monolithic deliverable.
+          </li>
+          <li>
+            This report does not claim that Community Group work itself is a W3C
+            Standard.
+          </li>
+        </ul>
+      </section>
+    </section>
+
+    <section>
+      <h2>Use Cases</h2>
+      <ul>
+        <li>
+          A standards-oriented knowledge system stores a canonical concept once
+          and reuses it through stable references from executable rules and UI
+          surfaces.
+        </li>
+        <li>
+          A human reviewer and a synthetic user inspect the same knowledge node
+          through different presentation modes without losing identity or
+          provenance.
+        </li>
+        <li>
+          A reference implementation ingests external material into a canonical
+          node model while preserving lineage and reconstruction metadata.
+        </li>
+        <li>
+          A second implementation can reconstruct or exchange the same node graph
+          without depending on the first implementation’s internal hot path.
+        </li>
+        <li>
+          Accessibility and localization layers can reuse canonical semantic
+          nodes without requiring separate authoritative payloads.
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Success Criteria</h2>
+      <p>
+        A future standards-track PM-KR effort should be considered successful
+        only if it demonstrates real interoperability value beyond the current
+        reference implementation.
+      </p>
+      <ul>
+        <li>
+          At least two independent implementations can exchange or reconstruct
+          the same PM-KR core node model with consistent semantics.
+        </li>
+        <li>
+          The standards-track subset is small enough to be reviewed and adopted
+          independently from K3D-specific runtime architecture.
+        </li>
+        <li>
+          Conformance tests cover canonicality, reference preservation,
+          reconstruction, provenance, and dual-client equivalence.
+        </li>
+        <li>
+          Reviewers can trace clear user and implementer value, rather than a
+          request to bless an existing project wholesale.
+        </li>
+        <li>
+          The group can point to broad expressions of interest, implementation
+          feedback, and an adoption path through an appropriate Working Group.
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Why This Belongs on a Standards Path</h2>
+      <p>
+        PM-KR addresses an interoperability problem, not just an application
+        architecture preference. The problem is how to describe, preserve, and
+        exchange canonical procedural knowledge in a way that can survive
+        translation across tools, clients, and runtimes.
+      </p>
+      <p>
+        W3C’s standards-track guidance is centered on mature multi-party
+        deliverables with clear scope and reviewability. W3C’s Community Group
+        process, in turn, is explicitly designed to make it easier for a group’s
+        report to move toward standards-track work by maintaining continuity of
+        IPR commitments, allowing adoption by a relevant Working Group when
+        scope aligns, and turning Community Group Reports into structured inputs
+        for that later step.
+      </p>
+      <p>
+        PM-KR is therefore best understood as a candidate standards-track topic
+        emerging from Community Group incubation. The standards-track target is
+        not “the whole K3D system,” but a stable interoperability layer extracted
+        from K3D’s full architecture and validated by implementation experience.
+      </p>
+    </section>
+
+    <section>
+      <h2>Reference Implementation: Knowledge3D</h2>
+      <p>
+        Knowledge3D is the current reference implementation for PM-KR. It should
+        be treated as the implementation and experimentation environment from
+        which the standards-track subset is derived. The PM-KR Community Group
+        should not describe K3D as the future standard itself; instead, K3D
+        provides the architecture corpus, executable evidence, and conformance
+        surface that help the group decide what is mature enough to standardize.
+      </p>
+      <p>
+        The implementation value of K3D is that it does not stop at abstract
+        terminology. It includes canonical node definitions, runtime boundaries,
+        ingestion pathways, spatial interfaces, layered knowledge contracts, and
+        a living vocabulary used to coordinate design and implementation.
+      </p>
+    </section>
+
+    <section>
+      <h2>Proposed Standards-Track Scope</h2>
+      <p>
+        A standards-track PM-KR deliverable should initially focus on the parts
+        of the architecture that define portable knowledge meaning and exchange.
+      </p>
+
+      <section>
+        <h3>Candidate normative core</h3>
+        <ul>
+          <li>
+            The four-layer model: Form, Meaning, Rules, and Meta-Rules.
+          </li>
+          <li>
+            Canonicality and reference-preservation invariants.
+          </li>
+          <li>
+            Minimal node contract, stable identifiers, and conformance profiles.
+          </li>
+          <li>
+            Dual-client equivalence requirements for shared node identity.
+          </li>
+          <li>
+            Deterministic reconstruction and provenance expectations.
+          </li>
+          <li>
+            The sovereign boundary between offline ingestion and runtime use as an
+            architectural contract, without standardizing one runtime engine.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>Candidate informative material</h3>
+        <ul>
+          <li>
+            K3D-specific runtime layouts, kernel inventories, and hot-path
+            implementation strategies.
+          </li>
+          <li>
+            Spatial UX patterns such as the Memory Tablet and House/Galaxy
+            environment design.
+          </li>
+          <li>
+            Long-range paradigm framing such as SGI and SHGI.
+          </li>
+          <li>
+            Domain-specific specialist content, benchmark narratives, and
+            project-specific deployment choices.
+          </li>
+        </ul>
+      </section>
+    </section>
+
+    <section>
+      <h2>Transition Path from Community Group to Standards Track</h2>
+      <p>
+        The relevant W3C process guidance is straightforward: Community Group
+        Reports can feed the standards process, but Community Groups do not
+        themselves publish standards-track specifications. To move PM-KR
+        forward, the group should use draft and final Community Group reports to
+        stabilize scope, capture commitments, and accumulate implementation and
+        review evidence for eventual Working Group adoption.
+      </p>
+      <ol>
+        <li>
+          Continue publishing PM-KR Community Group Reports that satisfy the
+          Community Group report requirements.
+        </li>
+        <li>
+          Advance the PM-KR normative subset to a well-scoped Final Report when
+          the group is ready to invite Final Specification Agreement commitments.
+        </li>
+        <li>
+          Build implementation evidence beyond one codebase, including at least
+          one non-K3D-oriented or independently developed implementation profile.
+        </li>
+        <li>
+          Socialize the work with likely standards-track stakeholders and
+          identify whether an existing Working Group could adopt it or whether a
+          dedicated charter would be needed.
+        </li>
+        <li>
+          Bring the mature normative subset, use cases, tests, and evidence into
+          a Working Group venue for standards-track work.
+        </li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Socialization and Evidence Gaps</h2>
+      <p>
+        The current PM-KR work has a strong reference implementation and a broad
+        architecture corpus, but it still needs the kind of external evidence
+        that W3C readiness guidance expects for formal standards work.
+      </p>
+      <ul>
+        <li>
+          The problem statement is clear, but it should be socialized more widely
+          with potential implementers outside the K3D project.
+        </li>
+        <li>
+          Success criteria are now explicit in this report, but they still need
+          measurable implementation evidence.
+        </li>
+        <li>
+          The proposal is technically mature in K3D terms, but the
+          standards-track subset must be narrowed and shown to be adoptable by
+          other systems.
+        </li>
+        <li>
+          The Community Group should gather public expressions of interest from
+          prospective implementers, tool builders, and reviewers.
+        </li>
+        <li>
+          The group should build an evidence package that can accompany any later
+          Working Group adoption proposal: use cases, tests, implementation
+          reports, opposition or concerns, and IPR readiness.
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Readiness Criteria Before Working Group Adoption</h2>
+      <ul>
+        <li>
+          Clear extraction of the PM-KR normative subset from the larger K3D
+          architecture.
+        </li>
+        <li>
+          Stable terminology and consistent identifier conventions across the
+          complete vocabulary corpus.
+        </li>
+        <li>
+          Conformance and reconstruction tests that are meaningful outside the
+          K3D hot path.
+        </li>
+        <li>
+          Evidence that at least one other implementation or implementation
+          strategy can consume the same core model.
+        </li>
+        <li>
+          Privacy, security, accessibility, and internationalization review of
+          the exchange model.
+        </li>
+        <li>
+          Community Group publishing discipline: draft reports, final reports,
+          and clear contributor and commitment hygiene.
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Architecture Corpus Used by This Report</h2>
+      <p>
+        This report is based on the complete <code>docs/vocabulary/</code> corpus
+        of the Knowledge3D reference implementation. The list below is the
+        current source basis for PM-KR Community Group drafting and for any later
+        extraction of a standards-track subset.
+      </p>
+
+      <section>
+        <h3>Core PM-KR and knowledge model specifications</h3>
+        <ul>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/PROCEDURAL_MEMORY_KR_STANDARD_SPECIFICATION.md">PROCEDURAL_MEMORY_KR_STANDARD_SPECIFICATION.md</a></li>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/FOUNDATIONAL_KNOWLEDGE_SPECIFICATION.md">FOUNDATIONAL_KNOWLEDGE_SPECIFICATION.md</a></li>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/MEANING_CENTRIC_STAR_SCHEMA_SPECIFICATION.md">MEANING_CENTRIC_STAR_SCHEMA_SPECIFICATION.md</a></li>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/FORMAL_ONTOLOGY_SPECIFICATION.md">FORMAL_ONTOLOGY_SPECIFICATION.md</a></li>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/K3D_NODE_SPECIFICATION.md">K3D_NODE_SPECIFICATION.md</a></li>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/ADAPTIVE_PROCEDURAL_COMPRESSION_SPECIFICATION.md">ADAPTIVE_PROCEDURAL_COMPRESSION_SPECIFICATION.md</a></li>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/KNOWLEDGE_PROCEDURALIZER_SPECIFICATION.md">KNOWLEDGE_PROCEDURALIZER_SPECIFICATION.md</a></li>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/MATH_CORE_SPECIFICATION.md">MATH_CORE_SPECIFICATION.md</a></li>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/REALITY_ENABLER_SPECIFICATION.md">REALITY_ENABLER_SPECIFICATION.md</a></li>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/PROCEDURAL_VISUAL_SPECIFICATION.md">PROCEDURAL_VISUAL_SPECIFICATION.md</a></li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>Runtime, sovereignty, and execution specifications</h3>
+        <ul>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/THREE_BRAIN_SYSTEM_SPECIFICATION.md">THREE_BRAIN_SYSTEM_SPECIFICATION.md</a></li>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/KNOWLEDGEVERSE_SPECIFICATION.md">KNOWLEDGEVERSE_SPECIFICATION.md</a></li>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/KNOWLEDGEVERSE_MVP_ROADMAP.md">KNOWLEDGEVERSE_MVP_ROADMAP.md</a></li>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/KNOWLEDGEVERSE_TERM_DEFINITION.md">KNOWLEDGEVERSE_TERM_DEFINITION.md</a></li>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/SOVEREIGN_NSI_SPECIFICATION.md">SOVEREIGN_NSI_SPECIFICATION.md</a></li>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/SOVEREIGN_TRAINING_SPECIFICATION.md">SOVEREIGN_TRAINING_SPECIFICATION.md</a></li>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/SLEEPTIME_PROTOCOL_SPECIFICATION.md">SLEEPTIME_PROTOCOL_SPECIFICATION.md</a></li>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/ADAPTIVE_REASONING_BUDGET_SPECIFICATION.md">ADAPTIVE_REASONING_BUDGET_SPECIFICATION.md</a></li>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/UNIFIED_SIGNAL_SPECIFICATION.md">UNIFIED_SIGNAL_SPECIFICATION.md</a></li>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/RPN_DOMAIN_OPCODE_REGISTRY.md">RPN_DOMAIN_OPCODE_REGISTRY.md</a></li>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/TRM_SPECIALIST_MATRYOSHKA_ARCHITECTURE.md">TRM_SPECIALIST_MATRYOSHKA_ARCHITECTURE.md</a></li>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/TERNARY_CONTRASTIVE_LEARNING_SPECIFICATION.md">TERNARY_CONTRASTIVE_LEARNING_SPECIFICATION.md</a></li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>Spatial, embodiment, and client specifications</h3>
+        <ul>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/DUAL_CLIENT_CONTRACT_SPECIFICATION.md">DUAL_CLIENT_CONTRACT_SPECIFICATION.md</a></li>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/MEMORY_TABLET_SPECIFICATION.md">MEMORY_TABLET_SPECIFICATION.md</a></li>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/SPATIAL_UI_ARCHITECTURE_SPECIFICATION.md">SPATIAL_UI_ARCHITECTURE_SPECIFICATION.md</a></li>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/AVATAR_EMBODIMENT_SPECIFICATION.md">AVATAR_EMBODIMENT_SPECIFICATION.md</a></li>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/ROBOTIC_EMBODIMENT_SPECIFICATION.md">ROBOTIC_EMBODIMENT_SPECIFICATION.md</a></li>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/UNIVERSAL_ACCESSIBILITY_SPECIFICATION.md">UNIVERSAL_ACCESSIBILITY_SPECIFICATION.md</a></li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>Paradigm, ecosystem, and positioning specifications</h3>
+        <ul>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/SPATIAL_GENERAL_INTELLIGENCE_SPECIFICATION.md">SPATIAL_GENERAL_INTELLIGENCE_SPECIFICATION.md</a></li>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/SGI_TERM_ORIGIN_PROOF.md">SGI_TERM_ORIGIN_PROOF.md</a></li>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/SUPERHUMAN_GENERAL_INTELLIGENCE_SPECIFICATION.md">SUPERHUMAN_GENERAL_INTELLIGENCE_SPECIFICATION.md</a></li>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/HYPER_MODULAR_ARCHITECTURE.md">HYPER_MODULAR_ARCHITECTURE.md</a></li>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/HYPER_PARALLEL_PROCESSING.md">HYPER_PARALLEL_PROCESSING.md</a></li>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/PLATFORM_ECOSYSTEM_SPECIFICATION.md">PLATFORM_ECOSYSTEM_SPECIFICATION.md</a></li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>Vocabulary index</h3>
+        <ul>
+          <li><a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/README.md">README.md</a></li>
+        </ul>
+      </section>
+    </section>
+
+    <section>
+      <h2>Accessibility, Internationalization, Privacy, and Security Considerations</h2>
+
+      <section>
+        <h3>Accessibility Considerations</h3>
+        <p>
+          PM-KR should preserve one canonical node truth across presentation
+          modalities so that visual, textual, auditory, and assistive
+          representations do not diverge semantically. This is a strength of the
+          proposal, but it must be tested with concrete accessibility mappings
+          and not assumed by architecture alone.
+        </p>
+      </section>
+
+      <section>
+        <h3>Internationalization Considerations</h3>
+        <p>
+          The separation of form and meaning is favorable for localization and
+          multi-script systems, because language-specific surface forms can be
+          attached to shared canonical concepts. The group should validate this
+          with concrete multilingual exchange examples before standards-track
+          advancement.
+        </p>
+      </section>
+
+      <section>
+        <h3>Privacy Considerations</h3>
+        <p>
+          Provenance, lineage, and reconstruction metadata are useful for audit,
+          but implementations need clear rules for when source traces may expose
+          sensitive material. The standards-track subset should make room for
+          privacy-preserving profiles and redaction behavior.
+        </p>
+      </section>
+
+      <section>
+        <h3>Security Considerations</h3>
+        <p>
+          PM-KR deliberately distinguishes offline ingestion from runtime use.
+          That boundary is important for security. The standards-track subset
+          should define safe interchange and validation expectations without
+          assuming trust in arbitrary executable payloads.
+        </p>
+      </section>
+    </section>
+
+    <section>
+      <h2>References</h2>
+      <ul>
+        <li>
+          W3C standards-track guidance:
+          <a href="https://www.w3.org/guide/standards-track/">
+            https://www.w3.org/guide/standards-track/
+          </a>
+        </li>
+        <li>
+          W3C Community Group transition guidance:
+          <a href="https://www.w3.org/guide/process/cg-transition.html">
+            https://www.w3.org/guide/process/cg-transition.html
+          </a>
+        </li>
+        <li>
+          W3C Community Group FAQ on transition:
+          <a href="https://www.w3.org/community/about/faq/#how-do-community-groups-make-it-easier-to-move-to-the-standards-track">
+            https://www.w3.org/community/about/faq/#how-do-community-groups-make-it-easier-to-move-to-the-standards-track
+          </a>
+        </li>
+        <li>
+          W3C Community Group report requirements:
+          <a href="https://www.w3.org/community/reports/reqs/">
+            https://www.w3.org/community/reports/reqs/
+          </a>
+        </li>
+      </ul>
+    </section>
+  </body>
+</html>
