@@ -1,0 +1,11 @@
+{
+  "name": "pm-kr",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "mcp:build:docker": "docker build -t respec-mcp:local ../respec",
+    "mcp:start": "node ../respec/tools/respec-mcp.js --repo-root . --profile pm-kr",
+    "mcp:start:docker": "docker run --rm -i -v \"$PWD\":/workspace -w /workspace respec-mcp:local",
+    "test:profile": "node ./scripts/test-respec-profile.mjs"
+  }
+}

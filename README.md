@@ -8,6 +8,21 @@
 
 ---
 
+## ReSpec MCP Automation
+
+This repo now includes a locked `pm-kr` ReSpec MCP profile under `respec-mcp/`.
+
+- Start the local MCP server against this repo with `npm run mcp:start`
+- Build the Docker fallback with `npm run mcp:build:docker`
+- Start the Docker fallback with `npm run mcp:start:docker`
+- ReSpec source documents live under `reports/source/`
+- Rendered output is written to `reports/build/`
+
+The PM-KR profile is restricted to `CG-DRAFT` and `CG-FINAL` and reads repository
+metadata from `w3c.json`.
+
+---
+
 ## The User-Facing Problem
 
 A single Unicode character today exists as: a font glyph, an embedding vector, accessibility metadata, a visual rendering, and an AI token — **five separate copies of the same knowledge**, maintained independently, drifting apart. Multiply by every character, formula, and concept on the web.

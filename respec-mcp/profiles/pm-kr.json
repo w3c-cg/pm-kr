@@ -1,0 +1,50 @@
+{
+  "profile_id": "pm-kr",
+  "label": "PM-KR Community Group",
+  "group_type": "cg",
+  "allowed_statuses": [
+    "CG-DRAFT",
+    "CG-FINAL"
+  ],
+  "default_status": "CG-DRAFT",
+  "repo_metadata_source": "w3c.json",
+  "source_root": "reports/source",
+  "build_root": "reports/build",
+  "default_source": "reports/source/index.html",
+  "status_templates": {
+    "CG-DRAFT": "respec-mcp/templates/cg-draft.html",
+    "CG-FINAL": "respec-mcp/templates/cg-final.html"
+  },
+  "respec_defaults": {
+    "title": "Procedural Memory Knowledge Representation",
+    "subtitle": "Community Group Report",
+    "shortName": "pm-kr",
+    "group": "cg/pm-kr",
+    "github": "w3c-cg/pm-kr",
+    "latestVersion": "https://w3c-cg.github.io/pm-kr/",
+    "editors": [
+      {
+        "name": "Daniel Campos Ramos",
+        "company": "EchoSystems AI Studios",
+        "url": "https://github.com/danielcamposramos"
+      }
+    ]
+  },
+  "required_sections": [
+    "Abstract",
+    "Introduction",
+    "Use Cases",
+    "Security Considerations",
+    "Privacy Considerations"
+  ],
+  "required_links": [
+    "https://www.w3.org/community/pm-kr/",
+    "https://github.com/w3c-cg/pm-kr"
+  ],
+  "forbidden_phrases": [
+    "W3C Recommendation",
+    "Candidate Recommendation",
+    "Proposed Recommendation",
+    "Recommendation-track"
+  ]
+}

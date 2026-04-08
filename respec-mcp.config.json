@@ -1,0 +1,11 @@
+{
+  "default_profile": "pm-kr",
+  "profile_directory": "respec-mcp/profiles",
+  "source_root": "reports/source",
+  "build_root": "reports/build",
+  "template_defaults": {
+    "shortName": "pm-kr",
+    "github": "w3c-cg/pm-kr",
+    "latestVersion": "https://w3c-cg.github.io/pm-kr/"
+  }
+}
