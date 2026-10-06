@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Stereo 3D on Linux and the Web: Established Specifications, Adopted in Pieces</title>
+    <script class="remove">
+      const respecConfig = {
+        specStatus: "CG-DRAFT",
+        shortName: "pm-kr-stereo-3d-report",
+        group: "cg/pm-kr",
+        github: "w3c-cg/pm-kr",
+        latestVersion: "https://w3c-cg.github.io/pm-kr/",
+        editors: [
+          {
+            name: "Daniel Campos Ramos",
+            company: "EchoSystems AI Studios",
+            url: "https://github.com/danielcamposramos",
+          },
+        ],
+      };
+    </script>
+    <script
+      async
+      class="remove"
+      src="https://www.w3.org/Tools/respec/respec-w3c"
+    ></script>
+  </head>
+  <body>
+    <section id="abstract">
+      <p>
+        Stereo 3D has had established specifications for more than fifteen years: in the video codecs, the containers, the display links and the graphics APIs.
+        The signal that says "this picture holds two views" is in millions of files and broadcasts, and every layer can read it.
+        On Linux and on the web it was adopted only in pieces.
+      </p>
+      <p>
+        This report lists what exists, who reads the signal today, how the work stopped each time it was started (twice at W3C), and what a browser would need.
+        Every claim is tied to its specification or to a public record.
+        It is a discussion draft for the PM-KR Community Group.
+      </p>
+    </section>
+
+    <section id="sotd">
+      <p>
+        This is a draft prepared for discussion on the PM-KR Community Group's public list, <a href="https://lists.w3.org/Archives/Public/public-pm-kr/">public-pm-kr@w3.org</a>.
+        It is not a W3C Standard and does not imply W3C endorsement.
+        Comments are welcome on the list or as issues in the <a href="https://github.com/w3c-cg/pm-kr">group's repository</a>.
+      </p>
+    </section>
+
+    <section>
+      <h2>Why PM-KR cares</h2>
+      <p>
+        The group's own statement of the problem says that "knowledge on the web is flat: documents, search bars, chat windows. You can't walk through it, point at it, or explore it spatially."
+        Knowledge3D, the group's reference implementation, represents knowledge in space.
+        Knowledge in space reaches people only when their screens can show depth: 3D televisions and monitors, glasses, headsets and display glasses.
+      </p>
+      <p>
+        The uses go far beyond entertainment: molecules, anatomy and geology in science and education; terrain, circuit boards and meshes in engineering; surgery practice and training in medicine; museums and places people cannot travel to.
+        All of them need the same thing from the platform: a way to say that a picture holds two views, and a way to show them.
+      </p>
+    </section>
+
+    <section>
+      <h2>The specifications that exist</h2>
+      <table class="data">
+        <thead>
+          <tr><th>Layer</th><th>Specification</th><th>What it carries</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Graphics</td>
+            <td>OpenGL quad-buffered stereo (since OpenGL 1.0, 1992); <a href="https://registry.khronos.org/OpenGL/extensions/EXT/GLX_EXT_stereo_tree.txt">GLX_EXT_stereo_tree</a>; Vulkan multiview (core since Vulkan 1.1, 2018)</td>
+            <td>Left and right buffers for one window; which windows have both, so a compositor can carry them; one draw for several views.</td>
+          </tr>
+          <tr>
+            <td>Video</td>
+            <td><a href="https://www.itu.int/rec/T-REC-H.264">ITU-T H.264</a> Annex D, frame packing arrangement SEI (clauses D.1.25 and D.2.25 in the 2012 edition); <a href="https://www.itu.int/rec/T-REC-H.265">ITU-T H.265</a> clauses D.2.16 and D.3.16; <a href="https://www.itu.int/rec/T-REC-H.274">ITU-T H.274</a> clauses 8.6.1 and 8.6.2</td>
+            <td>Inside the stream: the packing (side by side, top and bottom, frame alternation and others), which view comes first, and how long it holds.</td>
+          </tr>
+          <tr>
+            <td>Containers and delivery</td>
+            <td>Matroska <code>StereoMode</code> (<a href="https://www.rfc-editor.org/rfc/rfc9559">RFC 9559</a>); the MPEG-DASH <code>FramePacking</code> descriptor (ISO/IEC 23009-1 clause 5.8.5.3, see <a href="https://dashif.org/docs/IOP-Guidelines/DASH-IF-IOP-Part7-v5.0.0.pdf">DASH-IF IOP Part 7</a>); the MP4 <code>st3d</code> box (<a href="https://github.com/google/spatial-media/blob/master/docs/spherical-video-v2-rfc.md">Spherical Video V2</a>); CIPA DC-007 (MPO stereo photographs)</td>
+            <td>The same information at the file, manifest or photograph level.</td>
+          </tr>
+          <tr>
+            <td>Display links</td>
+            <td><a href="https://www.hdmi.org/announce/detail/84">HDMI 1.4a</a> (2010) 3D structures, the vendor-specific InfoFrame and the EDID 3D capability bits; DisplayPort's stereo field in the Main Stream Attribute</td>
+            <td>The screen declares which 3D formats it accepts; the source tells the screen which one it is sending, and the screen switches by itself.</td>
+          </tr>
+          <tr>
+            <td>Web</td>
+            <td><a href="https://www.w3.org/TR/webxr/">WebXR Device API</a>; <a href="https://www.w3.org/TR/webxrlayers-1/">WebXR Layers API</a>, whose <code>XRLayerLayout</code> has <code>"stereo-left-right"</code> and <code>"stereo-top-bottom"</code>, including layers made from an <code>HTMLVideoElement</code></td>
+            <td>Stereo, but only inside an immersive session, that is, in a headset.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Who reads the signal today</h2>
+      <h3>On Linux</h3>
+      <ul>
+        <li><strong>Kernel drivers.</strong> Intel's i915 has allowed HDMI stereo modes since Linux 3.13 (2013, commit <code>573e74adbd13</code>), and nouveau exposes them too. The amdgpu and NVIDIA drivers did not; work for both is in progress.</li>
+        <li><strong>Compositors.</strong> None upstream carries a window's two views to a stereo output. The attempts are listed in the next section.</li>
+        <li><strong>Media.</strong> FFmpeg reads the SEI and exports it to players as <code>AV_FRAME_DATA_STEREO3D</code>. mpv detects the layout from the stream since September 2026 (<a href="https://github.com/mpv-player/mpv/pull/18490">PR #18490</a>). VLC has discarded the H.264 SEI since 2017 (commit <code>89347c3e2d</code>), so such video plays as flat 2D. Kodi derives its stereo mode from the stream's metadata.</li>
+      </ul>
+      <h3>On the web</h3>
+      <ul>
+        <li>The HTML media elements have no stereo attribute.</li>
+        <li>No CSS property describes stereo content: W3C's index of CSS properties lists none among its 2,279 entries (checked October 2026).</li>
+        <li>WebCodecs' <code>VideoFrame</code> carries no frame packing information.</li>
+        <li>Media Capabilities' only spatial field, <code>spatialRendering</code>, is for audio.</li>
+        <li>WebXR Layers has the vocabulary, but only for a headset session.</li>
+        <li>So a browser decodes a stereo stream and ignores its frame packing. Outside a headset, a page has no standard way to say that a video, an image or a canvas holds two views.</li>
+      </ul>
+      <p>
+        YouTube shows the result.
+        Its 3D player launched in July 2009, as a Google employee's 20% project, with anaglyph, side by side and interleaved modes.
+        <a href="https://support.google.com/youtube/answer/7278886">Its help page still documents uploading stereoscopic 3D</a> with <code>st3d</code> metadata, but the ordinary player's 3D modes are gone, with no announcement that could be found: uploads are accepted, and viewing was dropped.
+        The history, with sources: <a href="https://github.com/danielcamposramos/awesome-stereoscopy/blob/main/stereo-video-on-youtube.md">stereo video on YouTube</a>.
+      </p>
+    </section>
+
+    <section>
+      <h2>How the work stopped, each time</h2>
+      <h3>Twice at W3C</h3>
+      <ul>
+        <li>
+          <strong>2012: the Stereoscopic 3D Web Task Force</strong> of the Web and TV Interest Group (LG Electronics, KDDI and W3C staff), <a href="https://www.w3.org/2011/webtv/wiki/3dweb">wiki</a>.
+          Its use cases were a stereo photo gallery, stereo video on demand, games, and "a web-based (HTML and CSS) user interface that is rendered in stereoscopic 3D on a 3D display".
+          Its two requirements still hold: minimal extensions, and graceful degradation, so that the same content renders in 2D on a 2D display.
+          Its <a href="https://www.w3.org/2011/webtv/3dweb/3dweb_proposal_121130.html">editor's draft of 30 November 2012</a> proposed CSS properties (<code>perspective-baseline</code>, <code>stereo-content</code>, <code>stereo-render-option</code>, <code>stereo-size-type</code>, <code>stereo-order-type</code>), a <code>3d-display</code> media type and a display API.
+          It said: "Even though stereo 3D devices are widely available and the number of stereo 3D contents increases, no web standards support them yet."
+          None of those properties entered CSS.
+        </li>
+        <li>
+          <strong>2013: the <a href="https://www.w3.org/community/stereoweb/">Stereoscopic 3D Web Community Group</a></strong>, co-chaired from LG Electronics, with researchers studying stereoscopic web perception.
+          Its posts run from October 2013 to July 2014, its list holds three messages (2016 to 2019), and it was closed on 7 April 2023.
+        </li>
+      </ul>
+      <h3>On the Linux desktop</h3>
+      <ul>
+        <li>
+          <strong>KWin, 2014:</strong> <a href="https://bugs.kde.org/show_bug.cgi?id=335859">KDE bug 335859</a> asked for a stereo-aware compositor.
+          The maintainer then answered: "My system neither has that extension nor any software which uses stereo buffering."
+          A working branch followed that December, from a developer who wrote: "Unfortunately I don't have a 3D-capable monitor, so I'm hoping that you will be able to test it."
+          It never landed, and the bug was closed in 2023.
+        </li>
+        <li>
+          <strong>GNOME, 2014:</strong> <a href="https://bugzilla.gnome.org/show_bug.cgi?id=733277">GNOME bug 733277</a>, quad-buffer stereo for Mutter.
+          Its first review read: "Code looks good to me but a) I have no way of actually testing it."
+          It was reviewed again in 2017 and closed as obsolete in 2021, never merged.
+        </li>
+        <li>
+          <strong>Wayland, 2017:</strong> a <a href="https://lists.freedesktop.org/archives/wayland-devel/2017-November/035798.html">protocol and a Weston implementation</a> with HDMI stereo modes received no review.
+          The same author revived it in September 2026 as <a href="https://gitlab.freedesktop.org/wayland/wayland-protocols/-/merge_requests/533">xx-stereoscopy-v1</a>, now open for review.
+        </li>
+      </ul>
+      <h3>Why it stayed niche</h3>
+      <p>
+        Nobody had to act.
+        H.264 and H.265 define the frame packing message as supplemental, and their Annex D says so in the same words: "SEI messages are not required for constructing the luma or chroma samples by the decoding process. Conforming decoders are not required to process this information for output order conformance."
+        A decoder that ignores the message is conformant.
+        Each step after that was reasonable on its own:
+      </p>
+      <ol>
+        <li>The reviewers had no stereo display, so the patches could not be tested, and they were not merged.</li>
+        <li>Without support in the stack, watching 3D at home was a chore. The BBC ended its trial in 2013, finding 3D viewing "quite hassly"; ESPN closed its channel the same year, citing "limited viewer adoption"; in 2022 a well-equipped technology channel tried to play 3D files on a 3D television and said: "We gave up on trying to play 3D files."</li>
+        <li>Low adoption was then read as low demand, and low demand as a reason not to review the next patch.</li>
+      </ol>
+      <p>
+        Together these steps form a loop.
+        The format is niche because of the barriers, and the barriers stay because the format is niche.
+      </p>
+      <p>
+        The loop can be broken, and in 2026 it was, in part.
+        The missing pieces were written and verified on real displays, and maintainers merged them: mpv, HandBrake, MKVToolNix, and Universal Media Server, whose 15.9.0 release carries the frame packing message through its transcodes.
+        The hardware is already in homes: the 3D televisions of 2010 to 2016, the 3D Blu-ray titles still released every year, and now headsets and display glasses.
+      </p>
+    </section>
+
+    <section>
+      <h2>One format between programs and screens</h2>
+      <p>
+        One lesson from that work shapes everything below.
+        Every packing a file can carry (side by side or top and bottom, full or half size, either eye first) must be read.
+        But if every program has to handle every format for every screen, the work multiplies: every input format, times every output format, times every program that wants stereo.
+      </p>
+      <p>
+        So the desktop built on that work (<a href="https://github.com/Sparky-OS/sparky-stereo-os">Sparky Stereo OS</a>, an upcoming edition of SparkyLinux; <a href="https://invent.kde.org/danielcamposramos/kwin/-/blob/stereo3d/STEREO3D.md">its compositor design</a>) uses one interchange format: full side by side, left eye first, at the source's own resolution.
+        A program decodes or renders whatever it likes inside, and hands the compositor that one format.
+        The compositor converts it for each screen: the 3D television's own modes, anaglyph for paper glasses, one eye for an ordinary 2D screen, or a headset.
+        Sound already works this way: programs hand the sound server plain samples at any rate, and the server sends them to HDMI, Bluetooth or a USB DAC without the program ever knowing which.
+        Full side by side is the stereo picture's equivalent of plain samples, and it keeps both eyes in one buffer, so they always show the same instant.
+      </p>
+    </section>
+
+    <section>
+      <h2>What a browser would need</h2>
+      <p>
+        These are proposals for discussion, built on the 2012 task force's two requirements: minimal extensions, and graceful degradation.
+      </p>
+      <ol>
+        <li><strong>Read the signal.</strong> When a stream, file or manifest carries frame packing (the SEI, Matroska's <code>StereoMode</code>, <code>st3d</code>, DASH's <code>FramePacking</code>), expose it to the page and pass it to the platform, instead of ignoring it.</li>
+        <li><strong>Declare.</strong> Give a page one way to say that a video, an image or a canvas holds two views, reusing the vocabulary WebXR Layers already has (<code>"stereo-left-right"</code>, <code>"stereo-top-bottom"</code>).</li>
+        <li><strong>Deliver.</strong> Let the user agent hand the platform both views together, as one buffer with its declaration, and let the platform show them on whatever screen is attached. On a 2D screen the default is one eye, or anaglyph if the user chooses it. Nothing is forced on anyone.</li>
+        <li><strong>Keep text readable.</strong> Text and controls stay on the screen plane by default, identical in both eyes. Where depth helps, an element could declare a plane (sunk, screen or popped) and the platform would draw it for the screen: a shadow on a 2D screen, real depth on a stereo one. This revisits the 2012 <code>perspective-baseline</code> question, and it is the same value now being discussed for KDE's desktop styles.</li>
+        <li><strong>Ask, never switch.</strong> A media query could say that the output can show stereo (the 2012 <code>3d-display</code>). Switching the display into a 3D mode remains the platform's and the user's decision, never the page's.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Questions for the group</h2>
+      <ol>
+        <li>Should PM-KR keep this as a group note, or prepare it for the W3C groups that own each part (Immersive Web, Media, CSS)?</li>
+        <li>Which of the five proposals above matter most for spatial knowledge?</li>
+        <li>Who in the group has a stereo display, a 3D television or a headset to test with? The loop above began with reviewers who had none.</li>
+      </ol>
+    </section>
+  </body>
+</html>
