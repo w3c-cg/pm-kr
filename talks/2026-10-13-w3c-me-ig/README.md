@@ -220,6 +220,7 @@ Sparky Stereo OS is in development.
 Added on 13 October 2026, so the record stays current.
 
 - **Minutes:** [W3C M&E IG, 13 October 2026](https://www.w3.org/2026/10/13-me-minutes.html), "Stereoscopic video".
+- **Migration path:** [Stereo 3D on the web: a migration path](migration-path.md), with HDR, as suggested at the call.
 - **A phone as the 3D screen:** the first test passed on 12 October 2026 on an ordinary phone in a VR Shinecon cardboard-style viewer: movie mode, and a desktop test chart streamed over Wi-Fi, each eye on its own half ([Flat Headset](https://github.com/Sparky-OS/flat-headset#the-first-test-12-october-2026)).
 
 ![The phone's screen showing the streamed test chart, LEFT and RIGHT halves](images/2026-10-12-flat-headset-chart.jpg)
