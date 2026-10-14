@@ -76,7 +76,8 @@ They are two properties of a picture with one problem in common: the description
 
 **Not covered yet:** dynamic metadata, which changes the tone mapping frame by frame: SMPTE ST 2094-40 (HDR10+) is open and fits as per-frame state later; Dolby Vision's metadata is proprietary.
 
-On Linux, our design for that declaration is public: [Stereo and HDR in one declaration](https://github.com/Sparky-OS/sparky-stereo-os/blob/main/docs/stereo-hdr-content.md). It is a design, not yet built, and not yet tried on an HDR screen.
+On Linux, our design for that declaration is public: [Stereo and HDR in one declaration](https://github.com/Sparky-OS/sparky-stereo-os/blob/main/docs/stereo-hdr-content.md).
+It is a design, not yet built, and not yet tried on an HDR screen.
 
 ## What can be tested today
 
