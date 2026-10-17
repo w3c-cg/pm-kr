@@ -35,7 +35,7 @@ Each step works on its own and keeps today's behaviour for everyone who does not
 2. **Expose what was read.** A read-only layout on `VideoFrame` and on the video element, so canvas, WebGL and WebXR pages know what they received. WebCodecs' multiview frames (#970) report the same values.
 3. **Hand the element to the compositor with its layout.** The browser already gives video and canvas their own compositor surfaces; it adds the layout to that surface, and the operating system's compositor converts it for each screen: frame packing for a 3D TV, anaglyph for a monitor, one image per eye for a headset or a phone, one eye for 2D. One declaration per element, never per window, so a 2D page can hold a 3D video.
 4. **Ask about the screen separately.** As with HDR, one question for decoding (#249) and another for the display, so a page can offer a 3D button only where it shows.
-5. **Author-made stereo through WebXR.** Pages like StorySplat's 3D View, which build both eyes themselves, reach a 3D screen through a WebXR session on a flat 3D display, using the stereo layouts WebXR Layers already define. A short text on Layers for the Immersive Web groups follows separately.
+5. **Author-made stereo through WebXR.** Pages like StorySplat's 3D View ([w3c-cg/pm-kr#6](https://github.com/w3c-cg/pm-kr/issues/6)), which build both eyes themselves, reach a 3D screen through a WebXR session on a flat 3D display, using the stereo layouts WebXR Layers already define. A short text on Layers for the Immersive Web groups follows separately.
 6. **HDR follows the same road.** The same per-element declaration carries the colour description, so a 3D picture and an HDR picture in one page each reach the screen as they are; the next section goes into detail.
 
 ## HDR: the same problem, the same road
@@ -84,9 +84,10 @@ It is a design, not yet built, and not yet tried on an HDR screen.
 - On Linux, a desktop that takes one declared full side-by-side picture per surface and converts it for every screen: [Sparky Stereo OS](https://github.com/Sparky-OS/sparky-stereo-os), with captures of both eyes.
 - A browser build that does steps 1 and 3 for video: our Waterfox stereo branch, [Sparky-OS/waterfox](https://github.com/Sparky-OS/waterfox) (`stereo3d`).
 - Encoders that keep the mark: merged in HandBrake (#8100), mpv (#18490), MKVToolNix and PeerTube (#7816).
+- Live sources on the web to test against ([w3c-cg/pm-kr#4](https://github.com/w3c-cg/pm-kr/issues/4)): YouTube channels and video portals for steps 1–4 ([w3c-cg/pm-kr#5](https://github.com/w3c-cg/pm-kr/issues/5)), VR, WebXR and author-made stereo for step 5 ([w3c-cg/pm-kr#6](https://github.com/w3c-cg/pm-kr/issues/6)), and native Web HDR, gain maps and deep colour for step 6 ([w3c-cg/pm-kr#7](https://github.com/w3c-cg/pm-kr/issues/7)).
 - The background: [Stereo 3D on Linux and the Web: Established Specifications, Adopted in Pieces](https://www.w3.org/publications/spec-generator/?type=respec&url=https://raw.githubusercontent.com/w3c-cg/pm-kr/main/reports/source/stereo-3d-adoption-report.html).
 
 ## Questions for the group
 
 - Which group should own each step: the Media WG for 1, 2 and 4, the Immersive Web groups for 5, and the CSS WG or HTML for 3?
-- Who can test a declared pair on their own screens, 2D fallback included?
+- Who can test a declared pair on their own screens, 2D fallback included, using the sources in [w3c-cg/pm-kr#4](https://github.com/w3c-cg/pm-kr/issues/4) ([#5](https://github.com/w3c-cg/pm-kr/issues/5), [#6](https://github.com/w3c-cg/pm-kr/issues/6), [#7](https://github.com/w3c-cg/pm-kr/issues/7))?
