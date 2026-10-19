@@ -8,7 +8,7 @@
         specStatus: "unofficial",
         shortName: "pm-kr-stereo-3d-report",
         github: "w3c-cg/pm-kr",
-        latestVersion: "https://w3c-cg.github.io/pm-kr/",
+        latestVersion: "https://www.w3.org/publications/spec-generator/?type=respec&url=https://raw.githubusercontent.com/w3c-cg/pm-kr/main/reports/source/stereo-3d-adoption-report.html",
         editors: [
           {
             name: "Daniel Campos Ramos",
@@ -33,6 +33,8 @@
       </p>
       <p>
         This report lists what exists, who reads the signal today, how the work stopped each time it was started (twice at W3C), and what a browser would need.
+        Its application map connects established scientific and creative uses with recent stereo AI research, generated worlds and desktop interaction.
+        Public contribution records also show how review practices and AI policies affect the path from a working implementation to upstream adoption.
         Every claim is tied to its specification or to a public record.
         It is offered to the PM-KR Community Group as input for discussion.
       </p>
@@ -58,11 +60,88 @@
       <p>
         The group's own statement of the problem says that "knowledge on the web is flat: documents, search bars, chat windows. You can't walk through it, point at it, or explore it spatially."
         Knowledge3D, the group's reference implementation, represents knowledge in space.
-        Knowledge in space reaches people only when their screens can show depth: 3D televisions and monitors, glasses, headsets and display glasses.
+        Stereo presentation adds binocular depth to that spatial information on 3D televisions and monitors, projectors, headsets and display glasses, alongside ordinary 2D and accessible presentations.
       </p>
       <p>
         The uses go far beyond entertainment: molecules, anatomy and geology in science and education; terrain, circuit boards and meshes in engineering; surgery practice and training in medicine; museums and places people cannot travel to.
         All of them need the same thing from the platform: a way to say that a picture holds two views, and a way to show them.
+      </p>
+    </section>
+
+    <section id="application-map">
+      <h2>Applications across fields</h2>
+      <p>
+        The October 2026 outreach has helped identify a wider set of relevant workflows: creating stereo images, inspecting scientific models, designing objects, exploring generated worlds, teaching and organizing everyday work.
+        Their relevance follows from the public work itself and can be assessed before an invitation receives an answer.
+        This map records that relevance; participation, compatibility and adoption require their own evidence.
+      </p>
+      <table class="data">
+        <caption>Public examples and candidate interoperability questions, 18 October 2026</caption>
+        <thead>
+          <tr><th scope="col">Area and public examples</th><th scope="col">User task</th><th scope="col">Question for the shared platform</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Stereo AI: <a href="https://people.engr.tamu.edu/nimak/Papers/CVPRW2025_Text2Stereo/index.html">Text2Stereo</a>, <a href="https://video-eye2eye.github.io/">Eye2Eye</a>, <a href="https://leiainc.github.io/holopix50k/">Holopix50k</a></th>
+            <td>Generate or inspect a stereo pair and compare it with its source. Holopix50k documents real stereo photographs (2020); Text2Stereo and Eye2Eye document generative models fine-tuned on stereo pairs (2025).</td>
+            <td>Preserve eye order, pairing and timing through export and playback; retain the distinction between captured and synthesized views. Binocular consistency and temporal stability need evaluation as well as individual-image quality.</td>
+          </tr>
+          <tr>
+            <th scope="row">Generated worlds: <a href="https://www.worldlabs.ai/labs/showcase/mint">Mint and World Labs</a>; <a href="https://discover.storysplat.com/docs/stereo-3d">StorySplat</a></th>
+            <td>Create, edit and share an interactive scene built from splats and 3D assets. StorySplat documents stereo output; Mint demonstrates an interactive world-authoring workflow.</td>
+            <td>Present the scene on different displays while preserving controls and selections. Mint's stereo output and compatibility with the proposed stack remain questions to test.</td>
+          </tr>
+          <tr>
+            <th scope="row">Physical AI and digital twins: <a href="https://luma.com/b101ml40">Mint, World Labs, Tripo, Convex and Founders Inc. hackathon</a></th>
+            <td>The event's published tracks include robotics, embodied agents, simulation, spatial reasoning and digital twins.</td>
+            <td>Let a human inspect the same objects, coordinate frames, state and actions used by an agent. A stereo rendering presents the scene; an explicit knowledge representation must preserve its meaning and behavior.</td>
+          </tr>
+          <tr>
+            <th scope="row">Science and education: <a href="https://plato.cgl.ucsf.edu/trac/ChimeraX/ticket/5991">ChimeraX stereo viewing</a></th>
+            <td>Inspect molecular structures with depth, discuss a selected feature, and share the view with a class or research team.</td>
+            <td>Keep selections, labels and the cursor consistent across eyes; retain scientific identifiers and measurements when moving between a workstation, a shared projector and another client.</td>
+          </tr>
+          <tr>
+            <th scope="row">Engineering: <a href="https://github.com/openscad/openscad/pull/7112">OpenSCAD stereo preview proposal</a>; <a href="https://www.codesys.com/products/engineering/codesys-4/">CODESYS 4 web engineering</a></th>
+            <td>Inspect a design while retaining ordinary editing controls; explore how spatial inspection could accompany browser-based engineering workflows.</td>
+            <td>Preserve picking, units, parameters and model identity. OpenSCAD's linked work is a proposal under review; CODESYS is a candidate integration context, not a demonstrated stereo implementation.</td>
+          </tr>
+          <tr>
+            <th scope="row">Geospatial work: <a href="https://stereopipeline.readthedocs.io/en/latest/introduction.html">NASA Ames Stereo Pipeline</a></th>
+            <td>Reconstruct terrain from satellite, rover or aerial imagery, then inspect the resulting terrain model or mesh.</td>
+            <td>Distinguish stereo reconstruction inputs from the derived model and its display views; preserve camera calibration, coordinates, units and processing provenance.</td>
+          </tr>
+          <tr>
+            <th scope="row">Simulation: <a href="https://www.flightgear.org/blog/release-2024-1-1/">FlightGear's OpenXR support</a></th>
+            <td>Explore a simulated environment with cockpit controls, tracked views and potentially a separate observer display.</td>
+            <td>Keep stereo presentation, tracking, input and simulation state coordinated. A fixed stereo display does not by itself provide tracked VR interaction or haptic feedback.</td>
+          </tr>
+          <tr>
+            <th scope="row">Photography, film and shared viewing: <a href="https://github.com/danielcamposramos/awesome-stereoscopy/blob/main/stereo-video-on-youtube.md">stereo video history</a>; <a href="https://github.com/UniversalMediaServer/UniversalMediaServer/pull/6389">media-server frame-packing work</a></th>
+            <td>Show photographs, films and educational material on home screens, classroom displays or museum projectors.</td>
+            <td>Keep stereo marks through upload, transcoding and delivery; preserve captions, attribution and color information. HDR and stereo describe different properties that need to survive the same pipeline.</td>
+          </tr>
+          <tr>
+            <th scope="row">Everyday desktop design: <a href="https://www.youtube.com/watch?v=V7AfAcQwLW0">Scott Jenson's Akademy desktop UX talk</a></th>
+            <td>Organize active work and peripheral context while keeping text and controls usable.</td>
+            <td>Test a binocular-depth interpretation of such layouts. This extension is proposed here; Jenson's talk is about desktop interaction. Sparky's planned Theme Editor would centralize configurable depth rules so designers could explore different layouts.</td>
+          </tr>
+          <tr>
+            <th scope="row">Access across devices: <a href="https://github.com/DisplayXR/displayxr-runtime">DisplayXR</a>; <a href="https://github.com/googlevr/cardboard">Cardboard</a></th>
+            <td>Reach spatial content through different display and input arrangements, including 3D monitors and phone viewers.</td>
+            <td>Adapt output to device capabilities while retaining a usable 2D presentation and semantic alternatives. Stereo vision is optional; access to the underlying information must remain possible without it.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        The common need is to carry useful information through the stack, with display-specific work handled once where possible.
+        Sparky Stereo OS supplies an implementation setting for testing the presentation path.
+        The <a href="https://www.w3.org/publications/spec-generator/?type=respec&amp;url=https://raw.githubusercontent.com/w3c-cg/pm-kr/main/reports/source/pm-kr-standards-track-transition-report.html#spatial-workflows">companion PM-KR draft</a> asks how object identity, relationships, procedures and provenance can survive alongside that presentation, so humans and AI can work with the same underlying information.
+        These connections are proposed use cases for discussion, independently of whether the cited projects choose to participate.
+      </p>
+      <p>
+        Contributors can add a reproducible public scene or workflow to <a href="https://github.com/w3c-cg/pm-kr/issues/6">issue #6 (VR, WebXR and procedural 3D)</a>, within <a href="https://github.com/w3c-cg/pm-kr/issues/4">issue #4's wider source directory</a>.
+        Record the input, declared stereo layout, tools and display used, expected behavior and observed result; for knowledge exchange, also identify the objects and metadata that must survive.
       </p>
     </section>
 
@@ -173,7 +252,7 @@
           The same author revived it in September 2026 as <a href="https://gitlab.freedesktop.org/wayland/wayland-protocols/-/merge_requests/533">xx-stereoscopy-v1</a>, now open for review.
         </li>
       </ul>
-      <h3>Why it stayed niche</h3>
+      <h3>Why adoption remained fragmented</h3>
       <p>
         Nobody had to act.
         H.264 and H.265 define the frame packing message as supplemental, and their Annex D says so in the same words: "SEI messages are not required for constructing the luma or chroma samples by the decoding process. Conforming decoders are not required to process this information for output order conformance."
@@ -186,14 +265,95 @@
         <li>Low adoption was then read as low demand, and low demand as a reason not to review the next patch.</li>
       </ol>
       <p>
-        Together these steps form a loop.
-        The format is niche because of the barriers, and the barriers stay because the format is niche.
+        Together these steps can reinforce a loop: fragmented support makes use difficult, and limited adoption weakens the incentive to complete the support.
+        The <a href="#application-map">application map</a> shows why the scope of useful workflows is broader than the audience of any one application or display format.
+        The size of that audience and the benefit in each workflow still need measurement.
       </p>
       <p>
         The loop can be broken, and in 2026 it was, in part.
         The missing pieces were written and verified on real displays, and maintainers merged them: mpv, HandBrake, MKVToolNix, and Universal Media Server, whose 15.9.0 release carries the frame packing message through its transcodes; then Qt Multimedia, which reports the layout to every Qt player, Bino, which now shows right-eye-first videos the right way round, and PeerTube, which keeps the packing when it transcodes an upload (October 2026).
         The hardware is already in homes: the 3D televisions of 2010 to 2016, the 3D Blu-ray titles still released every year, and now headsets and display glasses.
       </p>
+    </section>
+
+    <section id="upstream-contribution">
+      <h2>Upstream adoption and contribution practices</h2>
+      <p>
+        The <a href="https://www.w3.org/2026/10/13-me-minutes.html">13 October 2026 Media and Entertainment Interest Group discussion</a> raised both AI-related resistance to contributions and the need for a migration path from the current stack.
+        The cases below make those questions concrete: they concern contributions to media software and a display driver, whose projects have different review practices and policies.
+        These are public records from the report author's own contribution campaign, not an independent survey of acceptance rates.
+      </p>
+      <section id="upstream-cases">
+        <h3>Four cases from the implementation work</h3>
+        <table class="data">
+          <thead>
+            <tr><th scope="col">Project and record</th><th scope="col">What happened</th><th scope="col">Lesson for adoption</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row"><a href="https://code.videolan.org/videolan/vlc/-/merge_requests/10366">VLC !10366, September 2026</a></th>
+              <td>The x264 frame-packing contribution received objections to AI-assisted text and an AI label initially named <code>AI::Slop</code>, later renamed <code>AI::Generated</code>. It also received substantive technical review: Steve Lhomme identified frame-sequential eye-order risks and compatibility concerns. His final objection to changing an existing option's default remained unresolved in that exchange.</td>
+              <td>Communication and tool-use objections can coexist with valid engineering objections. A successful downstream test does not settle upstream compatibility requirements; the record does not support describing VLC as categorically refusing all AI-assisted contributions.</td>
+            </tr>
+            <tr>
+              <th scope="row"><a href="https://gitlab.freedesktop.org/nouveau/wiki/-/merge_requests/64">nouveau community statement, September–October 2026</a></th>
+              <td>The original HDMI series were withdrawn after a maintainer pointed to overlapping work. A subsequent <a href="https://gitlab.freedesktop.org/mohamexiety/nouveau/-/merge_requests/1">small CD=5 fix</a> received no response before the author closed it on 9 October to comply with the newly merged human-authorship restriction. Maintainers had discussed an exception for small, reviewable fixes.</td>
+              <td>Contribution eligibility can prevent an upstream path independently of whether a patch has been found technically wrong. The closure was the contributor's response to the policy, not a recorded technical rejection of that fix. The changes remain downstream.</td>
+            </tr>
+            <tr>
+              <th scope="row"><a href="https://codeberg.org/mbunkus/mkvtoolnix/pulls/6311">MKVToolNix !6311, merged 21 September 2026</a></th>
+              <td>Moritz Bunkus reviewed the disclosed AI-assisted AVC frame-packing contribution, requested code organization and alignment changes, and merged it with its AI credit. His review began: <q>Most of it is exactly the way I'd want it</q>. An additional proposed behavior change was rejected on Matroska semantics.</td>
+              <td>A skeptical maintainer can accept assisted work through ordinary technical review. <a href="https://codeberg.org/mbunkus/mkvtoolnix/pulls/6311#issuecomment-23317252">Alignment feedback</a> and the <a href="https://codeberg.org/mbunkus/mkvtoolnix/pulls/6311#issuecomment-23323531">contributor's response</a> show local conventions being made explicit and applied.</td>
+            </tr>
+            <tr>
+              <th scope="row">FFmpeg and <a href="https://ffmpeg.org/developer.html#Submitting-patches">Forgejo Fairy</a></th>
+              <td>FFmpeg documents requesting an LLM review by adding Forgejo Fairy as a reviewer. In this campaign, <a href="https://code.ffmpeg.org/FFmpeg/FFmpeg/pulls/24628#issuecomment-68054">#24628</a> and <a href="https://code.ffmpeg.org/FFmpeg/FFmpeg/pulls/24643#issuecomment-68053">#24643</a> record revisions following Fairy's findings, including frame-packing lifetime and test coverage.</td>
+              <td>AI can assist the receiving project's review as well as the contributor. The <a href="https://www.mail-archive.com/ffmpeg-devel@ffmpeg.org/msg188597.html">12 April announcement</a> distinguishes an automated approval from a merge authorized by a developer; the review history alone is not evidence of an upstream merge.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          MKVToolNix also illustrates why platform policy and maintainer judgment should be distinguished.
+          Its Codeberg host's <a href="https://codeberg.org/Codeberg/org/src/branch/main/TermsOfUse.md">terms reviewed during the contribution</a> restricted projects consisting mostly of AI-generated code.
+          Bunkus's earlier <a href="https://codeberg.org/mbunkus/mkvtoolnix/issues/6278#issuecomment-18826271">public position</a> expressed skepticism while allowing contributions whose human author understood and could explain the changes.
+          The merge demonstrates that practice; it does not establish that the contribution changed his general opinion of AI.
+        </p>
+      </section>
+      <section id="kernel-policy-context">
+        <h3>The Linux kernel discussion in context</h3>
+        <p>The relevant public chronology places nouveau's decision alongside the broader kernel discussion. All dates are in 2026.</p>
+        <ol>
+          <li><strong>14 July:</strong> Linus Torvalds <a href="https://lore.kernel.org/linux-media/CAHk-=wi4zC+Ze8e+p3tMv8TtG_80KzsZ1syL9anBtmEh5Z40vg@mail.gmail.com/">states that Linux is not an anti-AI project</a>. His <a href="https://github.com/torvalds/linux/commit/818bebeb63dd6bf5f4e07e145f6cdbace520a34c">21 August Xe driver fix</a> subsequently credits AI-assisted debugging under his direction.</li>
+          <li><strong>2 October:</strong> the report author <a href="https://gitlab.freedesktop.org/nouveau/wiki/-/merge_requests/64#note_3691304">argues in nouveau's policy discussion</a> for engineering responsibility, reproducible tests, reviewable changes and language access, using established engineering tools as an analogy.</li>
+          <li><strong>8–9 October:</strong> the Maintainers Summit reaches consensus to deprecate compulsory <code>Assisted-by</code> tagging. Sasha Levin's <a href="https://lkml.iu.edu/2610.1/02723.html">9 October removal proposal</a> records that consensus.</li>
+          <li><strong>9 October:</strong> following nouveau's policy merge, the author <a href="https://lore.kernel.org/all/179156201409.1251903.7021297050250233959@yahoo.com/">writes to its public list</a> about judging understanding and responsibility, and respecting the restriction by maintaining the work downstream.</li>
+          <li><strong>13 October:</strong> Torvalds <a href="https://lkml.iu.edu/2610.1/13255.html">opposes tool-based restrictions</a>, using compilers and editors as analogies and emphasizing the contributor's understanding of the work.</li>
+        </ol>
+        <p>
+          This records parallel public arguments, without establishing influence between their authors.
+          The 9 October nouveau email preceded Torvalds's 13 October reply, but followed the summit consensus and the removal proposal.
+          A kernel-wide discussion also does not by itself establish a change to nouveau's contribution rules.
+        </p>
+      </section>
+      <section id="contribution-procedures">
+        <h3>Making project conventions usable by humans and AI</h3>
+        <p>
+          The MKVToolNix alignment exchange gives a small, concrete example of translating a maintainer's expectations into an actionable procedure.
+          The author reports explaining to the AI collaborator why the requested spacing mattered to visual grouping in the editor; the public thread records the requested alignment and the resulting revisions.
+          That human explanation connected the purpose of the convention to the change being made.
+        </p>
+        <p>
+          Projects could express such knowledge in versioned contributor documentation and skill files: scope and rationale, before-and-after examples, local naming and layout rules, test commands, disclosure requirements, and the decisions that remain with maintainers.
+          Formatters and linters can enforce mechanical rules; examples and explanations can guide context-dependent decisions.
+          AI assistance can then help adapt a contribution to each project's conventions while the contributor checks the result and answers review.
+          Existing restrictions still apply unless the project changes them.
+        </p>
+        <p>
+          This is a concrete PM-KR use case: preserving a rule's meaning, procedure, authority and revision so a human and an AI client can work from the same knowledge.
+          It connects to Knowledge3D's <a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/DUAL_CLIENT_CONTRACT_SPECIFICATION.md">Dual-Client Contract</a> and <a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/KNOWLEDGE_PROCEDURALIZER_SPECIFICATION.md">Knowledge Proceduralizer</a> as a proposed exchange experiment, detailed in the <a href="https://www.w3.org/publications/spec-generator/?type=respec&amp;url=https://raw.githubusercontent.com/w3c-cg/pm-kr/main/reports/source/pm-kr-standards-track-transition-report.html#contribution-knowledge">transition report</a>.
+          The cases motivate testing whether explicit shared guidance reduces repeated review corrections; they do not yet measure that benefit or establish AI as the easiest approach for every project.
+        </p>
+      </section>
     </section>
 
     <section id="one-format">
@@ -231,7 +391,9 @@
       <ol>
         <li>Should PM-KR keep this as a group note, or prepare it for the W3C groups that own each part (Immersive Web, Media, CSS)?</li>
         <li>Which of the five proposals above matter most for spatial knowledge?</li>
+        <li>Which application-map example can members turn into a reproducible test, and what information must survive from authoring through presentation and knowledge exchange?</li>
         <li>Who in the group has a stereo display, a 3D television or a headset to test with? The loop above began with reviewers who had none.</li>
+        <li>Could participating projects trial versioned contribution guidance that humans and AI clients can both follow, and measure whether it reduces repeated review corrections while preserving technical scrutiny?</li>
       </ol>
     </section>
   </body>

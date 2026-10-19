@@ -9,7 +9,7 @@
         shortName: "pm-kr-transition-report",
         group: "cg/pm-kr",
         github: "w3c-cg/pm-kr",
-        latestVersion: "https://w3c-cg.github.io/pm-kr/",
+        latestVersion: "https://www.w3.org/publications/spec-generator/?type=respec&url=https://raw.githubusercontent.com/w3c-cg/pm-kr/main/reports/source/pm-kr-standards-track-transition-report.html",
         editors: [
           {
             name: "Daniel Campos Ramos",
@@ -39,6 +39,12 @@
         corpus, not on a single summary document. It treats the K3D codebase and
         vocabulary as the current implementation and design record from which a
         standards-track PM-KR profile can be extracted.
+      </p>
+      <p>
+        Public examples from stereo AI research, interactive worlds, science,
+        engineering and desktop design provide candidate workflows for testing
+        that profile beyond K3D. Their relevance can be assessed from their
+        published work, independently of participation in the group.
       </p>
     </section>
 
@@ -183,7 +189,7 @@
       </section>
     </section>
 
-    <section>
+    <section id="use-cases">
       <h2>Use Cases</h2>
       <ul>
         <li>
@@ -209,6 +215,98 @@
           nodes without requiring separate authoritative payloads.
         </li>
       </ul>
+      <section id="spatial-workflows">
+        <h3>Concrete workflows from the application map</h3>
+        <p>
+          The <a href="https://www.w3.org/publications/spec-generator/?type=respec&amp;url=https://raw.githubusercontent.com/w3c-cg/pm-kr/main/reports/source/stereo-3d-adoption-report.html#application-map">stereo
+          report's application map</a>, updated on 18 October 2026, brings public
+          examples from the recent outreach into this discussion. The following
+          mappings are proposed PM-KR evaluation cases, not claims that those
+          projects already implement PM-KR.
+        </p>
+        <table class="data">
+          <caption>From spatial applications to knowledge-exchange tests</caption>
+          <thead>
+            <tr><th scope="col">Workflow</th><th scope="col">Information to preserve</th><th scope="col">Candidate test</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Inspect stereo AI output: Text2Stereo and Eye2Eye</th>
+              <td>Source references, captured or generated status, view identity, generation parameters when available, and evaluation results.</td>
+              <td>Can a reviewer and an AI client identify the same source and derived views after exchange, without treating synthesized content as an observation?</td>
+            </tr>
+            <tr>
+              <th scope="row">Edit a generated world or digital twin: Mint's workflow and the spatial-intelligence event</th>
+              <td>Object identifiers, transforms, units, relationships, state, behaviors and edit provenance.</td>
+              <td>Can a second client reconstruct a selected object's state and interpret a declared action while retaining its identity and source links?</td>
+            </tr>
+            <tr>
+              <th scope="row">Explain a molecule, terrain feature or engineered object: ChimeraX, Ames Stereo Pipeline and OpenSCAD</th>
+              <td>Domain identifiers, coordinate frames, measurements, model parameters and derivation steps.</td>
+              <td>Does selection in the rendered view resolve to the same record used by the analytical client, with units and provenance intact?</td>
+            </tr>
+            <tr>
+              <th scope="row">Teach, simulate or share an experience across displays</th>
+              <td>Procedure and scene version, input actions, state changes, annotations, captions and content provenance.</td>
+              <td>Can a participant and an observer refer to the same event through different presentations, while distinguishing a simulation from a measured event?</td>
+            </tr>
+            <tr>
+              <th scope="row">Resume work across a desktop, spatial interface or accessible client</th>
+              <td>Document identity, related objects, task history, actions and semantic labels.</td>
+              <td>Can the user return to the same task and object through a 2D, stereo or nonvisual interface without rebuilding the context?</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          These questions extend the existing
+          <a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/DUAL_CLIENT_CONTRACT_SPECIFICATION.md">Dual-Client Contract</a>
+          and <a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/W3C/x3d/PM_KR_X3D_ONTOLOGY.md">spatial ontology draft</a>
+          toward examples other implementers can assess. The shared principle is
+          stable identity and meaning across human and AI access. A rendered
+          stereo pair alone cannot carry all of that information; the exchange
+          needs explicit links to the underlying records and procedures.
+        </p>
+        <p>
+          Sparky Stereo OS can host presentation experiments; Knowledge3D can
+          supply an experimental knowledge implementation. Group participants
+          can propose other systems and representations. The test is whether
+          meaning survives the exchange, including for users who do not use
+          binocular depth.
+        </p>
+      </section>
+    </section>
+
+    <section id="contribution-knowledge">
+      <h2>Contribution Guidance as Procedural Knowledge</h2>
+      <p>
+        The <a href="https://www.w3.org/publications/spec-generator/?type=respec&amp;url=https://raw.githubusercontent.com/w3c-cg/pm-kr/main/reports/source/stereo-3d-adoption-report.html#upstream-contribution">stereo adoption report's public contribution cases</a>
+        supply another candidate use case: exchanging the knowledge needed to
+        contribute across projects with different conventions. MKVToolNix's
+        alignment review and FFmpeg's documented AI review workflow show concrete
+        requirements and feedback that can inform reusable procedures.
+      </p>
+      <p>
+        A proposed exchange would preserve the project's identity, the rule's
+        authoritative source and version, its scope and rationale, examples,
+        applicable checks, exceptions and the person authorized to decide them.
+        Contributor documentation or a skill file can be an input representation;
+        its filename alone does not establish PM-KR conformance. Knowledge3D's
+        <a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/KNOWLEDGE_PROCEDURALIZER_SPECIFICATION.md">Knowledge Proceduralizer</a>
+        separates form, meaning, rules and meta-rules, while the
+        <a href="https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/DUAL_CLIENT_CONTRACT_SPECIFICATION.md">Dual-Client Contract</a>
+        provides the proposed connection between human and AI access to the same
+        records. Applying them to contributor guidance remains an experiment.
+      </p>
+      <p>
+        A useful trial would ask two independent clients to interpret and apply
+        the same versioned guidance, identify conflicts or missing context, and
+        return the rule references and check results for maintainer review.
+        Evaluation could compare repeated style corrections and review effort
+        against existing documentation and formatter-based workflows, while
+        checking correctness, policy compliance and maintainer control. This
+        would test knowledge exchange without requiring a particular model or
+        a stereoscopic interface.
+      </p>
     </section>
 
     <section>
@@ -230,6 +328,12 @@
         <li>
           Conformance tests cover canonicality, reference preservation,
           reconstruction, provenance, and dual-client equivalence.
+        </li>
+        <li>
+          At least one concrete workflow records an input artifact, its expected
+          identifiers and semantics, the exchanged result, and any information
+          lost. Presentation tests and knowledge-exchange tests report their
+          outcomes separately.
         </li>
         <li>
           Reviewers can trace clear user and implementer value, rather than a
@@ -380,6 +484,22 @@
         The current PM-KR work has a strong reference implementation and a broad
         architecture corpus, but it still needs the kind of external evidence
         that W3C readiness guidance expects for formal standards work.
+      </p>
+      <p>
+        The application map supplies public evidence of relevant workflows
+        across several fields, including recent generative AI research.
+        This relevance exists before an outreach reply. Expressions of interest,
+        integration results, adoption and measured user benefit are separate
+        evidence to gather as the work proceeds; listing a project here does not
+        imply its endorsement or group participation.
+      </p>
+      <p>
+        A concrete entry point is <a href="https://github.com/w3c-cg/pm-kr/issues/6">issue #6</a>:
+        contribute a public scene or example, its current stereo or WebXR
+        options, and a reproducible interoperability gap. The broader directory
+        is <a href="https://github.com/w3c-cg/pm-kr/issues/4">issue #4</a>.
+        A knowledge-exchange case can then identify the particular objects,
+        procedures and provenance that should survive between implementations.
       </p>
       <ul>
         <li>
