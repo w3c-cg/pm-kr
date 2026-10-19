@@ -1,4 +1,4 @@
-# Stereo 3D on the web: a migration path
+# Stereo 3D and HDR on the web: a migration path
 
 Input from an individual, Daniel Campos Ramos, to the W3C Media & Entertainment Interest Group, after its call of 13 October 2026 ([minutes](https://www.w3.org/2026/10/13-me-minutes.html)), where Rob Smith suggested a path from the status quo to the target.
 It is also offered as input to the PM-KR Community Group; it is not a work item of either group.
@@ -27,6 +27,10 @@ A marked stereo video or picture on an ordinary web page shows in 3D on whatever
 Pages that draw their own stereo (canvas, WebGL) get the same, through one declared layout.
 The page never chooses the output: the screen does.
 
+The same target includes HDR: each content layer keeps its colour description and reconstruction information until adaptation for the output.
+Decoded samples with that description play the same role as PCM with its sample rate and channel layout in audio.
+Stereo uses full side by side to carry both views of a frame together; the HDR interchange representation remains an engineering choice to evaluate.
+
 ## The steps
 
 Each step works on its own and keeps today's behaviour for everyone who does not use it.
@@ -36,12 +40,13 @@ Each step works on its own and keeps today's behaviour for everyone who does not
 3. **Hand the element to the compositor with its layout.** The browser already gives video and canvas their own compositor surfaces; it adds the layout to that surface, and the operating system's compositor converts it for each screen: frame packing for a 3D TV, anaglyph for a monitor, one image per eye for a headset or a phone, one eye for 2D. One declaration per element, never per window, so a 2D page can hold a 3D video.
 4. **Ask about the screen separately.** As with HDR, one question for decoding (#249) and another for the display, so a page can offer a 3D button only where it shows.
 5. **Author-made stereo through WebXR.** Pages like StorySplat's 3D View ([w3c-cg/pm-kr#6](https://github.com/w3c-cg/pm-kr/issues/6)), which build both eyes themselves, reach a 3D screen through a WebXR session on a flat 3D display, using the stereo layouts WebXR Layers already define. A short text on Layers for the Immersive Web groups follows separately.
-6. **HDR follows the same road.** The same per-element declaration carries the colour description, so a 3D picture and an HDR picture in one page each reach the screen as they are; the next section goes into detail.
+6. **HDR shares the same contract.** The same per-element declaration carries the colour description and applicable reconstruction information, so one picture can be stereo, HDR or both. Each output adapts it to that screen's capabilities; the next section describes the proposal and its untested choices.
 
 ## HDR: the same problem, the same road
 
 At the call, Wolfgang asked whether 3D and HDR are one thing or two.
 They are two properties of a picture with one problem in common: the description of the picture has to travel with it, element by element, to the place that knows the screen.
+The proposed remedy is the same: describe each content layer once, preserve its information through the stack, and convert for the screen at the output.
 
 **What the web has today:**
 - The page can ask about the screen: the `dynamic-range` and `video-dynamic-range` media queries.
@@ -49,18 +54,19 @@ They are two properties of a picture with one problem in common: the description
 - The page can limit the headroom of an element: CSS `dynamic-range-limit`, shipped in Chrome 136.
 - Gain-map images (an SDR base plus a map of how much brighter each pixel may go) are shown by some browsers; on Linux, Firefox's HDR output is experimental and covers video only.
 
-**Where it breaks:**
-- The operating system is told about colour once per surface. On Linux, Wayland's colour management protocol (`wp_color_management_v1`) gives one image description per surface, and a browser's window is built from surfaces made for 2D.
-- So an HDR photo next to SDR text, or an Apple HDR photo next to an Ultra HDR one, must be converted by the browser into one description before the compositor sees it.
-- The conversion is made for one screen, while the same window can be on an HDR monitor and an SDR 3D TV at the same time, as when the desktop is mirrored.
-- No protocol carries a gain map to the compositor, so the compositor cannot weigh it for each screen's own headroom.
+**Where information can be lost:**
+
+- On Linux, Wayland's colour management protocol (`wp_color_management_v1`) gives one image description per surface. An HDR photo and SDR text submitted in one buffer therefore share one description.
+- The browser must either compose them into a common colour representation or expose separate content surfaces. The latter lets the operating system retain each picture's description.
+- If the client has already adapted the picture to one screen, the compositor may lack the information needed to adapt it differently for a second screen, as when an HDR monitor and an SDR 3D TV are mirrored.
+- The proposed gain-map carrier would preserve reconstruction information for the compositor to use with each screen's own headroom.
 
 **The target, per element, as for stereo:** each video, picture or canvas that carries a colour description gets its own compositor surface with that description, and the compositor converts it for every output:
 - an HDR screen keeps the picture's range, with SDR content at reference white (ITU-R BT.2408, 203 cd/m²);
 - an SDR screen with deep colour gets the picture tone-mapped into its 10, 12 or 16 bits per channel (HDMI deep colour), so gradients keep their steps instead of banding: the 3D TVs of 2010 to 2013 take 12 bits;
 - an 8-bit screen gets the same, dithered;
 - a gain-map picture is weighted by each screen's own headroom, between the file's base and alternate headroom (ISO 21496-1), so two screens can show it two ways at once;
-- the picture is composed at half float and encoded at each screen's depth, so no step in the middle loses precision.
+- a floating-point composition path is a candidate for retaining useful precision until output encoding; its precision, gamut and luminance behaviour need measurement.
 
 **Where the colour comes from, in the same order as the stereo mark:**
 1. the stream: the colour code points of ITU-T H.273 in the H.264/H.265 VUI, the mastering display colour volume SEI and the content light level SEI;
@@ -78,6 +84,11 @@ They are two properties of a picture with one problem in common: the description
 
 On Linux, our design for that declaration is public: [Stereo and HDR in one declaration](https://github.com/Sparky-OS/sparky-stereo-os/blob/main/docs/stereo-hdr-content.md).
 It is a design, not yet built, and not yet tried on an HDR screen.
+
+**Engineering limit, clarified 19 October 2026:** the author selected full side by side through stereo content and device testing; equivalent cross-format HDR device testing has not yet been done for this proposal.
+PQ, HLG and gain-map images impose different decoding and reconstruction requirements; a shared presentation contract does not make them one encoding.
+The HDR working colour space, pixel representation, precision and metadata handling remain choices to validate with reference images on HDR, deep-colour SDR and 8-bit displays, including mirrored outputs and mixed SDR/HDR content.
+Existing stereo and deep-colour measurements are not evidence that this HDR path works, and deep colour alone is not HDR.
 
 ## What can be tested today
 

@@ -30,6 +30,8 @@
         Stereo 3D has had established specifications for more than fifteen years: in the video codecs, the containers, the display links and the graphics APIs.
         The signal that says "this picture holds two views" is in millions of files and broadcasts, and every layer can read it.
         On Linux and on the web it was adopted only in pieces.
+        HDR exposes the same architectural problem when a picture's colour description or reconstruction information is lost before it reaches the component responsible for the display.
+        This report connects their presentation paths while distinguishing tested stereo work from the proposed HDR extension.
       </p>
       <p>
         This report lists what exists, who reads the signal today, how the work stopped each time it was started (twice at W3C), and what a browser would need.
@@ -230,7 +232,7 @@
       </ul>
       <p>
         Each attempt took one of two roads.
-        The 2012 proposal carried every 3D format into the web platform, with properties for the packing, the size and the eye order of each stereo picture, so every page, browser and screen would have had to handle all of them: the multiplication described in <a href="#one-format">One format between programs and screens</a>.
+        The 2012 proposal carried every 3D format into the web platform, with properties for the packing, the size and the eye order of each stereo picture, so every page, browser and screen would have had to handle all of them: the multiplication described in <a href="#one-format">One presentation contract for stereo and HDR</a>.
         The research that followed built something new: a tool that converts ordinary pages into stereoscopic 3D, and interfaces designed for depth.
         Neither reused <a href="#existing-specifications">the specifications that already carry the signal</a>.
       </p>
@@ -357,7 +359,7 @@
     </section>
 
     <section id="one-format">
-      <h2>One format between programs and screens</h2>
+      <h2>One presentation contract for stereo and HDR</h2>
       <p>
         One lesson from that work shapes everything below.
         Every packing a file can carry (side by side or top and bottom, full or half size, either eye first) must be read.
@@ -367,9 +369,35 @@
         So the desktop built on that work (<a href="https://github.com/Sparky-OS/sparky-stereo-os">Sparky Stereo OS</a>, an upcoming edition of SparkyLinux; <a href="https://invent.kde.org/danielcamposramos/kwin/-/blob/stereo3d/STEREO3D.md">its compositor design</a>) uses one interchange format: full side by side, left eye first, at the source's own resolution.
         A program decodes or renders whatever it likes inside, and hands the compositor that one format.
         The compositor converts it for each screen: the 3D television's own modes, anaglyph for paper glasses, one eye for an ordinary 2D screen, or a headset.
-        Sound already works this way: programs hand the sound server plain samples at any rate, and the server sends them to HDMI, Bluetooth or a USB DAC without the program ever knowing which.
-        Full side by side is the stereo picture's equivalent of plain samples, and it keeps both eyes in one buffer, so they always show the same instant.
       </p>
+      <p>
+        Sound already uses this division: programs hand the sound server PCM samples with their rate and channel layout, and the server adapts them for the selected output.
+        Decoded picture samples, with their stereo layout and colour description, are the visual equivalent.
+        Full side by side keeps both views associated with the same presentation frame in one buffer; preserving HDR precision, luminance information and any gain map would let the compositor adapt that picture to each display.
+        The same principle serves stereo and HDR: describe each content layer once, preserve its information through the stack, and convert for the screen at the output.
+      </p>
+      <p>
+        Stereo layout and colour are independent properties of that contract: an HDR picture can have one view or two, and a stereo picture can be SDR or HDR.
+        Colour needs an explicit description, such as the primaries, transfer characteristics, matrix and range exposed by <a href="https://www.w3.org/TR/webcodecs/#video-color-space-interface">WebCodecs</a>.
+        <a href="https://developer.android.com/media/platform/hdr-image-format">Gain-map images</a> also carry reconstruction information whose use depends on the display's available headroom.
+        The proposed <a href="https://github.com/Sparky-OS/sparky-stereo-os/blob/main/docs/stereo-hdr-content.md">stereo and HDR declaration</a> keeps that information associated with each content layer, so SDR controls can accompany HDR pictures and each output can make its own presentation decision.
+      </p>
+      <section id="hdr-design-limits">
+        <h3>HDR: a shared principle, an engineering choice still to test</h3>
+        <p>
+          PQ, HLG and gain-map images present different decoding and reconstruction requirements; they are not interchangeable labels for one encoding.
+          Full side by side settles where the stereo views go, but does not settle HDR's pixel representation, working colour space, precision or metadata transport.
+          The author selected the stereo interchange after testing content and devices; comparable cross-format HDR device testing has not yet been done for this proposal.
+          Its HDR conclusions are based on specifications and architectural reasoning, not an equivalent measured implementation.
+        </p>
+        <p>
+          A floating-point working representation and compositor-side gain-map reconstruction are design candidates.
+          Before selecting and claiming an HDR interchange, the work needs reference images and measurements across PQ, HLG and gain-map sources, mixed SDR/HDR content, and HDR, deep-colour SDR and 8-bit outputs, including mirrored screens.
+          Evaluation must cover colour and luminance, clipping and banding, metadata lifetime and the two eyes' consistency.
+          Deep colour alone is not HDR, and the existing stereo and deep-colour tests do not validate this HDR path.
+          Dynamic HDR metadata remains outside the first proposed implementation.
+        </p>
+      </section>
     </section>
 
     <section>
@@ -378,11 +406,11 @@
         These are proposals for discussion, built on the 2012 task force's two requirements: minimal extensions, and graceful degradation.
       </p>
       <ol>
-        <li><strong>Read the signal.</strong> When a stream, file or manifest carries frame packing (the SEI, Matroska's <code>StereoMode</code>, <code>st3d</code>, DASH's <code>FramePacking</code>), expose it to the page and pass it to the platform, instead of ignoring it.</li>
-        <li><strong>Declare.</strong> Give a page one way to say that a video, an image or a canvas holds two views, reusing the vocabulary WebXR Layers already has (<code>"stereo-left-right"</code>, <code>"stereo-top-bottom"</code>).</li>
-        <li><strong>Deliver.</strong> Let the user agent hand the platform both views together, as one buffer with its declaration, and let the platform show them on whatever screen is attached. On a 2D screen the default is one eye, or anaglyph if the user chooses it. Nothing is forced on anyone.</li>
+        <li><strong>Read the signal.</strong> When a stream, file or manifest carries frame packing (the SEI, Matroska's <code>StereoMode</code>, <code>st3d</code>, DASH's <code>FramePacking</code>), expose it to the page and pass it to the platform, instead of ignoring it. Preserve the colour description and applicable HDR reconstruction information alongside the picture.</li>
+        <li><strong>Declare.</strong> Give a page one way to describe each video's, image's or canvas's stereo layout and colour properties, reusing the vocabulary WebXR Layers already has (<code>"stereo-left-right"</code>, <code>"stereo-top-bottom"</code>) and existing colour descriptions.</li>
+        <li><strong>Deliver.</strong> Let the user agent hand the platform both stereo views together, as one buffer with its declaration, and let the platform show them on whatever screen is attached. On a 2D screen the default is one eye, or anaglyph if the user chooses it. The HDR extension would preserve precision and reconstruction information until adaptation for each output, subject to the <a href="#hdr-design-limits">engineering evaluation above</a>.</li>
         <li><strong>Keep text readable.</strong> Text and controls stay on the screen plane by default, identical in both eyes. Where depth helps, an element could declare a plane (sunk, screen or popped) and the platform would draw it for the screen: a shadow on a 2D screen, real depth on a stereo one. This revisits the 2012 <code>perspective-baseline</code> question, and it is the same value now being discussed for KDE's desktop styles.</li>
-        <li><strong>Ask, never switch.</strong> A media query could say that the output can show stereo (the 2012 <code>3d-display</code>). Switching the display into a 3D mode remains the platform's and the user's decision, never the page's.</li>
+        <li><strong>Ask, never switch.</strong> A media query could say that the output can show stereo (the 2012 <code>3d-display</code>), alongside existing HDR capability queries. Switching display modes remains the platform's and the user's decision, never the page's.</li>
       </ol>
     </section>
 

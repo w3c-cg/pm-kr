@@ -113,20 +113,23 @@ The merge records do not establish complete browser or desktop support.
 
 ---
 
-## One interchange format in the desktop design
+<a id="one-interchange-format-in-the-desktop-design"></a>
+
+## One presentation contract for stereo and HDR
 
 **Paths:** 5 / 10 / 15 minutes · Slide 9
 
 **Input → compositor → output**
 
-- **Programs:** decode or render their source, then hand over full side by side, left eye first.
-- **Stereo KWin:** receives both views in one declared buffer.
-- **Outputs:** convert for the screen; the design includes HDMI 3D, anaglyph, headsets (a phone in a viewer, or a VR headset as a 3D screen) and one-eye 2D output.
+- **Programs:** decode or render their source; stereo uses full side by side, left eye first. The HDR extension would preserve each content layer's colour description and reconstruction information.
+- **Stereo KWin:** receives both stereo views in one declared buffer, associated with the same presentation frame. The combined declaration would also describe HDR, whether mono or stereo.
+- **Outputs:** adapt for the screen. Stereo includes HDMI 3D, anaglyph, headsets (a phone in a viewer, or a VR headset as a 3D screen) and one-eye 2D output; the HDR proposal adds colour and luminance adaptation for each display.
 
-**Source:** [Report, “One format between programs and screens”](https://www.w3.org/publications/spec-generator/?type=respec&url=https://raw.githubusercontent.com/w3c-cg/pm-kr/main/reports/source/stereo-3d-adoption-report.html#one-format) · [Sparky Stereo OS, “How it works”](https://github.com/Sparky-OS/sparky-stereo-os#how-it-works)
+**Source:** [Report, “One presentation contract for stereo and HDR”](https://www.w3.org/publications/spec-generator/?type=respec&url=https://raw.githubusercontent.com/w3c-cg/pm-kr/main/reports/source/stereo-3d-adoption-report.html#one-format) · [Sparky Stereo OS, “How it works”](https://github.com/Sparky-OS/sparky-stereo-os#how-it-works)
 
 **Boundary:** this is the edition’s compositor contract, not an adopted web API.
 Sparky Stereo OS is in development.
+**Clarification added 19 October 2026:** HDR is a design extension, not a demonstration from this talk. Equivalent cross-format HDR device tests have not yet been done; the working representation and metadata handling remain choices to evaluate. Existing stereo and deep-colour tests do not validate HDR.
 [Project status](https://github.com/Sparky-OS/sparky-stereo-os)
 
 ---
@@ -189,7 +192,7 @@ Sparky Stereo OS is in development.
 Added on 13 October 2026, so the record stays current.
 
 - **Minutes:** [W3C M&E IG, 13 October 2026](https://www.w3.org/2026/10/13-me-minutes.html), "Stereoscopic video".
-- **Migration path:** [Stereo 3D on the web: a migration path](migration-path.md), with HDR, as suggested at the call.
+- **Migration path:** [Stereo 3D and HDR on the web: a migration path](migration-path.md), as suggested at the call.
 - **A phone as the 3D screen:** the first test passed on 12 October 2026 on an ordinary phone in a VR Shinecon cardboard-style viewer: movie mode, and a desktop test chart streamed over Wi-Fi, each eye on its own half ([Flat Headset](https://github.com/Sparky-OS/flat-headset#the-first-test-12-october-2026)).
 
 ![The phone's screen showing the streamed test chart, LEFT and RIGHT halves](images/2026-10-12-flat-headset-chart.jpg)
