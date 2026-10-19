@@ -24,11 +24,11 @@ jobs:
           persist-credentials: false
       - name: Check source policy and rendered document
         id: editorial
-        uses: danielcamposramos/respec-mcp@59a3537786b940e596c872a08212c7de49806265 # repository 0.2.0
+        uses: danielcamposramos/respec-mcp@029f494723f88b3da3822959886b41c90da328fc # repository 0.2.0
         with:
           profile: ${{ matrix.profile }}
       - name: Preserve review evidence
-        if: always()
+        if: always() && steps.editorial.outputs.report != ''
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: report-checks-${{ matrix.profile }}
