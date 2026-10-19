@@ -1,0 +1,28 @@
+{
+  "group_type": "cg",
+  "repo_metadata_source": "w3c.json",
+  "source_root": "reports/source",
+  "build_root": "reports/build",
+  "required_links": [
+    "https://www.w3.org/community/pm-kr/",
+    "https://github.com/w3c-cg/pm-kr"
+  ],
+  "forbidden_phrases": [],
+  "profile_id": "pm-kr-stereo-adoption",
+  "label": "Stereo and HDR adoption — individual input",
+  "allowed_statuses": [
+    "unofficial"
+  ],
+  "default_status": "unofficial",
+  "default_source": "reports/source/stereo-3d-adoption-report.html",
+  "required_sections": [
+    "Abstract",
+    "Status of This Document",
+    "Why PM-KR cares",
+    "Applications across fields",
+    "The specifications that exist",
+    "One presentation contract for stereo and HDR",
+    "HDR: a shared principle, an engineering choice still to test",
+    "Questions for the group"
+  ]
+}

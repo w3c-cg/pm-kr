@@ -1,214 +1,88 @@
 # Procedural Memory Knowledge Representation (PM-KR)
 
+[![Report editorial checks](https://github.com/w3c-cg/pm-kr/actions/workflows/editorial-checks.yml/badge.svg)](https://github.com/w3c-cg/pm-kr/actions/workflows/editorial-checks.yml)
+
 **W3C Community Group** | [Join](https://www.w3.org/community/pm-kr/) | [GitHub](https://github.com/w3c-cg/pm-kr) | [Reference Implementation](https://github.com/danielcamposramos/Knowledge3D)
 
 **Chair:** Daniel Campos Ramos (EchoSystems AI Studios) **Co-Chair:** Milton Ponson (Rainbow Warriors Core Foundation CIAMSD) **Status:** OPEN for participation | Published February 2026
 
 ---
 
-## ReSpec MCP Automation
+## Start with the discussion and evidence
 
-This repo now includes a locked `pm-kr` ReSpec MCP profile under `respec-mcp/`.
+PM-KR investigates how reusable procedures, explicit meaning and provenance could let human interfaces and AI systems share knowledge. The group is incubating proposals; this README does not announce an adopted W3C standard.
 
-- Start the local MCP server against this repo with `npm run mcp:start`
-- Build the Docker fallback with `npm run mcp:build:docker`
-- Start the Docker fallback with `npm run mcp:start:docker`
-- ReSpec source documents live under `reports/source/`
-- Rendered output is written to `reports/build/`
+- [Reports and their status](reports/README.md): the standards-path discussion remains a CG draft; stereo/HDR adoption remains individual input for the group's consideration.
+- [Public issues](https://github.com/w3c-cg/pm-kr/issues) and [mailing-list archive](https://lists.w3.org/Archives/Public/public-pm-kr/): discussion, questions and recorded decisions.
+- [Knowledge3D's public evidence and proposal index](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/W3C/README.md): one implementation and design corpus informing discussion, without constraining other approaches.
 
-The PM-KR profile is restricted to `CG-DRAFT` and `CG-FINAL` and reads repository metadata from `w3c.json`.
+## The user-facing problem
 
----
+A lesson about a pulley may have a diagram, a simulation, text, accessibility descriptions and an AI-facing representation. These serve different needs; some encode overlapping facts and can drift when edited independently. PM-KR asks which parts can share a canonical source, which must stay modality-specific, and how to preserve meaning and provenance between them.
 
-## The User-Facing Problem
+For a student, the desired outcome is consistent information across visual, audio, tactile and machine interfaces. For a developer, it is less duplicated maintenance and a documented way to exchange executable knowledge. Existing semantic, accessibility and media standards provide foundations; the proposed contribution is a compositional procedural layer that can connect them.
 
-A single Unicode character today exists as: a font glyph, an embedding vector, accessibility metadata, a visual rendering, and an AI token: **five separate copies of the same knowledge**, maintained independently, drifting apart.
-Multiply by every character, formula, and concept on the web.
+## Proposed approach
 
-**For end users:**
-- A blind student's screen reader, a sighted student's display, and a classroom AI each consume different representations of the same lesson: none can share context with the others
-- Knowledge on the web is flat: documents, search bars, chat windows. You can't walk through it, point at it, or explore it spatially
-- When AI systems reason about knowledge, users can't inspect how or why: the reasoning is hidden in opaque parameters
+Represent a knowledge entry through explicit meaning, reusable procedures and versioned references. A client could execute a procedure, present an appropriate representation, or inspect its provenance. Knowledge3D explores RPN programs and spatial organization as one implementation approach.
 
-**For developers:**
-- The same knowledge must be encoded separately for each modality (visual, semantic, tactile, audio): massive duplication and maintenance burden
-- No W3C technology exists for storing knowledge once as an executable procedure consumable by both humans and machines
-- Accessibility, internationalization, and semantic meaning require separate implementation passes over the same content
+For example, a character entry could reference a glyph program, a semantic identifier, language-specific names and accessible representations. Sharing an identifier does not make these representations interchangeable: Braille, speech, typography and language each need their own rules and testing. Compression gains must be measured on a stated corpus, including references and runtime overhead.
 
-**For the web platform:**
-- Tim Berners-Lee's Giant Global Graph vision remains unrealized: knowledge is siloed in format-specific representations, not linked by meaning
-- Accessibility is bolted on after the fact, not built into the knowledge representation itself
-- AI systems and human interfaces consume fundamentally different formats for the same knowledge, making interoperability a per-integration effort
+### Goals
 
----
+- Reduce avoidable duplication through reusable canonical content and references.
+- Make procedure inputs, execution context, outputs and provenance inspectable.
+- Support human and machine clients without requiring identical presentation.
+- Study interoperability with existing web formats and multiple implementations.
+- Include accessibility, internationalization, privacy and security in design and validation.
 
-## Proposed Approach
+### Non-goals
 
-PM-KR defines a technology for storing knowledge **once** as executable procedures (like TrueType font programs or mathematical definitions) with symlink-style composition.
-One procedural source renders visually for humans, executes semantically for AI, produces Braille for tactile readers, and synthesizes audio descriptions: all from the same canonical entry.
+The proposal does not replace RDF, OWL or JSON-LD, mandate GPU execution, select one AI architecture, or require spatial presentation. Knowledge3D's GPU runtime and House/Galaxy architecture are implementation choices. Alternative implementations and approaches are welcome.
 
-### How It Works (Conceptual Example)
+## Candidate use cases
 
-The letter "A" stored as a single procedural entry:
+These are scenarios for requirements and testing, not a claim that every path is implemented end to end.
 
-```
-Procedural Source (RPN):
-  Visual:  SET_COLOR 0 0 0 1 STROKE_WIDTH 0.05 MOVE -0.3 -0.5 LINE 0.0 0.5 LINE 0.3 -0.5 STROKE
-  Meaning: CONCEPT LETTER LATIN UPPERCASE PUSH
-  Surface: { "en": "letter A", "pt": "letra A", "ja": "エー", "ar": "أَلِف" }
+| Scenario | Desired outcome | Evidence to seek |
+| --- | --- | --- |
+| Inclusive education | A shared lesson remains consistent in visual, spoken and tactile forms | Assistive-technology tests and review with users |
+| Knowledge reuse | Multiple courses reference common concepts and procedures | Update propagation, storage and execution measurements |
+| Inspectable AI execution | A user can inspect the procedures and sources used for an answer | Reproducible traces, including failures and limits |
+| Spatial collaboration | Human and AI clients refer to the same objects across 2D, stereo and immersive views | Cross-client identity and presentation tests |
+| Cross-implementation exchange | Independently developed clients interpret an entry consistently | A versioned format, test corpus and independent runs |
 
-Output (from same source):
-  Screen → renders the glyph
-  AI     → executes the semantic identity
-  Braille → drives tactile cell pattern
-  Audio  → "uppercase Latin letter A"
-```
+The [stereo/HDR report](reports/source/stereo-3d-adoption-report.html) connects scientific, engineering, AI and desktop workflows to concrete presentation questions. Sparky Stereo OS supplies implementation experience with the desktop/display path. Stereo device observations inform that discussion; choosing an HDR working representation still requires its own engineering and device testing. Outreach identifies relevant work and potential reviewers; it does not establish participation or endorsement.
 
-**No duplication.**
-The visual program draws it.
-The meaning program identifies it.
-The surface forms link to language-specific words without duplicating them.
-Every client reads the same canonical entry.
+## Alternatives and unresolved choices
 
-### Core Principles
+RDF/OWL/JSON-LD already describe shared meaning and relationships; the question is how executable procedures should reference those descriptions and what interoperability is demonstrable. SVG, MathML, media and scene formats already serve important presentation roles. A procedural layer should justify any additional machinery against those existing solutions.
 
-- **Zero duplication** — one procedural source, referenced everywhere (like Debian's APT package model)
-- **Dual-client reality** — same source serves both humans and AI without translation layers
-- **Multi-modal accessibility** — visual, semantic, tactile, auditory output from single canonical procedure
-- **Meaning-centric** — knowledge is organized by meaning, not by language ("cat" = one concept with surface forms in every language)
-- **Sovereign execution** — implementations can run with zero external dependencies in the hot path
+Explicit programs can expose operations more directly than learned representations, but they still require a runtime, interpretation of inputs and independent validation of outputs. They do not by themselves guarantee correct reasoning. Open choices include execution limits, versioning, semantic equivalence, cache invalidation, accessible interaction and evidence of benefit over simpler approaches.
+
+## Accessibility, internationalization, privacy and security
+
+Accessible visual, audio, tactile and non-spatial paths are design goals that need separate user and device evaluation. Language-specific forms may share a concept identifier, but meaning is contextual and cross-language equivalence must not be assumed.
+
+Local execution can reduce the need to send personal knowledge to a service. Exchange still needs consent, access controls and a clear boundary between public and private information. Executable knowledge also needs resource limits, provenance checks and an execution threat model. Reducing framework dependencies does not remove risks in drivers, runtimes, procedures or surrounding software.
+
+## Implementation and group scope
+
+[Knowledge3D](https://github.com/danielcamposramos/Knowledge3D) is an independently developed reference implementation for concepts proposed to PM-KR. Its published code and reports are evidence to evaluate, not proof of an adopted conformance standard. It does not constrain the group's discussions and is not a group deliverable.
+
+PM-KR's role is collaborative incubation: use cases, candidate models, interoperability questions and possible reports. A future standards transition depends on the relevant W3C process and group decisions.
+
+## Human-led editorial checks
+
+[respec-mcp](https://github.com/danielcamposramos/respec-mcp) makes repository policy and ReSpec diagnostics reviewable through GitHub Actions, a local CLI and MCP. Reviewers can read job summaries and JSON evidence without installing an AI client. A passing result covers those configured checks; it does not validate consensus or technical claims.
+
+See [practical commands, profiles and document skills](reports/README.md). Explain ideas in your preferred language if that is easier; AI partners can help draft English while preserving your meaning, uncertainty and attribution. **Se for mais fácil para você, pode explicar em sua própria língua.**
 
 ---
 
-## Use Cases
+## Participant snapshot (March 2026)
 
-### 1. Inclusive Education
-A physics teacher says "demonstrate a pulley system."
-The classroom AI builds a working 3D pulley: visible on screen, navigable by screen reader, explorable by touch.
-The blind student and sighted student share the **same** spatial lesson from the **same** procedural source, not parallel approximations maintained separately.
-
-### 2. Knowledge Deduplication at Web Scale
-A university stores "photosynthesis" once, as a procedural entry with RPN programs for the biochemical process, visual diagrams, audio explanations, and multi-language surface forms.
-Every course, every modality, every AI assistant references the same canonical entry.
-Today, this knowledge exists in dozens of incompatible formats across the institution.
-
-### 3. Auditable AI Reasoning
-When an AI reasons about "Is water an element?", PM-KR implementations make the reasoning path inspectable: navigate from "water" to "compound" to "hydrogen + oxygen" via executable procedural links.
-Every step is traceable and auditable, not hidden in matrix multiplications.
-
-### 4. Multi-Modal Accessibility from Single Source
-The same procedural font program that renders "A" on screen also drives a Braille cell, generates an audio description, and provides AI with semantic identity: all from one compact RPN program.
-No separate accessibility layer to maintain.
-
-### 5. Cross-Platform Knowledge Sharing
-A knowledge entry authored in one PM-KR implementation can be consumed by any other: human or machine.
-A VR application, a screen reader, a web API, and an AI agent all read the same procedural source.
-The technology defines the format; implementations choose their rendering.
-
----
-
-## Non-Goals
-
-- **Replacing RDF/OWL** — PM-KR complements Semantic Web standards with executable semantics, not replaces them. Bidirectional mapping is a deliverable.
-- **Mandating GPU execution** — Sovereign GPU execution is a design principle of the reference implementation, not a requirement of the technology. CPU implementations are valid.
-- **Defining a game engine** — PM-KR uses spatial representation concepts but defines technology for knowledge representation, not entertainment rendering.
-- **Constraining AI architectures** — PM-KR defines how knowledge is stored and composed, not how AI systems must reason over it.
-
----
-
-## Why This Over Alternatives
-
-### Why Not Traditional Knowledge Graphs (RDF/OWL) Alone?
-Knowledge graphs describe what things ARE (declarative).
-PM-KR describes how things WORK (procedural).
-A KG says "A is a letter"; PM-KR stores the executable program that draws A, pronounces A, and reasons about A. KGs require external reasoners; PM-KR knowledge executes itself.
-**PM-KR interoperates with RDF/OWL**: it adds an executable layer, not a competing one.
-
-### Why Not LLM Embeddings as Knowledge Representation?
-Embeddings are opaque vectors: you can't inspect why two concepts are similar, and every model generates its own.
-PM-KR entries carry explicit executable programs, surface forms, and taxonomic references.
-The knowledge is auditable, shareable, and model-independent.
-Embeddings duplicate knowledge per model; PM-KR stores it once.
-
-### Why Not Existing Multimedia Standards (SMIL, SVG, MathML)?
-These standards excel at their modalities but don't compose into a unified knowledge entry.
-SVG draws; MathML represents formulas; SMIL sequences media.
-None stores the **meaning**, the executable semantic identity, that lets a single source serve all modalities and both human and machine clients.
-
-### Why Procedural (RPN) Instead of Declarative?
-Procedural programs are inherently executable: they produce output when run.
-Declarative descriptions require an interpreter.
-A procedural font program **draws the glyph**; a declarative font description **describes how someone else should draw it**.
-For dual-client reality (humans see, AI executes), executable procedures eliminate the translation layer.
-
-### Why Spatial Representation?
-The IT industry borrowed spatial metaphors (windows, desktop, doors, folders, addresses) and kept them flat.
-PM-KR's reference implementation reverses this: spatial metaphors become actual spatial objects.
-Research in spatial cognition (Method of Loci, hippocampal spatial memory) shows humans and AI both benefit from spatial organization.
-The technology accommodates but does not mandate spatial representation.
-
----
-
-## Accessibility, Internationalization, Privacy, and Security Considerations
-
-### Accessibility
-Multi-modal output is architectural, not an add-on.
-The same procedural source renders for visual displays, Braille readers, audio synthesis, and haptic devices.
-The Dual-Client Contract ensures humans and AI consume identical knowledge: a blind user accesses the same semantic content as a sighted user, from the same source.
-
-### Internationalization
-Knowledge is meaning-centric, not language-centric.
-"Cat" is one entry containing surface forms for every language (English "cat", Portuguese "gato", Japanese "猫").
-Reasoning operates on meaning, not language surface.
-New languages add surface forms to existing entries: they don't create new knowledge.
-
-### Privacy
-PM-KR is designed for local-first execution.
-The technology does not require cloud connectivity.
-Knowledge can remain on the user's device.
-Network interfaces between knowledge spaces are explicit and permissioned.
-
-### Security
-Procedural canonicalization enables content-addressed knowledge with cryptographic provenance.
-Sovereign execution (zero external dependencies) eliminates supply chain risk from ML frameworks.
-Every procedural execution is auditable via the Audit Journal pattern.
-
----
-
-## Relevance Across W3C Groups
-
-| W3C Area | PM-KR Contribution |
-|----------|-------------------|
-| **WebGPU** | GPU-native procedural execution patterns for compute shaders |
-| **Spatial Data on the Web** | 3D spatial knowledge navigation (semantic proximity = spatial proximity) |
-| **Publishing & Math** | Procedural typography (168,206 glyph-text pairs) and math symbols as RPN templates |
-| **Web Performance** | 200:1 to 1000:1 compression via procedural canonicalization |
-| **JSON-LD / Semantic Web** | Executable semantics complementing RDF; symlink composition reducing redundancy |
-| **Immersive Web (WebXR)** | Spatial knowledge in 3D assets; dual-client reality in VR/AR |
-| **Web Accessibility (WAI)** | Multi-modal rendering from single procedural source; zero dual-maintenance |
-| **Verifiable Credentials / Solid** | Content-addressed knowledge with cryptographic provenance; decentralized trust |
-| **Distributed Tracing** | Procedural execution audit trail bridging observability and explainability |
-
----
-
-## Reference Implementation: Knowledge3D
-
-This work is **motivated by prior work** on [**Knowledge3D**](https://github.com/danielcamposramos/Knowledge3D), which serves as the reference implementation for PM-KR concepts.
-
-**Important**: That work does not constrain the group's discussions, nor will it be a deliverable of this group.
-**We welcome alternative implementations and approaches.**
-
-| Repository | Purpose | Status |
-|------------|---------|--------|
-| **[Knowledge3D](https://github.com/danielcamposramos/Knowledge3D)** | Reference implementation, production system | Active development |
-| **[pm-kr](https://github.com/w3c-cg/pm-kr)** (this repo) | Specifications, test suites, Community Group Reports | Active |
-
-**Think of it like**: Knowledge3D is the browser; pm-kr is the spec.
-Like WebKit implements W3C HTML/CSS.
-
----
-
-## Participants (March 2026)
+Historical context: affiliations identify individuals and do not imply institutional endorsement of the proposals. For current participation, use the [group page](https://www.w3.org/community/pm-kr/).
 
 ### Early Ingressors
 - **Jonathan DeRouchie** — Persistent memory AI architecture, public/private knowledge separation
@@ -254,9 +128,11 @@ This grounding informs Track 5: Ethics and Safety for AI Agents and Robots.
 
 ---
 
-## Timeline and Deliverables
+## Initial 2026 plan and possible deliverables
 
-### NOW (Q1 2026)
+The schedule below records the initial plan, not completed milestones. Use the public repository history and meeting records for subsequent activity.
+
+### Q1 2026 plan
 - Community Group published and open
 - Foundation documents available
 - 24+ participants from 7+ institutions
@@ -283,7 +159,7 @@ This grounding informs Track 5: Ethics and Safety for AI Agents and Robots.
 
 ---
 
-## Year 1 Tracks
+## Proposed Year 1 tracks
 
 | Track | Focus | Champion |
 |-------|-------|----------|
@@ -298,17 +174,17 @@ This grounding informs Track 5: Ethics and Safety for AI Agents and Robots.
 
 ## Technical Documentation
 
-### Core Specifications (Live in Knowledge3D)
+### Knowledge3D architecture proposals and specifications
 - [THREE_BRAIN_SYSTEM_SPECIFICATION.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/THREE_BRAIN_SYSTEM_SPECIFICATION.md) — Cranium + Galaxy + House architecture
 - [DUAL_CLIENT_CONTRACT_SPECIFICATION.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/DUAL_CLIENT_CONTRACT_SPECIFICATION.md) — Form to Meaning evolution
 - [MEANING_CENTRIC_STAR_SCHEMA_SPECIFICATION.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/MEANING_CENTRIC_STAR_SCHEMA_SPECIFICATION.md) — Atomic knowledge unit
 - [Complete Vocabulary Index](https://github.com/danielcamposramos/Knowledge3D/tree/main/docs/vocabulary)
 
-### W3C Community Group Documentation
+### Candidate PM-KR documents hosted by Knowledge3D
 - [PM_KR_PROBLEM_STATEMENT.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/W3C/PM_KR_PROBLEM_STATEMENT.md) — Why PM-KR?
-- [PM_KR_NORMATIVE_MODEL.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/W3C/PM_KR_NORMATIVE_MODEL.md) — RFC 2119 compliant specification
-- [PM_KR_CONFORMANCE_PROFILES.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/W3C/PM_KR_CONFORMANCE_PROFILES.md) — Level A/B/C implementation requirements
-- [PM_KR_INTEROPERABILITY_GUIDE.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/W3C/PM_KR_INTEROPERABILITY_GUIDE.md) — RDF/OWL/JSON-LD bidirectional mapping
+- [PM_KR_NORMATIVE_MODEL.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/W3C/PM_KR_NORMATIVE_MODEL.md) — candidate model using normative requirement language
+- [PM_KR_CONFORMANCE_PROFILES.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/W3C/PM_KR_CONFORMANCE_PROFILES.md) — proposed Level A/B/C requirements
+- [PM_KR_INTEROPERABILITY_GUIDE.md](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/W3C/PM_KR_INTEROPERABILITY_GUIDE.md) — proposed RDF/OWL/JSON-LD mapping
 
 ### Video Presentations
 - [Knowledge3D — A Universe of Meaning (6 min)](https://www.youtube.com/watch?v=D1k_uCPBjLc): Overview
@@ -343,19 +219,19 @@ This grounding informs Track 5: Ethics and Safety for AI Agents and Robots.
 We publish everything.
 We build in the open."**
 
-- **No patents**: Apache 2.0 license for all contributions
+- **Contribution terms**: see [CONTRIBUTING.md](CONTRIBUTING.md) and this repository’s [license](LICENSE.md); implementation repositories have their own licenses.
 - **Public mailing lists**: Transparent decision-making
 - **Open collaboration**: Alternative implementations welcomed
 - **Cross-domain impact**: Work benefits accessibility, XR, knowledge graphs, AI, robotics, spatial data, performance, and trust: simultaneously
 
 ---
 
-## Repository Structure
+## Proposed repository structure
 
 ```
 pm-kr/
 ├── README.md                     # This file
-├── CONTRIBUTING.md               # Contribution guidelines (TBD)
+├── CONTRIBUTING.md               # Contribution guidelines
 ├── CODE_OF_CONDUCT.md            # W3C Code of Conduct
 ├── LICENSE                       # W3C Community Group License
 ├── specifications/               # Draft specifications (collaborative)

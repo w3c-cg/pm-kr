@@ -1,0 +1,37 @@
+name: Report editorial checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reports:
+    name: ReSpec (${{ matrix.profile }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        profile: [pm-kr-transition, pm-kr-stereo-adoption]
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - name: Check source policy and rendered document
+        id: editorial
+        uses: danielcamposramos/respec-mcp@59a3537786b940e596c872a08212c7de49806265 # repository 0.2.0
+        with:
+          profile: ${{ matrix.profile }}
+      - name: Preserve review evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: report-checks-${{ matrix.profile }}
+          path: ${{ steps.editorial.outputs.report }}
+          include-hidden-files: true
+          if-no-files-found: warn

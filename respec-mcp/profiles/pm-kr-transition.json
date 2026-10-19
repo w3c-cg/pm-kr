@@ -1,0 +1,31 @@
+{
+  "group_type": "cg",
+  "repo_metadata_source": "w3c.json",
+  "source_root": "reports/source",
+  "build_root": "reports/build",
+  "required_links": [
+    "https://www.w3.org/community/pm-kr/",
+    "https://github.com/w3c-cg/pm-kr"
+  ],
+  "forbidden_phrases": [],
+  "profile_id": "pm-kr-transition",
+  "label": "PM-KR transition discussion — existing CG draft",
+  "allowed_statuses": [
+    "CG-DRAFT"
+  ],
+  "default_status": "CG-DRAFT",
+  "default_source": "reports/source/pm-kr-standards-track-transition-report.html",
+  "required_sections": [
+    "Abstract",
+    "Status of This Document",
+    "Introduction",
+    "User-Facing Problem",
+    "Use Cases",
+    "Success Criteria",
+    "Socialization and Evidence Gaps",
+    "Accessibility Considerations",
+    "Internationalization Considerations",
+    "Privacy Considerations",
+    "Security Considerations"
+  ]
+}

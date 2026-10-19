@@ -1,11 +1,11 @@
 import assert from "node:assert/strict";
-import { mkdtemp, rm } from "node:fs/promises";
-import os from "node:os";
+import { mkdir, mkdtemp, rm } from "node:fs/promises";
 import path from "node:path";
-import { listProfiles, scaffoldSource } from "../../respec/tools/respecMcpCore.js";
+import { listProfiles, scaffoldSource } from "../../respec-mcp/src/core.js";
 
 const repoRoot = path.resolve(".");
-const tempRoot = await mkdtemp(path.join(os.tmpdir(), "pm-kr-profile-"));
+await mkdir(path.join(repoRoot, "reports/build"), { recursive: true });
+const tempRoot = await mkdtemp(path.join(repoRoot, "reports/build/profile-smoke-"));
 
 try {
   const listed = await listProfiles(repoRoot);
@@ -14,7 +14,6 @@ try {
 
   const scaffolded = await scaffoldSource(
     {
-      repo_root: repoRoot,
       profile: "pm-kr",
       status: "CG-FINAL",
       output: path.relative(repoRoot, path.join(tempRoot, "final.html")),
@@ -22,7 +21,7 @@ try {
         title: "PM-KR Final Smoke",
       },
     },
-    {}
+    { repoRoot }
   );
 
   assert.equal(scaffolded.status, "CG-FINAL");
