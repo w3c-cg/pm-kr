@@ -110,6 +110,18 @@ The framing remains usable with the current sampled systems; Daniel's preference
 This record contains no matched older-model baseline, however, so it cannot measure whether an advantage persisted, increased or decreased through model upgrades.
 Current applicability and longitudinal improvement are different claims.
 
+### Working technical interpretation
+
+Daniel describes the technique as evoking learned patterns of experienced, accountable collaboration through the prompt's meaning.
+At the general computational level, this is inference-time conditioning: changing the context changes internal activations and the conditional distribution of subsequent tokens, without retraining the model's weights.
+The role phrase bundles expectations about judgment, directness and responsibility; the accompanying instructions make some of those expectations explicit.
+[Anthropic's prompting guidance](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices#give-claude-a-role) likewise recommends roles to focus behavior and tone, and context to explain the purpose of instructions.
+That provider guidance supports using the technique, not a guarantee for these models or tasks.
+
+The specific hypothesis is that this framing favors relevant review behavior over conversational padding or agreement-seeking.
+This pilot did not measure agreement-seeking directly or inspect model activations, so it cannot identify particular internal features or a discrete “senior partner” region in representation space.
+The observable target is useful behavior and correct work, not the appearance of seniority.
+
 ## Reproduce and inspect
 
 Run the selected correctness checks with Python's standard library:
