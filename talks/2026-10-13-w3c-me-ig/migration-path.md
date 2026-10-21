@@ -5,6 +5,16 @@ It is also offered as input to the PM-KR Community Group; it is not a work item 
 
 ## Where we are
 
+### Follow-up: depth tracks, 21 October 2026
+
+**IANA registration, 20 October 2026:** [Matroska Track Plane Types](https://www.iana.org/assignments/matroska#matroska-track-plane-types) now assigns **3, 4 and 5** to the depth maps of the left-eye, right-eye and background planes, respectively, with Daniel Ramos as change controller and the [stereo-layer v1.9.0 specification](https://github.com/Sparky-OS/stereo-layer/blob/v1.9.0/docs/depth-marks.md) as reference.
+This gives separate picture and depth tracks shared identifiers through `TrackCombinePlanes`, so readers can preserve their relationship before rendering stereo views.
+The separate request for six packed-frame `StereoMode` values (proposed 15–20) remains under designated-expert review; those values are not assigned.
+
+This extends the input-side metadata vocabulary. Browser exposure and compositor delivery still need their own implementation and standards work.
+
+### Existing stereo marks
+
 The mark already exists, in the files people make today:
 - H.264 and H.265 carry the frame packing arrangement SEI (ITU-T H.264 and H.265, Annex D, Table D-8).
 - Matroska and WebM carry StereoMode, and the size of one view (RFC 9559: the StereoMode element, and section 18.10 for the view size).

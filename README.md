@@ -10,6 +10,8 @@
 
 ## Start with the discussion and evidence
 
+- [IANA depth-plane registration](https://github.com/Sparky-OS/stereo-layer/blob/main/docs/depth-marks.md#registrations), 20 October 2026: three Matroska identifiers assigned, with packed-frame modes still in review. An implementation-side milestone informing the stereo discussion.
+
 PM-KR investigates how reusable procedures, explicit meaning and provenance could let human interfaces and AI systems share knowledge. The group is incubating proposals; this README does not announce an adopted W3C standard.
 
 - [Reports and their status](reports/README.md): the standards-path discussion remains a CG draft; stereo/HDR adoption remains individual input for the group's consideration.
