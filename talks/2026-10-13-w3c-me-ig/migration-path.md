@@ -13,6 +13,14 @@ The separate request for six packed-frame `StereoMode` values (proposed 15–20)
 
 This extends the input-side metadata vocabulary. Browser exposure and compositor delivery still need their own implementation and standards work.
 
+### Depth photos already have an implementation path
+
+The edition's KImageFormats readers and [libstereo-dibr](https://github.com/Sparky-OS/stereo-layer#depth-to-stereo) already turn supported Apple portrait HEIF/JPEG, Google Dynamic Depth and GDepth files into full side-by-side views for the compositor.
+The picture, depth map and sample convention are read once; output presentation remains the compositor's responsibility.
+The [report's implementation section](../../reports/source/stereo-3d-adoption-report.html#depth-photo-implementation) names the formats, existing tests and limits.
+Other photo and web clients can integrate this shared path. Apple Photos and Google Photos integration is not claimed, and exported files must retain their depth data.
+This photo-reader path works independently of the new Matroska track-plane assignments.
+
 ### Existing stereo marks
 
 The mark already exists, in the files people make today:
