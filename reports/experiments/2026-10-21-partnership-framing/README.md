@@ -122,6 +122,20 @@ The specific hypothesis is that this framing favors relevant review behavior ove
 This pilot did not measure agreement-seeking directly or inspect model activations, so it cannot identify particular internal features or a discrete “senior partner” region in representation space.
 The observable target is useful behavior and correct work, not the appearance of seniority.
 
+## Related field evidence: MKVToolNix maintainer review
+
+An earlier contribution supplies a different kind of evidence: review by an experienced upstream maintainer working in his own codebase.
+On 20 September 2026, MKVToolNix maintainer Moritz Bunkus wrote of the disclosed AI-assisted AVC frame-packing contribution: [“Most of it is exactly the way I'd want it”](https://codeberg.org/mbunkus/mkvtoolnix/pulls/6311#issuecomment-23315779).
+The exchange includes [alignment feedback](https://codeberg.org/mbunkus/mkvtoolnix/pulls/6311#issuecomment-23317252), the [contributor's response](https://codeberg.org/mbunkus/mkvtoolnix/pulls/6311#issuecomment-23323531), and a [merge confirmation](https://codeberg.org/mbunkus/mkvtoolnix/pulls/6311#issuecomment-23409106) on 21 September.
+
+This is evidence that the human-directed, AI-assisted workflow can produce code fitting an experienced maintainer's expectations.
+It is stronger evidence of upstream usefulness than an assistant praising its own output.
+It was not unqualified approval: Bunkus also [rejected an additional proposed change on Matroska default-value semantics](https://codeberg.org/mbunkus/mkvtoolnix/pulls/6311#issuecomment-23408299).
+The record therefore supports successful collaboration through substantive review, not a claim that only cosmetic corrections were ever needed.
+
+The contribution combines Daniel's domain knowledge, direction, testing, AI-assisted implementation and upstream review.
+There is no ordinary-prompt control for that contribution, so it cannot attribute the outcome specifically to the partnership phrase or be counted as another controlled sample in the table above.
+
 ## Reproduce and inspect
 
 Run the selected correctness checks with Python's standard library:
