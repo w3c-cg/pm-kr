@@ -1,0 +1,16 @@
+{
+  "requested_model": "gpt-6-luna",
+  "requested_reasoning_effort": "medium",
+  "fork_turns": "none",
+  "agents": [
+    "/root/prompt_trial_a",
+    "/root/prompt_trial_b"
+  ],
+  "prompt_files": [
+    "prompt-a.txt",
+    "prompt-b.txt"
+  ],
+  "trailing_newline_removed_in_dispatch": true,
+  "dispatch_utc": "2026-10-21T10:05:45.312342+00:00",
+  "limitations": "Codex runtime instructions are present in both runs; no parent history or explicit project memory supplied. Not a pure base-model API test."
+}

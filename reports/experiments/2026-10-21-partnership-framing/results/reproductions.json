@@ -1,0 +1,54 @@
+{
+  "scope": "Controlled reproductions, not production code certification",
+  "delayed_right": [
+    {
+      "copy": false,
+      "header": 1,
+      "received_first_bytes": [
+        1,
+        66
+      ],
+      "matches_header": false
+    },
+    {
+      "copy": true,
+      "header": 1,
+      "received_first_bytes": [
+        1,
+        65
+      ],
+      "matches_header": true
+    }
+  ],
+  "dropped_capture": [
+    {
+      "copy": false,
+      "header": 1,
+      "received_first_bytes": [
+        2,
+        66
+      ],
+      "matches_header": false
+    },
+    {
+      "copy": true,
+      "header": 1,
+      "received_first_bytes": [
+        1,
+        65
+      ],
+      "matches_header": true
+    }
+  ],
+  "deepseek_first_a": {
+    "expected_frame": 1,
+    "actual_frame": 3,
+    "corruption_reproduced": true,
+    "note": "Releasing views after send cannot prevent this earlier overwrite."
+  },
+  "deepseek_first_b": {
+    "initialization_completed": false,
+    "timeout_seconds": 2,
+    "cause": "Two blocking puts into a one-slot free queue before consumers start."
+  }
+}

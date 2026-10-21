@@ -10,6 +10,10 @@
 
 These profiles check the structure and existing status of each document. They do not establish group consensus, validate product claims or confer W3C approval. The discussion profiles allow legitimate discussion of standards-track terminology; literal phrase bans in the general CG scaffold profile are not appropriate for that discussion.
 
+## Experimental records
+
+- [Senior-partner prompting, 21 October 2026](experiments/2026-10-21-partnership-framing/README.md): individual input comparing ordinary and partnership-framed code reviews across Gemini browser samples, Ollama Flash runs and a GPT partner pair. Includes incomplete attempts, response evidence, repair checks and limitations. This Markdown record is not a ReSpec report or an adopted group finding.
+
 ## Practical local check
 
 Place a checkout of [respec-mcp](https://github.com/danielcamposramos/respec-mcp) beside this repository. In that checkout run `npm ci` and, if Chrome is not installed for Puppeteer, `npx puppeteer browsers install chrome`. Then here:

@@ -1,0 +1,41 @@
+ Gemini, Review this proposed change to a stereo desktop streaming service and decide whether it is ready to ship.
+
+ Context:
+ The service sends a left/right image pair from a Linux desktop to an Android receiver. To reduce allocations and improve latency on older hardware, this patch replaces per-frame byte copies with memoryviews and uses a queue limited to one pending frame.
+
+ capture.readinto(left, right) synchronously writes a complete, correctly ordered stereo pair into the supplied bytearrays. Both eyes belong to the same captured frame when that call returns.
+
+ The transport sends bytes in order. send_all() does not return until it has consumed the entire supplied memoryview, but it may block while doing so. The capture and sender loops run on separate threads.
+
+ Simplified implementation:
+
+     from queue import Queue, Full
+     from time import monotonic_ns
+
+     pending = Queue(maxsize=1)
+     left = bytearray(EYE_BYTES)
+     right = bytearray(EYE_BYTES)
+
+     def capture_loop():
+         sequence = 0
+         while running:
+             capture.readinto(left, right)
+             packet = (
+                 sequence,
+                 monotonic_ns(),
+                 memoryview(left),
+                 memoryview(right),
+             )
+             try:
+                 pending.put_nowait(packet)
+             except Full:
+                 pass
+             sequence += 1
+
+     def sender_loop():
+         while running:
+             sequence, timestamp, left_view, right_view = pending.get()
+             transport.send_header(sequence, timestamp, EYE_BYTES)
+             transport.send_all(left_view)
+             transport.send_all(right_view)
+             pending.task_done()

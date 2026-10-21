@@ -1,0 +1,1 @@
+The shared bytearrays can change while a queued or in-flight packet still refers to them. I sent the parent the concrete failure scenarios, a buffer-pool correction, and a focused blocking-transport test.

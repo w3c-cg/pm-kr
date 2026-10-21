@@ -1,0 +1,14 @@
+{
+  "model": "deepseek-v4.1-flash",
+  "created_at": "2026-10-21T10:05:50.523031657Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 5074847960,
+  "prompt_eval_count": 484,
+  "eval_count": 1634,
+  "condition": "a",
+  "started_utc": "2026-10-21T10:05:45.357621+00:00",
+  "wall_seconds": 5.241,
+  "content_sha256": "79d376431899c9eac0233b8721bf003d72754959d1891f01fbb32dc5a9553570",
+  "content_characters": 7175
+}

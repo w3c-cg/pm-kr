@@ -13,6 +13,7 @@
 PM-KR investigates how reusable procedures, explicit meaning and provenance could let human interfaces and AI systems share knowledge. The group is incubating proposals; this README does not announce an adopted W3C standard.
 
 - [Reports and their status](reports/README.md): the standards-path discussion remains a CG draft; stereo/HDR adoption remains individual input for the group's consideration.
+- [Senior-partner prompting experiment](reports/experiments/2026-10-21-partnership-framing/README.md): an individual pilot with prompts, cross-provider samples and executable checks; all completed answers caught the defect, while repair quality varied.
 - [Public issues](https://github.com/w3c-cg/pm-kr/issues) and [mailing-list archive](https://lists.w3.org/Archives/Public/public-pm-kr/): discussion, questions and recorded decisions.
 - [Knowledge3D's public evidence and proposal index](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/W3C/README.md): one implementation and design corpus informing discussion, without constraining other approaches.
 

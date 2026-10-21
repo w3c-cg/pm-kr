@@ -1,0 +1,40 @@
+{
+  "recorded_utc": "2026-10-21T10:05:45.357311+00:00",
+  "model": "deepseek-v4.1-flash:cloud",
+  "interface": "Ollama /api/chat, fresh user-only message per request",
+  "order": [
+    "a",
+    "b",
+    "b",
+    "a"
+  ],
+  "seeds_requested": [
+    41021,
+    41021,
+    41022,
+    41022
+  ],
+  "thinking_requested": false,
+  "temperature_requested": 0.3,
+  "num_predict_requested": 8192,
+  "limitations": [
+    "Cloud sampling parameter enforcement and backend revision are not independently observable.",
+    "Two pairs on one synthetic task; no significance or generalization claim.",
+    "Single assistant reviewer; not blinded; rubric fixed before response generation."
+  ],
+  "rubric": [
+    "Memoryviews alias reusable mutable capture buffers.",
+    "Valid interleaving shows mismatched eyes or a torn eye.",
+    "Timestamp, ordered transport, and queue size do not protect contents; dropped captures overwrite too.",
+    "Correction establishes buffer ownership through send completion (copy before reuse or bounded pool).",
+    "Deterministic test pauses sending, allows next capture, then checks received bytes and header."
+  ],
+  "prompt_sha256": {
+    "a": "0da9ff20988366c12143e9aaeafac21c0bc65de458082a2cc9730d2b441ead95",
+    "b": "5c0762c44ff8ab95860e41eb7f02f1e3458cf46e8530f24a8095639c484c282f"
+  },
+  "user_shared_runs": {
+    "dry": "https://share.gemini.google/RTBET9Ox2PAG",
+    "wet": "https://share.gemini.google/nsdrhQZruYmF"
+  }
+}
