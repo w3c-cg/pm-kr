@@ -292,7 +292,7 @@
         These are public records from the report author's own contribution campaign, not an independent survey of acceptance rates.
       </p>
       <section id="upstream-cases">
-        <h3>Four cases from the implementation work</h3>
+        <h3>Five cases from the implementation work</h3>
         <table class="data">
           <thead>
             <tr><th scope="col">Project and record</th><th scope="col">What happened</th><th scope="col">Lesson for adoption</th></tr>
@@ -317,6 +317,11 @@
               <th scope="row">FFmpeg and <a href="https://ffmpeg.org/developer.html#Submitting-patches">Forgejo Fairy</a></th>
               <td>FFmpeg documents requesting an LLM review by adding Forgejo Fairy as a reviewer. In this campaign, <a href="https://code.ffmpeg.org/FFmpeg/FFmpeg/pulls/24628#issuecomment-68054">#24628</a> and <a href="https://code.ffmpeg.org/FFmpeg/FFmpeg/pulls/24643#issuecomment-68053">#24643</a> record revisions following Fairy's findings, including frame-packing lifetime and test coverage.</td>
               <td>AI can assist the receiving project's review as well as the contributor. The <a href="https://www.mail-archive.com/ffmpeg-devel@ffmpeg.org/msg188597.html">12 April announcement</a> distinguishes an automated approval from a merge authorized by a developer; the review history alone is not evidence of an upstream merge.</td>
+            </tr>
+            <tr>
+              <th scope="row"><a href="https://github.com/Multicorewareinc/x265/pull/999">x265 #999, merged 21 October 2026</a></th>
+              <td>Akilan Sivakumar removed an unnecessary <code>--b-adapt 0</code> restriction for <code>--field</code>, added regressions and clarified field-input documentation. Daniel reported the restriction during #986 review and supplied <a href="https://github.com/Multicorewareinc/x265/pull/999#issuecomment-6278374499">48 combined encodes and 24 byte-identical field-input comparisons</a>. kirithika7 merged the fix as <code>a62f37cff920789eb96ffb39e729176351d08cb3</code>.</td>
+              <td>Reporting and validating a problem can support a maintainer-authored fix. This is a collaborative contribution; the separate <a href="https://github.com/Multicorewareinc/x265/pull/986">#986 frame-packing proposal</a> remains open.</td>
             </tr>
           </tbody>
         </table>
