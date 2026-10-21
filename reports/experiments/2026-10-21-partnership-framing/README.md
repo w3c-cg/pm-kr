@@ -136,6 +136,21 @@ The record therefore supports successful collaboration through substantive revie
 The contribution combines Daniel's domain knowledge, direction, testing, AI-assisted implementation and upstream review.
 There is no ordinary-prompt control for that contribution, so it cannot attribute the outcome specifically to the partnership phrase or be counted as another controlled sample in the table above.
 
+## Related field evidence: DisplayXR architectural review
+
+David Fattal (`dfattal`) reviewed the proposed KDE integration and wrote: [“you've found the right seam”](https://github.com/DisplayXR/displayxr-runtime/discussions/1903#discussioncomment-18858193).
+His [published speaker biography](https://www.mwcbarcelona.com/agenda/speakers/17250-david-fattal) identifies him as Leia co-founder and CTO, with prior work at HP Labs in quantum computing and nanophotonics.
+That domain experience makes the technical substance of his feedback relevant; his title alone does not establish correctness.
+
+The agreement has a specific boundary: KWin can own placement, window geometry and unscaled delivery, while calibrated, viewer-dependent weaving remains in the vendor runtime.
+His response also proposed a future full-screen path from KWin's composed stereo pair to DisplayXR's vendor weaving.
+It is support for that division of responsibilities, not blanket approval of every stereo design choice.
+
+The exchange led to implementation evidence: [runtime PR #2019](https://github.com/DisplayXR/displayxr-runtime/pull/2019) consumes the compositor's painted device-pixel rectangle, and a [subsequent Samsung Odyssey 3D panel test](https://github.com/DisplayXR/displayxr-runtime/issues/1928#issuecomment-6160677040) reported agreement in 269/269 captures, versus 0/269 for the old coordinate conversion.
+The same panel review found a missing change notification after a drag; further corrected-panel validation remained outstanding in the reviewed record.
+This is useful external review of the human-directed stereo work, including both architectural support and fault discovery.
+Like the MKVToolNix case, it is field evidence for the broader workflow and is not a controlled test of a prompting phrase.
+
 ## Reproduce and inspect
 
 Run the selected correctness checks with Python's standard library:
