@@ -3,7 +3,7 @@
 
 # Spatial browsing: eight points for the discussion
 
-I co-chair the PM-KR Community Group with Milton Ponson, and I build Sparky Stereo OS, a Linux desktop where every program can show 3D on 3D TVs, monitors and headsets.
+I co-chair the PM-KR Community Group with Milton Ponson, and I build Sparky Stereo OS, a Linux desktop where every program can show 3D on current 2D and 3D devices and on headsets.
 These are the points I would raise in the session, with their sources, in case the time runs out.
 I welcome the work of the Open Metaverse Browser Initiative, and I agree that W3C should lead it.
 
@@ -49,15 +49,15 @@ An object that shows what it is and what it does, where it is, is a knowledge re
 
 ## 4. The same content on the screens people own
 
-Many people own 3D TVs and 3D monitors, not headsets.
+Most people own current 2D and 3D devices, not headsets.
 The proposal's outputs end at "2D display" or "HMD / smart glasses".
 On our desktop, a WebXR page already reaches a flat 3D screen with no headset, in an immersive session or in the new [`inline-stereo` mode](https://github.com/immersive-web/webxr/pull/1436) (WebXR, June 2026): [the browser proof](https://github.com/Sparky-OS/sparky-stereo-os/blob/main/docs/proofs/waterfox-stereo-m3.md).
-Which format carries a fabric to a WebXR page today, so a phone, a 3D TV and a headset all see it?
+Which format carries a fabric to a WebXR page today, so current 2D and 3D devices and headsets all see it?
 
 ## 5. Sibling surfaces are our desktop
 
 The deck's "Shared Compositor / Sibling Surfaces" option is what our desktop does on Linux.
-Each program hands the compositor both eyes, side by side, declared once, and the compositor turns that into each screen's format: HDMI 3D on a television, red and cyan glasses on any monitor, or a headset.
+Each program hands the compositor both eyes, side by side, declared once, and the compositor turns that into each screen's format: the HDMI 3D modes of a 3D display, red and cyan glasses on any 2D monitor, or a headset.
 A web engine and a spatial engine can share that, with no headset needed ([Sparky Stereo OS](https://github.com/Sparky-OS/sparky-stereo-os)).
 
 ## 6. Procedures, not pixels
