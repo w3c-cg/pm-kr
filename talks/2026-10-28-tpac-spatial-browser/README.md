@@ -60,17 +60,22 @@ The deck's "Shared Compositor / Sibling Surfaces" option is what our desktop doe
 Each program hands the compositor both eyes, side by side, declared once, and the compositor turns that into each screen's format: the HDMI 3D modes of a 3D display, red and cyan glasses on any 2D monitor, or a headset.
 A web engine and a spatial engine can share that, with no headset needed ([Sparky Stereo OS](https://github.com/Sparky-OS/sparky-stereo-os)).
 
-## 6. Procedures, not pixels
+## 6. Procedures first, the image last
 
 I coded web pages by hand on a 56k modem, when JavaScript 1.0 was new.
 Every image counted, so I built shapes from squares of stretched one-pixel images, with real images only for the rounded borders, and W3C's [SVG](https://www.w3.org/TR/2001/REC-SVG-20010904/) came in 2001 for the same reason.
 Spatial worlds are at that point again.
-I call this [Dynamic Procedural Foveated Rendering (DPFR)](https://github.com/Sparky-OS/sparky-stereo-os/blob/main/docs/dynamic-procedural-foveated-rendering.md): surface detail stored as procedures and evaluated every frame at the detail each part of each eye needs, adapting to gaze, device and GPU load.
-A procedural texture has no fixed resolution, so each device computes the detail its own eyes need: the fovea gets every octave and the periphery fewer, and nothing pops in when the gaze moves.
+I call this [Dynamic Procedural Foveated Rendering (DPFR)](https://github.com/Sparky-OS/sparky-stereo-os/blob/main/docs/dynamic-procedural-foveated-rendering.md): procedures first, with a high-resolution texture as the last layer loading while the procedural layers already render.
+The procedural layers are evaluated every frame at the detail each part of each eye needs, adapting to gaze, device and GPU load.
+The image blends in when it arrives, replacing the procedural approximation without a jump.
+Its tiles can load where the person looks first, a design to explore rather than a measured result.
+Theoretically, one high-resolution texture per surface plus a small procedure covering every coarser level replaces the lower-resolution copies and per-device versions assets carry today; the savings still need measuring.
+A procedural texture has no fixed resolution, so each device computes the detail its own eyes need: the fovea gets every octave the sampling rate can resolve and the periphery fewer, with smooth changes required as the gaze moves.
 The demoscene proved the size long ago: .kkrieger, a whole first-person shooter with its textures, models and music, fits in 96 kilobytes (Breakpoint 2004), and Farbrausch opened its tools in 2012 ([fr_public](https://github.com/farbrausch/fr_public)).
 glTF has a draft for procedural textures, [`KHR_texture_procedurals`](https://github.com/KhronosGroup/glTF/pull/2381).
 It is part of the answer to foveation, world size and streaming, not all of it: textures come first and procedural geometry can follow, while eye tracking and lighting remain separate problems.
-The name combines established techniques; it does not claim to invent procedural textures or foveated rendering.
+The name combines established techniques: procedural textures with frequency limits, foveated rendering and texture streaming.
+It claims to invent none of them and remains a proposal, not an implemented or measured DPFR path.
 
 ## 7. Add the Web3D Consortium to the organizations
 

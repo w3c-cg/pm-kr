@@ -46,15 +46,20 @@ Our [early X3D drafts](https://github.com/danielcamposramos/Knowledge3D/tree/mai
 They are labelled as an early non-fruitful attempt and individual input.
 I would value Web3D's review of that direction.
 
-## 6. Assets as procedures
+## 6. Procedures first, the image last
 
 On my 56k modem every image counted, so I built shapes from stretched one-pixel images, with real images only for the rounded borders.
-I see a similar opportunity for worlds to ship textures as procedures, letting current 2D and 3D devices and headsets compute the detail they need.
-I call this [Dynamic Procedural Foveated Rendering (DPFR)](https://github.com/Sparky-OS/sparky-stereo-os/blob/main/docs/dynamic-procedural-foveated-rendering.md): surface detail stored as procedures and evaluated every frame at the detail each part of each eye needs, adapting to gaze, device and GPU load.
+I see a similar opportunity for worlds to ship their procedural layers first, letting current 2D and 3D devices and headsets compute the detail they need while the image loads.
+I call this [Dynamic Procedural Foveated Rendering (DPFR)](https://github.com/Sparky-OS/sparky-stereo-os/blob/main/docs/dynamic-procedural-foveated-rendering.md): procedures first, with a high-resolution texture as the last layer loading while the procedural layers already render.
+The procedural layers are evaluated every frame at the detail each part of each eye needs, adapting to gaze, device and GPU load.
+The image blends in when it arrives, replacing the procedural approximation without a jump.
+Its tiles can load where the person looks first, a design to explore rather than a measured result.
+Theoretically, one high-resolution texture per surface plus a small procedure covering every coarser level replaces the lower-resolution copies and per-device versions assets carry today; the savings still need measuring.
 The demoscene showed the scale: .kkrieger fitted a whole game in 96 kilobytes, and [Farbrausch's tools](https://github.com/farbrausch/fr_public) have been open source since 2012.
 Could the glTF draft for [KHR_texture_procedurals](https://github.com/KhronosGroup/glTF/pull/2381) be part of your asset pillar?
 I see this as part of the answer to size, streaming and foveation; textures come first and procedural geometry can follow, while eye tracking and lighting remain separate problems.
-The name combines established techniques; it does not claim to invent procedural textures or foveated rendering.
+The name combines established techniques: procedural textures with frequency limits, foveated rendering and texture streaming.
+It claims to invent none of them and remains a proposal, not an implemented or measured DPFR path.
 
 ---
 
