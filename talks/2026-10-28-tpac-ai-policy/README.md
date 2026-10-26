@@ -1,7 +1,7 @@
 <!-- Input to the PM-KR Community Group from an individual participant. Not a work item or output of the group. -->
 > **Status:** input from an individual participant, Daniel Campos Ramos, to the TPAC 2026 breakout [#77, "Towards an AI policy for W3C"](https://github.com/w3c/tpac2026-breakouts/issues/77), 28 October 2026. It is also offered as input to the PM-KR Community Group; it is not a work item or output of either. Licence: CC BY 4.0.
 
-# An AI policy for W3C: thirteen points for the discussion
+# An AI policy for W3C: fourteen points for the discussion
 
 I co-chair the PM-KR Community Group with Milton Ponson, and I build Sparky Stereo OS with AI partners whose work I direct and check.
 I think in Portuguese and prepare English with AI help; the ideas and the checking are mine.
@@ -120,6 +120,13 @@ The [draft](https://www.w3.org/2026/10/draft-ai-policy.html) allows action on co
 I worry that an appearance-based judgement can become a judgement on writing style, especially for people preparing English with language help.
 When content is dismissed, could the contributor be told which requirement it failed and given at least one chance to fix it?
 That would make the rule easier to understand and follow.
+
+## 14. Drafting in the open
+
+W3C is writing its AI policy in the open, with a public draft and a session for feedback, and that matters.
+Other communities have found this hard: in KDE, the first draft of an LLM policy "got rather heated" and "was locked and made confidential", and the next one is being prepared privately first ([plasma-devel, 27 September 2026](https://mail.kde.org/pipermail/plasma-devel/2026-September/124152.html)).
+In that discussion, David Edmundson wrote: "We can't solve that by excluding them from a conversation" ([plasma-devel](https://mail.kde.org/pipermail/plasma-devel/2026-September/124156.html)).
+An open draft like this one lets the people affected help shape it.
 
 ---
 
