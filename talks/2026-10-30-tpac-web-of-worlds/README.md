@@ -50,9 +50,11 @@ I would value Web3D's review of that direction.
 
 On my 56k modem every image counted, so I built shapes from stretched one-pixel images, with real images only for the rounded borders.
 I see a similar opportunity for worlds to ship textures as procedures, letting current 2D and 3D devices and headsets compute the detail they need.
+I call this [Dynamic Procedural Foveated Rendering (DPFR)](https://github.com/Sparky-OS/sparky-stereo-os/blob/main/docs/dynamic-procedural-foveated-rendering.md): surface detail stored as procedures and evaluated every frame at the detail each part of each eye needs, adapting to gaze, device and GPU load.
 The demoscene showed the scale: .kkrieger fitted a whole game in 96 kilobytes, and [Farbrausch's tools](https://github.com/farbrausch/fr_public) have been open source since 2012.
 Could the glTF draft for [KHR_texture_procedurals](https://github.com/KhronosGroup/glTF/pull/2381) be part of your asset pillar?
-I see this as part of the answer to size, streaming and foveation; eye tracking, geometry and lighting remain separate problems.
+I see this as part of the answer to size, streaming and foveation; textures come first and procedural geometry can follow, while eye tracking and lighting remain separate problems.
+The name combines established techniques; it does not claim to invent procedural textures or foveated rendering.
 
 ---
 
