@@ -41,6 +41,7 @@ Stereo informs that discussion.
 
 - **Video:** H.264 and H.265 frame packing SEI describe how views are packed. Type 3 is side by side; type 4 is top and bottom. [H.264 (2012), D.2.25, Table D-8](https://www.itu.int/rec/T-REC-H.264-201201-S/en) · [H.265 (2021), D.3.16, Table D.8](https://www.itu.int/rec/T-REC-H.265-202108-S/en)
 - **Files:** Matroska `StereoMode` identifies packing and eye order. [RFC 9559, §5.1.4.1.28.3, Table 5; §18.10](https://www.rfc-editor.org/rfc/rfc9559.html#section-5.1.4.1.28.3)
+- **Update, 26 October 2026:** [IANA assigned StereoMode 15 through 20](https://www.iana.org/assignments/matroska#matroska-stereo-modes) for packed picture-and-depth layouts, following [Track Plane Types 3 through 5](https://www.iana.org/assignments/matroska#matroska-track-plane-types) on 20 October for separate depth tracks. Registry allocation does not establish decoder or browser support.
 - **Display links:** HDMI 1.4a specifies 3D formats, including broadcast formats and top and bottom. [HDMI Licensing announcement](https://www.hdmi.org/announce/detail/84)
 - **Web vocabulary:** WebXR Layers defines `stereo-left-right` and `stereo-top-bottom` for immersive sessions. [Layers §2 and §3.2](https://www.w3.org/TR/webxrlayers-1/#xrlayerlayouttype)
 

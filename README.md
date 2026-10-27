@@ -10,7 +10,7 @@
 
 ## Start with the discussion and evidence
 
-- [IANA depth-plane registration](https://github.com/Sparky-OS/stereo-layer/blob/main/docs/depth-marks.md#registrations), 20 October 2026: three Matroska identifiers assigned, with packed-frame modes still in review. An implementation-side milestone informing the stereo discussion.
+- [IANA Matroska registrations](https://www.iana.org/assignments/matroska), 20 and 26 October 2026: Track Plane Types 3 through 5 and StereoMode 15 through 20 assigned for separate depth tracks and packed picture-and-depth layouts, respectively. The [format specification](https://github.com/Sparky-OS/stereo-layer/blob/main/docs/depth-marks.md#registrations) records the details; assignment is separate from implementation support or W3C adoption.
 
 PM-KR investigates how reusable procedures, explicit meaning and provenance could let human interfaces and AI systems share knowledge. The group is incubating proposals; this README does not announce an adopted W3C standard.
 

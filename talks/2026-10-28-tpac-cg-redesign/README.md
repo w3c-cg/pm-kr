@@ -27,7 +27,7 @@ What status signals would a knowledge-model specification show?
 ## 3. Evidence outside the browser
 
 I see browser examples such as intent to prototype and origin trial in the [progress-bar criteria](https://github.com/w3c/cg-program/blob/main/proposals/spec-lifecycle.md).
-Some of the implementation experience I bring comes from a desktop compositor and media players, alongside the [IANA Matroska depth-plane registrations](https://www.iana.org/assignments/matroska#matroska-track-plane-types).
+Some of the implementation experience I bring comes from a desktop compositor and media players, alongside the [IANA Matroska registrations](https://www.iana.org/assignments/matroska): Track Plane Types 3 through 5 assigned on 20 October 2026 and StereoMode 15 through 20 on 26 October for separate depth tracks and packed picture-and-depth layouts, respectively.
 Will the display have a way to show those kinds of evidence with their different meanings?
 A registry assignment records a type; it does not itself prove an implementation or adoption.
 

@@ -292,10 +292,10 @@
         These are public records from the report author's own contribution campaign, not an independent survey of acceptance rates.
       </p>
       <section id="iana-depth-plane-registration">
-        <h3>Registered depth-plane identifiers, 20 October 2026</h3>
+        <h3>Registered depth-plane and packed-layout identifiers, 20 and 26 October 2026</h3>
         <p>The <a href="https://www.iana.org/assignments/matroska#matroska-track-plane-types">IANA Matroska Track Plane Types registry</a> now assigns 3, 4 and 5 to depth maps of the left-eye, right-eye and background planes, respectively. Daniel Ramos is the change controller; the reference is the <a href="https://github.com/Sparky-OS/stereo-layer/blob/v1.9.0/docs/depth-marks.md">stereo-layer v1.9.0 specification</a>.</p>
         <p>These identifiers let separate picture and depth tracks describe their relationship through <code>TrackCombinePlanes</code>, using <a href="https://www.rfc-editor.org/rfc/rfc9559#section-18.8">RFC 9559 section 18.8</a>. Readers can then preserve that relationship for depth-based stereo rendering. Registration alone does not establish implementation support throughout the media pipeline.</p>
-        <p>This is a First Come First Served registry assignment, distinct from a software merge or adoption of a W3C proposal. The separate request for six packed-frame <code>StereoMode</code> values, proposed 15–20, remains under designated-expert review; those numbers are not assigned. Registry status checked on 21 October 2026.</p>
+        <p>The plane types use the First Come First Served procedure. On 26 October 2026, IANA also assigned <a href="https://www.iana.org/assignments/matroska#matroska-stereo-modes">StereoMode 15 through 20</a> for packed picture-and-depth layouts, following designated-expert review under the Specification Required procedure. These cover side-by-side and top-and-bottom picture/depth in either order, four rows with graphics and graphics depth, and four quarters with background and background depth. Daniel Ramos is the change controller and the reference is the same immutable stereo-layer v1.9.0 specification. Both assignments are distinct from a software merge or adoption of a W3C proposal. Registry status checked on 26 October 2026.</p>
       </section>
       <section id="depth-photo-implementation">
         <h3>A working path for Apple and Google depth photos</h3>

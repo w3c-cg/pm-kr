@@ -9,7 +9,10 @@ It is also offered as input to the PM-KR Community Group; it is not a work item 
 
 **IANA registration, 20 October 2026:** [Matroska Track Plane Types](https://www.iana.org/assignments/matroska#matroska-track-plane-types) now assigns **3, 4 and 5** to the depth maps of the left-eye, right-eye and background planes, respectively, with Daniel Ramos as change controller and the [stereo-layer v1.9.0 specification](https://github.com/Sparky-OS/stereo-layer/blob/v1.9.0/docs/depth-marks.md) as reference.
 This gives separate picture and depth tracks shared identifiers through `TrackCombinePlanes`, so readers can preserve their relationship before rendering stereo views.
-The separate request for six packed-frame `StereoMode` values (proposed 15–20) remains under designated-expert review; those values are not assigned.
+**IANA registration, 26 October 2026:** [Matroska Stereo Modes](https://www.iana.org/assignments/matroska#matroska-stereo-modes) now assigns **15 through 20** to packed picture-and-depth layouts, following designated-expert review under the Specification Required procedure.
+The six values cover picture and depth side by side or top and bottom in either order, four rows with graphics and graphics depth, and four quarters with background and background depth.
+Daniel Ramos is the change controller, and the registry cites the same immutable stereo-layer v1.9.0 specification.
+Assignment identifies the layouts; support in a muxer, decoder or player must be checked separately.
 
 This extends the input-side metadata vocabulary. Browser exposure and compositor delivery still need their own implementation and standards work.
 
