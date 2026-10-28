@@ -1,7 +1,7 @@
 <!-- Input to the PM-KR Community Group from an individual participant. Not a work item or output of the group. -->
 > **Status:** input from an individual participant, Daniel Campos Ramos, to the TPAC 2026 breakout [#77, "Towards an AI policy for W3C"](https://github.com/w3c/tpac2026-breakouts/issues/77), 28 October 2026. It is also offered as input to the PM-KR Community Group; it is not a work item or output of either. Licence: CC BY 4.0.
 
-# An AI policy for W3C: fourteen points for the discussion
+# An AI policy for W3C: sixteen points for the discussion
 
 I co-chair the PM-KR Community Group with Milton Ponson, and I build Sparky Stereo OS with AI partners whose work I direct and check.
 I think in Portuguese and prepare English with AI help; the ideas and the checking are mine.
@@ -127,6 +127,18 @@ W3C is writing its AI policy in the open, with a public draft and a session for 
 Other communities have found this hard: in KDE, the first draft of an LLM policy "got rather heated" and "was locked and made confidential", and the next one is being prepared privately first ([plasma-devel, 27 September 2026](https://mail.kde.org/pipermail/plasma-devel/2026-September/124152.html)).
 In that discussion, David Edmundson wrote: "We can't solve that by excluding them from a conversation" ([plasma-devel](https://mail.kde.org/pipermail/plasma-devel/2026-September/124156.html)).
 An open draft like this one lets the people affected help shape it.
+
+## 15. A finished case: a registry entry written with AI partners
+
+This month IANA registered nine Matroska values I requested, for a stereo picture with its depth ([IANA Matroska registry](https://www.iana.org/assignments/matroska)).
+Track Plane Types 3 to 5 were assigned on 20 October, first come, first served; Stereo Modes 15 to 20 were assigned on 26 October under "Specification Required", after review by the registry's designated experts, who are two of the authors of the Matroska standard, RFC 9559.
+The specification the registry cites was written with AI partners, and its history labels that commit by commit ([depth-marks.md history](https://github.com/Sparky-OS/stereo-layer/commits/main/docs/depth-marks.md)); I am the change controller who answers for the values.
+That is what the Advisory Board's Note recommends: a responsible person, labelled output, checked content ([Use of Large Language Models in Standards Work](https://www.w3.org/TR/llms-standards/), 24 March 2026).
+
+## 16. A role in a prompt is a technique, not a status
+
+When I write "act as a partner" in a prompt, it is a technique, not a claim about what the AI is: it sets the role and the standard of the work, as a brief does for a consultant.
+The responsibility stays mine: I review, decide and answer for every contribution, and point 15 is a result of that method.
 
 ---
 
