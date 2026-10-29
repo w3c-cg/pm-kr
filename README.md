@@ -233,21 +233,35 @@ We build in the open."**
 
 ---
 
-## Proposed repository structure
+<a id="proposed-repository-structure"></a>
+
+## Repository map
 
 ```
 pm-kr/
-├── README.md                     # This file
-├── CONTRIBUTING.md               # Contribution guidelines
-├── CODE_OF_CONDUCT.md            # W3C Code of Conduct
-├── LICENSE                       # W3C Community Group License
-├── specifications/               # Draft specifications (collaborative)
-├── use-cases/                    # Use case documentation
-├── interoperability/             # Interop studies and mappings
-└── tests/                        # Test suites and validation
+├── README.md                    # This page
+├── CONTRIBUTING.md              # How work happens here, under the W3C CLA
+├── CODE_OF_CONDUCT.md           # The W3C Code of Conduct
+├── LICENSE.md                   # W3C Software and Document License
+├── w3c.json                     # W3C repository metadata (group, contact, repository type)
+├── package.json                 # Commands for the report checks
+├── respec-mcp.config.json       # respec-mcp settings: default profile, report source and build folders
+├── respec-mcp/
+│   ├── profiles/                # One check profile per report
+│   └── templates/               # Community Group draft and final report templates
+├── reports/
+│   ├── README.md                # Reports, their status and the check commands
+│   ├── source/                  # ReSpec sources of the reports
+│   └── experiments/             # Individual pilots with their prompts and checks
+├── talks/                       # Dated inputs from individual participants
+├── skills/
+│   └── notebooklm/              # Using the PM-KR notebook in Gemini Notebook (NotebookLM)
+├── scripts/                     # Report and profile check scripts
+└── .github/workflows/           # respec-mcp checks on every push and pull request
 ```
 
-This structure will evolve as the group develops specifications collaboratively.
+Rendered reports are written to `reports/build/` by the checks and are not kept in the repository.
+Planned as the group develops specifications: `specifications/`, `use-cases/`, `interoperability/` and `tests/`.
 Technical documentation currently lives in [Knowledge3D](https://github.com/danielcamposramos/Knowledge3D) as the reference implementation.
 
 ---
