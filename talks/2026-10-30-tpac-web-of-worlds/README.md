@@ -1,7 +1,9 @@
 <!-- Input to the PM-KR Community Group from an individual participant. Not a work item or output of the group. -->
 > **Status:** input from an individual participant, Daniel Campos Ramos, to the TPAC 2026 breakout [#35, "Unleashing a Spatial Web: Mapping W3C Standards to Support a Web of Worlds"](https://github.com/w3c/tpac2026-breakouts/issues/35), 30 October 2026. It is also offered as input to the PM-KR Community Group; it is not a work item or output of either. Licence: CC BY 4.0.
 
-# A Web of Worlds: six points for the knowledge layer
+<a id="a-web-of-worlds-six-points-for-the-knowledge-layer"></a>
+
+# A Web of Worlds: seven points for the knowledge layer
 
 I co-chair the PM-KR Community Group with Milton Ponson, and I designed Knowledge3D as a space where people and AI share knowledge.
 I also build Sparky Stereo OS, the desktop foundation for presenting it on current 2D and 3D devices.
@@ -60,6 +62,18 @@ Could the glTF draft for [KHR_texture_procedurals](https://github.com/KhronosGro
 I see this as part of the answer to size, streaming and foveation; textures come first and procedural geometry can follow, while eye tracking and lighting remain separate problems.
 The name combines established techniques: procedural textures with frequency limits, foveated rendering and texture streaming.
 It claims to invent none of them and remains a proposal, not an implemented or measured DPFR path.
+
+## 7. Finding, moving and receiving a world
+
+I call this proposal [Spatial Roaming Network (SRN)](https://github.com/Sparky-OS/sparky-stereo-os/blob/main/docs/spatial-roaming-network.md), named on 28 October 2026: a cellular model for finding places, moving between them and receiving their content near the visitor.
+Real cells describe physical places; virtual cells describe logical places inside worlds, including a game hub or square with no location on Earth.
+Inside a virtual world, "irradiators" would act like phone towers, announcing the services, content, people and doors within their range.
+Handover would aim to keep services available as a visitor moves from cell to cell, and roaming would let them enter networks run by independent publishers.
+A person in Brazil visiting another spatial network could receive its content from a nearby server, as content delivery networks (CDNs) do.
+Theoretically, that could reduce loading delay; it still needs measuring.
+The linked proposal credits spatial discovery, federated maps, proximity sensors, game interest management, Bluetooth beacons, cellular mobility, CDNs and Hypergrid's travel between virtual grids.
+It proposes combining those techniques in one protocol for real and virtual cells, with handover, roaming and edge delivery; it is not an implemented or measured SRN path.
+Could this give your linking and discovery work a common way to describe entering and leaving independently published worlds on current 2D and 3D devices as well as headsets?
 
 ---
 
