@@ -16,6 +16,10 @@ PM-KR investigates how reusable procedures, explicit meaning and provenance coul
 
 - [Reports and their status](reports/README.md): the standards-path discussion remains a CG draft; stereo/HDR adoption remains individual input for the group's consideration.
 - [Senior-partner prompting experiment](reports/experiments/2026-10-21-partnership-framing/README.md): an individual pilot with prompts, cross-provider samples and executable checks; all completed answers caught the defect, while repair quality varied.
+- [PM-KR notebook in NotebookLM](https://notebook.google.com/notebook/98ffd298-1314-477f-b1e1-8d29da4f3848): a starting point for understanding the concepts and moving between the connected pieces of PM-KR, around its central idea, from form to meaning.
+  Its generated overviews, slides and maps may contain small AI imprecisions; those found so far were minor, and a dated note of corrections is among its sources.
+  Read them with knowledge of the subject and check them against the primary sources linked here.
+  The notebook is maintained by Daniel Campos Ramos and is not an output of the group.
 - [Public issues](https://github.com/w3c-cg/pm-kr/issues) and [mailing-list archive](https://lists.w3.org/Archives/Public/public-pm-kr/): discussion, questions and recorded decisions.
 - [Knowledge3D's public evidence and proposal index](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/W3C/README.md): one implementation and design corpus informing discussion, without constraining other approaches.
 
@@ -194,8 +198,8 @@ The schedule below records the initial plan, not completed milestones. Use the p
 - [Multi-Language Playlist (12 languages)](https://www.youtube.com/playlist?list=PLmWTHH0cS_OgQ7h_xRMhZ6UqE5mRYAhD7)
 
 ### Deep Dive Resources
-- [PM-KR NotebookLM Research Space](https://notebooklm.google.com/notebook/98ffd298-1314-477f-b1e1-8d29da4f3848) — Explore PM-KR technology and architecture
-- [K3D Theory Research Space](https://notebooklm.google.com/notebook/1bd10bda-8900-4c41-931e-c9ec67ac865f) — Deep dive into the reference implementation
+- [PM-KR NotebookLM Research Space](https://notebook.google.com/notebook/98ffd298-1314-477f-b1e1-8d29da4f3848): explore PM-KR technology and architecture, with the caution given under [Start with the discussion and evidence](#start-with-the-discussion-and-evidence)
+- [K3D Theory Research Space](https://notebook.google.com/notebook/1bd10bda-8900-4c41-931e-c9ec67ac865f) — Deep dive into the reference implementation
 
 ---
 
