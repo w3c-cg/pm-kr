@@ -111,6 +111,12 @@ StereoMode 17 and 19 are the picture-plus-depth layouts HDMI 1.4a defined in 201
 
 The values to keep are already written in the [Ethical Web Principles](https://www.w3.org/TR/ethical-web-principles/), a W3C Statement since December 2024.
 
+## After the session
+
+The [minutes](https://www.w3.org/2026/10/30-spatial-web-msf-minutes.html) record the Task Force proposal and the room's next step: a two-day workshop co-organised by W3C, the Metaverse Standards Forum and Khronos, starting with a program committee on its scope.
+The map above is ready as input for that scope.
+My report on the whole week: [TPAC 2026: seven breakouts, one thread](../2026-10-30-tpac-2026-report/README.md).
+
 ---
 
 Daniel Campos Ramos · [PM-KR Community Group](https://www.w3.org/community/pm-kr/) · [Knowledge3D](https://github.com/danielcamposramos/Knowledge3D) · [Sparky Stereo OS](https://github.com/Sparky-OS/sparky-stereo-os)
