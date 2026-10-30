@@ -37,6 +37,7 @@ The [minutes](https://www.w3.org/2026/10/30-spatial-web-msf-minutes.html) record
 The workshop would explore use cases, principles, design trade-offs, the focus of a Community Group charter, and the relationships with groups inside and outside W3C.
 [Point 8 of my input](../2026-10-30-tpac-web-of-worlds/README.md#8-where-the-work-belongs-a-web-of-worlds-task-force) maps where each area could start, the W3C groups that work on it and the bodies outside W3C.
 It is ready as input for that scope.
+The session's follow-up to the Web of Worlds group of the Metaverse Standards Forum listed that input as an "in-depth analysis", beside the session's slides and minutes.
 
 ## One step already taken
 

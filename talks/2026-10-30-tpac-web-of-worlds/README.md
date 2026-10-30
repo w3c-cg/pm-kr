@@ -115,6 +115,7 @@ The values to keep are already written in the [Ethical Web Principles](https://w
 
 The [minutes](https://www.w3.org/2026/10/30-spatial-web-msf-minutes.html) record the Task Force proposal and the room's next step: a two-day workshop co-organised by W3C, the Metaverse Standards Forum and Khronos, starting with a program committee on its scope.
 The map above is ready as input for that scope.
+The session's follow-up to the Web of Worlds group of the Metaverse Standards Forum listed this input as an "in-depth analysis", beside the session's slides and minutes.
 My report on the whole week: [TPAC 2026: seven breakouts, one thread](../2026-10-30-tpac-2026-report/README.md).
 
 ---
