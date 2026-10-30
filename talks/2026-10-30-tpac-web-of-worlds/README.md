@@ -2,8 +2,9 @@
 > **Status:** input from an individual participant, Daniel Campos Ramos, to the TPAC 2026 breakout [#35, "Unleashing a Spatial Web: Mapping W3C Standards to Support a Web of Worlds"](https://github.com/w3c/tpac2026-breakouts/issues/35), 30 October 2026. It is also offered as input to the PM-KR Community Group; it is not a work item or output of either. Licence: CC BY 4.0.
 
 <a id="a-web-of-worlds-six-points-for-the-knowledge-layer"></a>
+<a id="a-web-of-worlds-seven-points-for-the-knowledge-layer"></a>
 
-# A Web of Worlds: seven points for the knowledge layer
+# A Web of Worlds: eight points for the knowledge layer
 
 I co-chair the PM-KR Community Group with Milton Ponson, and I designed Knowledge3D as a space where people and AI share knowledge.
 I also build Sparky Stereo OS, the desktop foundation for presenting it on current 2D and 3D devices.
@@ -74,6 +75,41 @@ Theoretically, that could reduce loading delay; it still needs measuring.
 The linked proposal credits spatial discovery, federated maps, proximity sensors, game interest management, Bluetooth beacons, cellular mobility, CDNs and Hypergrid's travel between virtual grids.
 It proposes combining those techniques in one protocol for real and virtual cells, with handover, roaming and edge delivery; it is not an implemented or measured SRN path.
 Could this give your linking and discovery work a common way to describe entering and leaving independently published worlds on current 2D and 3D devices as well as headsets?
+
+## 8. Where the work belongs: a Web of Worlds Task Force
+
+The session asks where the work belongs, and my answer is: everywhere a world runs, inside the browser and outside it.
+So I propose a joint Web of Worlds Task Force, hosted by the Community Groups that hold the pieces, with liaisons to the Working Groups and to the bodies outside W3C.
+It would map each gap to the group where it belongs, build a working prototype and a test for it, and hand it over when that group takes it.
+
+The form already exists at W3C.
+The [Process Document](https://www.w3.org/policies/process/) (section 3.4.1) lets a Chair "form task forces (composed of group participants) to carry out assignments for the group", within the group's charter.
+[COGA](https://www.w3.org/WAI/about/groups/task-forces/coga) is one task force serving two Working Groups.
+The Credentials Community Group's [VC-EDU Task Force](https://lists.w3.org/Archives/Public/public-vc-edu/2021Sep/0000.html) ran plugfests with implementers.
+Spatial data has been joint work of W3C and OGC since the [2015 charter](https://www.w3.org/2015/spatial/charter), today in the [Spatio-temporal Data on the Web Working Group](https://www.w3.org/groups/wg/sdw).
+And this session is itself organised jointly by W3C and the Metaverse Standards Forum.
+
+| Area | Where I would start it | W3C groups with it | Bodies outside W3C |
+|---|---|---|---|
+| Linking, addressing and locating | Immersive Web CG | Immersive Web WG; Spatio-temporal Data on the Web WG; Maps for HTML CG | OGC (GeoPose); IETF and IANA |
+| Composition and semantics | PM-KR CG (the knowledge layer) | JSON-LD WG; RDF & SPARQL WG; Immersive Web CG (`<model>` nodes) | Web3D Consortium (X3D, HAnim) and ISO/IEC JTC 1/SC 24; IEEE's Spatial Web work (P2874) |
+| Presenting worlds on the screens people own | Immersive Web WG (inline-stereo) | CSS WG; Media WG; Accessible Platform Architectures WG | HDMI Forum; VESA (DisplayPort); CTA (CTA-861); Wi-Fi Alliance (Miracast); Khronos (OpenXR) |
+| Portable identity, user data and preferences | Credentials CG | Verifiable Credentials WG; Decentralized Identifier WG; Federated Identity WG; Privacy WG | Metaverse Standards Forum (User Manifest) |
+| Assets, size and procedural layers | GPU for the Web WG | Immersive Web WG | Khronos 3D Formats WG (glTF); Web3D Consortium |
+| Finding and moving between worlds | Web of Things WG (WoT Discovery) | Spatio-temporal Data on the Web WG; WebTransport WG | IETF; 3GPP; Bluetooth SIG; OGC |
+| Sound in shared spaces | Web Real-Time Communications WG | Media WG; Audio WG | Bluetooth SIG (Auracast) |
+| Media that carries stereo and depth | Media WG | Media and Entertainment IG; Timed Text WG | IETF CELLAR and IANA; ISO/IEC JTC 1/SC 29 (MPEG); ITU-T SG16; AOMedia |
+| Testing against use cases | the task force itself | Browser Testing and Tools WG | Web Platform Tests |
+
+Some of those specifications are not public, the HDMI one among them.
+Experts whose companies are members can carry a question there where an individual cannot.
+
+Each of us can act before any group exists.
+Aaron Swartz was a member of the [RDF Core Working Group](https://www.w3.org/2001/sw/RDFCore/members) and wrote [RFC 3870](https://www.rfc-editor.org/rfc/rfc3870) in 2004, the IANA registration of `application/rdf+xml`; from then on the web could name RDF.
+In October 2026, IANA registered [Matroska's depth planes and StereoMode 15 to 20](https://www.iana.org/assignments/matroska) at my request.
+StereoMode 17 and 19 are the picture-plus-depth layouts HDMI 1.4a defined in 2010: a cable could carry them, and now a file can name them.
+
+The values to keep are already written in the [Ethical Web Principles](https://www.w3.org/TR/ethical-web-principles/), a W3C Statement since December 2024.
 
 ---
 
