@@ -42,7 +42,7 @@ Stereo informs that discussion.
 - **Video:** H.264 and H.265 frame packing SEI describe how views are packed. Type 3 is side by side; type 4 is top and bottom. [H.264 (2012), D.2.25, Table D-8](https://www.itu.int/rec/T-REC-H.264-201201-S/en) · [H.265 (2021), D.3.16, Table D.8](https://www.itu.int/rec/T-REC-H.265-202108-S/en)
 - **Files:** Matroska `StereoMode` identifies packing and eye order. [RFC 9559, §5.1.4.1.28.3, Table 5; §18.10](https://www.rfc-editor.org/rfc/rfc9559.html#section-5.1.4.1.28.3)
 - **Update, 26 October 2026:** [IANA assigned StereoMode 15 through 20](https://www.iana.org/assignments/matroska#matroska-stereo-modes) for packed picture-and-depth layouts, following [Track Plane Types 3 through 5](https://www.iana.org/assignments/matroska#matroska-track-plane-types) on 20 October for separate depth tracks. Registry allocation does not establish decoder or browser support.
-- **Display links:** HDMI 1.4a specifies 3D formats, including broadcast formats and top and bottom. [HDMI Licensing announcement](https://www.hdmi.org/announce/detail/84)
+- **Display links:** [HDMI®](https://www.hdmi.org/resource/brand) 1.4a specifies 3D formats, including broadcast formats and top and bottom. [HDMI Licensing announcement](https://www.hdmi.org/announce/detail/84)
 - **Web vocabulary:** WebXR Layers defines `stereo-left-right` and `stereo-top-bottom` for immersive sessions. [Layers §2 and §3.2](https://www.w3.org/TR/webxrlayers-1/#xrlayerlayouttype)
 
 ---
@@ -124,7 +124,7 @@ The merge records do not establish complete browser or desktop support.
 
 - **Programs:** decode or render their source; stereo uses full side by side, left eye first. The HDR extension would preserve each content layer's colour description and reconstruction information.
 - **Stereo KWin:** receives both stereo views in one declared buffer, associated with the same presentation frame. The combined declaration would also describe HDR, whether mono or stereo.
-- **Outputs:** adapt for the screen. Stereo includes HDMI 3D, anaglyph, headsets (a phone in a viewer, or a VR headset as a 3D screen) and one-eye 2D output; the HDR proposal adds colour and luminance adaptation for each display.
+- **Outputs:** adapt for the screen. Stereo includes HDMI® 3D, anaglyph, headsets (a phone in a viewer, or a VR headset as a 3D screen) and one-eye 2D output; the HDR proposal adds colour and luminance adaptation for each display.
 
 **Source:** [Report, “One presentation contract for stereo and HDR”](https://www.w3.org/publications/spec-generator/?type=respec&url=https://raw.githubusercontent.com/w3c-cg/pm-kr/main/reports/source/stereo-3d-adoption-report.html#one-format) · [Sparky Stereo OS, “How it works”](https://github.com/Sparky-OS/sparky-stereo-os#how-it-works)
 
@@ -140,7 +140,7 @@ Sparky Stereo OS is in development.
 **Paths:** 15 minutes · Drop in 5 and 10 minutes · Slide 10
 
 - **Virtual display:** the VKMS bench checks mode discovery and where each eye lands. The published KWin run reports 22 checks with 0 failed on its patched stack. [Guide, “Step 5: a compositor”](https://github.com/Sparky-OS/sparky-stereo-os/blob/main/docs/test-stereo-without-a-3d-tv.md#step-5-a-compositor)
-- **Limit:** VKMS does not test the HDMI cable or the vendor InfoFrame. A real display remains the final check. [Guide, “Limits”](https://github.com/Sparky-OS/sparky-stereo-os/blob/main/docs/test-stereo-without-a-3d-tv.md#limits)
+- **Limit:** VKMS does not test the HDMI® cable or the vendor InfoFrame. A real display remains the final check. [Guide, “Limits”](https://github.com/Sparky-OS/sparky-stereo-os/blob/main/docs/test-stereo-without-a-3d-tv.md#limits)
 - **Virtual machine:** the stereo QEMU path needs the edition’s components and guest driver patches. The guide reports mixed-frame eye pairs over SPICE; its proposed frame-boundary fix is not built. [VM guide, status and limits](https://github.com/Sparky-OS/sparky-stereo-os/blob/main/docs/stereo-vm.md#limits)
 
 **Credit:** the bench builds on Louis Chauvet’s VKMS series and José Expósito’s configfs work.
@@ -156,7 +156,7 @@ Sparky Stereo OS is in development.
 2. **Declare:** reuse the [WebXR Layers layout vocabulary](https://www.w3.org/TR/webxrlayers-1/#xrlayerlayouttype) for video, images and canvases outside immersive sessions.
 3. **Deliver:** hand the platform both views together, with their declaration. Discuss the [WebGPU canvas boundary](https://www.w3.org/TR/webgpu/#dictdef-gpucanvasconfiguration) and [Khronos stereo compositor precedent](https://registry.khronos.org/OpenGL/extensions/EXT/GLX_EXT_stereo_tree.txt).
 4. **Keep text readable:** screen-plane text and controls by default; optional depth planes to investigate with CSS. Revisit the [2012 perspective-baseline proposal](https://www.w3.org/2011/webtv/3dweb/3dweb_proposal_121130.html) alongside [CSS Transforms](https://www.w3.org/TR/css-transforms-2/#perspective-property).
-5. **Ask, never switch:** discuss a capability query in [Media Queries](https://www.w3.org/TR/mediaqueries-5/), informed by [HDMI 1.4a 3D](https://www.hdmi.org/announce/detail/84). Display mode and 2D fallback remain under platform and user control.
+5. **Ask, never switch:** discuss a capability query in [Media Queries](https://www.w3.org/TR/mediaqueries-5/), informed by [HDMI® 1.4a 3D](https://www.hdmi.org/announce/detail/84). Display mode and 2D fallback remain under platform and user control.
 
 **Status:** requirements to discuss, not implemented web features.
 [Report, “What a browser would need”](https://www.w3.org/publications/spec-generator/?type=respec&url=https://raw.githubusercontent.com/w3c-cg/pm-kr/main/reports/source/stereo-3d-adoption-report.html#what-a-browser-would-need)
@@ -201,3 +201,5 @@ Added on 13 October 2026, so the record stays current.
 ![The phone mounted in a VR Shinecon viewer](images/2026-10-12-flat-headset-viewer.jpg)
 
 - **The desktop with depth on a 3D TV:** seen on 13 October 2026, the same day as the talk ([pictures with both eyes](https://github.com/Sparky-OS/sparky-stereo-os#seen-in-3d)).
+
+HDMI®, HDMI® High-Definition Multimedia Interface and the HDMI® Logo are trademarks or registered trademarks of HDMI Licensing Administrator, Inc.

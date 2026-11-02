@@ -177,7 +177,7 @@
           </tr>
           <tr>
             <td>Display links</td>
-            <td><a href="https://www.hdmi.org/announce/detail/84">HDMI 1.4a</a> (2010) 3D structures, the vendor-specific InfoFrame and the EDID 3D capability bits; DisplayPort's stereo field in the Main Stream Attribute</td>
+            <td><a href="https://www.hdmi.org/announce/detail/84">HDMI® 1.4a</a> (2010) 3D structures, the vendor-specific InfoFrame and the EDID 3D capability bits; DisplayPort's stereo field in the Main Stream Attribute</td>
             <td>The screen declares which 3D formats it accepts; the source tells the screen which one it is sending, and the screen switches by itself.</td>
           </tr>
           <tr>
@@ -193,7 +193,7 @@
       <h2>Who reads the signal today</h2>
       <h3>On Linux</h3>
       <ul>
-        <li><strong>Kernel drivers.</strong> Intel's i915 has allowed HDMI stereo modes since Linux 3.13 (2013, commit <code>573e74adbd13</code>), and nouveau exposes them too. The amdgpu and NVIDIA drivers did not; work for both is in progress.</li>
+        <li><strong>Kernel drivers.</strong> Intel's i915 has allowed <a href="https://www.hdmi.org/resource/brand">HDMI®</a> stereo modes since Linux 3.13 (2013, commit <code>573e74adbd13</code>), and nouveau exposes them too. The amdgpu and NVIDIA drivers did not; work for both is in progress.</li>
         <li><strong>Compositors.</strong> None upstream carries a window's two views to a stereo output. The attempts are listed in the next section.</li>
         <li><strong>Media.</strong> FFmpeg reads the SEI and exports it to players as <code>AV_FRAME_DATA_STEREO3D</code>. mpv detects the layout from the stream since September 2026 (<a href="https://github.com/mpv-player/mpv/pull/18490">PR #18490</a>). VLC has discarded the H.264 SEI since 2017 (commit <code>89347c3e2d</code>), so such video plays as flat 2D. Kodi derives its stereo mode from the stream's metadata.</li>
       </ul>
@@ -256,7 +256,7 @@
           It was reviewed again in 2017 and closed as obsolete in 2021, never merged.
         </li>
         <li>
-          <strong>Wayland, 2017:</strong> a <a href="https://lists.freedesktop.org/archives/wayland-devel/2017-November/035798.html">protocol and a Weston implementation</a> with HDMI stereo modes received no review.
+          <strong>Wayland, 2017:</strong> a <a href="https://lists.freedesktop.org/archives/wayland-devel/2017-November/035798.html">protocol and a Weston implementation</a> with HDMI® stereo modes received no review.
           The same author revived it in September 2026 as <a href="https://gitlab.freedesktop.org/wayland/wayland-protocols/-/merge_requests/533">xx-stereoscopy-v1</a>, now open for review.
         </li>
       </ul>
@@ -318,7 +318,7 @@
             </tr>
             <tr>
               <th scope="row"><a href="https://gitlab.freedesktop.org/nouveau/wiki/-/merge_requests/64">nouveau community statement, September–October 2026</a></th>
-              <td>The original HDMI series were withdrawn after a maintainer pointed to overlapping work. A subsequent <a href="https://gitlab.freedesktop.org/mohamexiety/nouveau/-/merge_requests/1">small CD=5 fix</a> received no response before the author closed it on 9 October to comply with the newly merged human-authorship restriction. Maintainers had discussed an exception for small, reviewable fixes.</td>
+              <td>The original HDMI® series were withdrawn after a maintainer pointed to overlapping work. A subsequent <a href="https://gitlab.freedesktop.org/mohamexiety/nouveau/-/merge_requests/1">small CD=5 fix</a> received no response before the author closed it on 9 October to comply with the newly merged human-authorship restriction. Maintainers had discussed an exception for small, reviewable fixes.</td>
               <td>Contribution eligibility can prevent an upstream path independently of whether a patch has been found technically wrong. The closure was the contributor's response to the policy, not a recorded technical rejection of that fix. The changes remain downstream.</td>
             </tr>
             <tr>
@@ -448,5 +448,6 @@
         <li>Could participating projects trial versioned contribution guidance that humans and AI clients can both follow, and measure whether it reduces repeated review corrections while preserving technical scrutiny?</li>
       </ol>
     </section>
+    <p>HDMI®, HDMI® High-Definition Multimedia Interface and the HDMI® Logo are trademarks or registered trademarks of HDMI Licensing Administrator, Inc.</p>
   </body>
 </html>

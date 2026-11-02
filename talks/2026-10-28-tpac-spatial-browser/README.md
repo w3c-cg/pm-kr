@@ -57,7 +57,7 @@ Which format carries a fabric to a WebXR page today, so current 2D and 3D device
 ## 5. Sibling surfaces are our desktop
 
 The deck's "Shared Compositor / Sibling Surfaces" option is what our desktop does on Linux.
-Each program hands the compositor both eyes, side by side, declared once, and the compositor turns that into each screen's format: the HDMI 3D modes of a 3D display, red and cyan glasses on any 2D monitor, or a headset.
+Each program hands the compositor both eyes, side by side, declared once, and the compositor turns that into each screen's format: the [HDMI®](https://www.hdmi.org/resource/brand) 3D modes of a 3D display, red and cyan glasses on any 2D monitor, or a headset.
 A web engine and a spatial engine can share that, with no headset needed ([Sparky Stereo OS](https://github.com/Sparky-OS/sparky-stereo-os)).
 
 ## 6. Procedures first, the image last
@@ -95,3 +95,5 @@ That knowledge layer, stored once as procedures for people and AI alike, next to
 Daniel Campos Ramos · [PM-KR Community Group](https://www.w3.org/community/pm-kr/) · [Knowledge3D](https://github.com/danielcamposramos/Knowledge3D) · [Sparky Stereo OS](https://github.com/Sparky-OS/sparky-stereo-os)
 
 AI partners were leveraged in the production of this work.
+
+HDMI®, HDMI® High-Definition Multimedia Interface and the HDMI® Logo are trademarks or registered trademarks of HDMI Licensing Administrator, Inc.

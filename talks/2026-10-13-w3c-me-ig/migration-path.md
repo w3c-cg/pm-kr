@@ -34,7 +34,7 @@ The mark already exists, in the files people make today:
 Browsers decode the picture and drop the mark.
 A side-by-side video plays as two flat halves, and an MV-HEVC video plays its base view in 2D.
 WebXR Layers already know stereo layouts (`XRLayerLayout`: `stereo-left-right`, `stereo-top-bottom`), but only inside an XR session.
-Screens that show stereo are many and different: 3D TVs over HDMI 1.4a, red-cyan anaglyph on any monitor, headsets, a phone in a cardboard viewer.
+Screens that show stereo are many and different: 3D TVs over [HDMI®](https://www.hdmi.org/resource/brand) 1.4a, red-cyan anaglyph on any monitor, headsets, a phone in a cardboard viewer.
 
 Work in progress that touches it:
 - [w3c/media-capabilities#249](https://github.com/w3c/media-capabilities/issues/249) (Meta, October 2025): a `stereoMode` field (`mono`, `left-right`, `top-bottom`, `multiview`) to ask whether a browser understands stereo video; discussed by the Media WG at TPAC 2025, where the view was that Media Capabilities should answer what the browser understands, not what the screen can render.
@@ -84,7 +84,7 @@ The proposed remedy is the same: describe each content layer once, preserve its 
 
 **The target, per element, as for stereo:** each video, picture or canvas that carries a colour description gets its own compositor surface with that description, and the compositor converts it for every output:
 - an HDR screen keeps the picture's range, with SDR content at reference white (ITU-R BT.2408, 203 cd/m²);
-- an SDR screen with deep colour gets the picture tone-mapped into its 10, 12 or 16 bits per channel (HDMI deep colour), so gradients keep their steps instead of banding: the 3D TVs of 2010 to 2013 take 12 bits;
+- an SDR screen with deep colour gets the picture tone-mapped into its 10, 12 or 16 bits per channel (HDMI® deep colour), so gradients keep their steps instead of banding: the 3D TVs of 2010 to 2013 take 12 bits;
 - an 8-bit screen gets the same, dithered;
 - a gain-map picture is weighted by each screen's own headroom, between the file's base and alternate headroom (ISO 21496-1), so two screens can show it two ways at once;
 - a floating-point composition path is a candidate for retaining useful precision until output encoding; its precision, gamut and luminance behaviour need measurement.
@@ -123,3 +123,5 @@ Existing stereo and deep-colour measurements are not evidence that this HDR path
 
 - Which group should own each step: the Media WG for 1, 2 and 4, the Immersive Web groups for 5, and the CSS WG or HTML for 3?
 - Who can test a declared pair on their own screens, 2D fallback included, using the sources in [w3c-cg/pm-kr#4](https://github.com/w3c-cg/pm-kr/issues/4) ([#5](https://github.com/w3c-cg/pm-kr/issues/5), [#6](https://github.com/w3c-cg/pm-kr/issues/6), [#7](https://github.com/w3c-cg/pm-kr/issues/7))?
+
+HDMI®, HDMI® High-Definition Multimedia Interface and the HDMI® Logo are trademarks or registered trademarks of HDMI Licensing Administrator, Inc.

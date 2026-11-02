@@ -101,13 +101,13 @@ And this session is itself organised jointly by W3C and the Metaverse Standards 
 | Media that carries stereo and depth | Media WG | Media and Entertainment IG; Timed Text WG | IETF CELLAR and IANA; ISO/IEC JTC 1/SC 29 (MPEG); ITU-T SG16; AOMedia |
 | Testing against use cases | the task force itself | Browser Testing and Tools WG | Web Platform Tests |
 
-Some of those specifications are not public, the HDMI one among them.
+Some of those specifications are not public, the [HDMI®](https://www.hdmi.org/resource/brand) one among them.
 Experts whose companies are members can carry a question there where an individual cannot.
 
 Each of us can act before any group exists.
 Aaron Swartz was a member of the [RDF Core Working Group](https://www.w3.org/2001/sw/RDFCore/members) and wrote [RFC 3870](https://www.rfc-editor.org/rfc/rfc3870) in 2004, the IANA registration of `application/rdf+xml`; from then on the web could name RDF.
 In October 2026, IANA registered [Matroska's depth planes and StereoMode 15 to 20](https://www.iana.org/assignments/matroska) at my request.
-StereoMode 17 and 19 are the picture-plus-depth layouts HDMI 1.4a defined in 2010: a cable could carry them, and now a file can name them.
+StereoMode 17 and 19 are the picture-plus-depth layouts HDMI® 1.4a defined in 2010: a cable could carry them, and now a file can name them.
 
 The values to keep are already written in the [Ethical Web Principles](https://www.w3.org/TR/ethical-web-principles/), a W3C Statement since December 2024.
 
@@ -123,3 +123,5 @@ My report on the whole week: [TPAC 2026: seven breakouts, one thread](../2026-10
 Daniel Campos Ramos · [PM-KR Community Group](https://www.w3.org/community/pm-kr/) · [Knowledge3D](https://github.com/danielcamposramos/Knowledge3D) · [Sparky Stereo OS](https://github.com/Sparky-OS/sparky-stereo-os)
 
 AI partners were leveraged in the production of this work.
+
+HDMI®, HDMI® High-Definition Multimedia Interface and the HDMI® Logo are trademarks or registered trademarks of HDMI Licensing Administrator, Inc.
