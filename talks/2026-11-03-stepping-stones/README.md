@@ -13,7 +13,7 @@ These are the stones from my own work that already exist, each with its record, 
 Christoph's first point: people and AI need different interfaces to the same knowledge, without losing information on the way.
 - **The design:** Knowledge3D's [Dual Client Contract](https://github.com/danielcamposramos/Knowledge3D/blob/main/docs/vocabulary/DUAL_CLIENT_CONTRACT_SPECIFICATION.md) specifies human and synthetic users reading the same node truth, each through its own presentation.
 - **Running today, at the scale of an operating system:** Lean Code in Sparky Stereo OS gives every text file a package ships (code, settings, documentation) two forms: the authored form people read, with every comment and explanation, and a lean form the machine reads. The lean form is recorded against the original, and the original can always be restored ([Lean Code packages](https://github.com/Sparky-OS/sparky-stereo-os/blob/main/docs/lean-code-packages.md)).
-- **Measured:** the same installation lean, with its original files and lean again, on a laptop from 2016: builds against kernel headers 6 to 9 % faster, desktop programs 3 to 6 % smaller, boot unchanged, and one open problem published with the rest ([the measurement](https://github.com/Sparky-OS/sparky-stereo-os/blob/main/docs/proofs/lean-code-a10-aba.md)).
+- **Measured:** the same installation lean, with its original files and lean again, on a laptop from 2016: builds against kernel headers 6 to 9 % faster, desktop programs 3 to 6 % smaller, boot unchanged; one program's larger figure was traced to its catalog cache, not to the lean files ([the measurement](https://github.com/Sparky-OS/sparky-stereo-os/blob/main/docs/proofs/lean-code-a10-aba.md)).
 
 ## 2. Semantic models first, procedures after
 
