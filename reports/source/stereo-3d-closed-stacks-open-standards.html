@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Stereo 3D after TPAC 2026: Closed Stacks Retreated, Open Standards Stayed</title>
+    <script class="remove">
+      const respecConfig = {
+        specStatus: "unofficial",
+        shortName: "stereo-3d-closed-stacks-report",
+        github: "w3c-cg/pm-kr",
+        latestVersion: "https://www.w3.org/publications/spec-generator/?type=respec&url=https://raw.githubusercontent.com/w3c-cg/pm-kr/main/reports/source/stereo-3d-closed-stacks-open-standards.html",
+        editors: [
+          {
+            name: "Daniel Campos Ramos",
+            company: "EchoSystems AI Studios",
+            url: "https://github.com/danielcamposramos",
+          },
+        ],
+      };
+    </script>
+    <script
+      async
+      class="remove"
+      src="https://www.w3.org/Tools/respec/respec-w3c"
+    ></script>
+  </head>
+  <body>
+    <section id="abstract">
+      <p>
+        The first report, <a href="https://www.w3.org/publications/spec-generator/?type=respec&amp;url=https://raw.githubusercontent.com/w3c-cg/pm-kr/main/reports/source/stereo-3d-adoption-report.html">Stereo 3D on Linux and the Web: Established Specifications, Adopted in Pieces</a> (October 2026), listed the stereo specifications that exist and how each attempt to adopt them stopped.
+        This second report continues it after TPAC 2026.
+        It puts two markets side by side with their sources: headset VR, contracting at every maker and studio in 2025 and 2026, and 3D television, which the makers left between 2016 and 2017.
+        In both, the costly closed hardware went away while the open standards stayed: HDMI® 1.4a 3D is still on every 3D television, Blu-ray 3D titles still ship, and Matroska's stereo field is in an RFC.
+      </p>
+      <p>
+        The thesis is Daniel Campos Ramos's: closed stacks are the culprit, so the answer is to standardise and open, which is what the Sparky Stereo OS work does.
+        The report shows it case by case, states the other causes (cost, content, comfort) and the counter-signals, separates the measured figures from the author's reasoning, and lists what has been opened since the first report: kernel, driver, compositor and player patches, two IANA registrations, two petitions to standards bodies, and a phone from 2019 serving as a headset.
+        It ends with three questions a reader can act on.
+      </p>
+    </section>
+
+    <section id="sotd">
+      <p>
+        This is an individual report by Daniel Campos Ramos, offered as input to the <a href="https://www.w3.org/community/pm-kr/">PM-KR Community Group</a> for its consideration.
+        It is not a W3C document, not a Community Group Report, and not a decision of the <a href="https://www.w3.org/community/pm-kr/">PM-KR Community Group</a>, which Daniel co-chairs; the first report was offered to that group as an individual's input, and this one continues it in the same spirit.
+        Sparky Stereo OS is in development: a developer ISO for testers exists, and the stereo edition ISO is still being prepared (<a href="https://github.com/Sparky-OS/sparky-stereo-os#readme">status on the front page</a>).
+      </p>
+      <p>
+        Every number carries its source.
+        Primary sources (IDC's and companies' own releases and filings, W3C minutes, IANA registries, forge APIs) are preferred; where only the trade press reports a figure, the text says so.
+        The market figures were checked against their sources on 3 November 2026, and the <a href="#claims">claims table</a> at the end says which could be read at the primary source and which could not.
+        The text was written by Daniel with AI partners, as the edition's <a href="https://github.com/Sparky-OS/sparky-stereo-os/blob/main/docs/ai-provenance.md">provenance page</a> records.
+        Licence: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
+      </p>
+    </section>
+
+    <section id="since">
+      <h2>Since the first report</h2>
+      <p>
+        The first report was published on 6 October 2026.
+        What follows is the public record of the four weeks after it, in order.
+      </p>
+      <section id="me-ig">
+        <h3>13 October: the Media and Entertainment Interest Group</h3>
+        <p>
+          The stereo and HDR item was presented at the W3C Media and Entertainment Interest Group's call (<a href="https://www.w3.org/2026/10/13-me-minutes.html">public minutes</a>).
+          Wolfgang Schildbach asked whether 3D and HDR "are these the same thing or two separate things"; the answer given was that they are one problem, per-object information carried to the component that drives the display.
+          Song Xu, co-chair: "It's not new, but it completes the web rendering for 3D experiences."
+          Chris Needham asked how it fits Apple's proposals driven by the Vision Pro and the WebCodecs route, and "Have you brought it to the Immersive Web WG?".
+          Kaz Ashimura suggested "a TPAC break out" with "input from Immersive Web group".
+          Rob Smith's suggested next step: "identify a migration path."
+          No resolution or action was recorded; the minutes' own words are quoted here because they are the record.
+        </p>
+      </section>
+      <section id="iana">
+        <h3>20 and 26 October: two IANA registrations</h3>
+        <p>
+          The <a href="https://www.iana.org/assignments/matroska#matroska-track-plane-types">IANA Matroska Track Plane Types registry</a> assigned values 3, 4 and 5 to the depth maps of the left-eye, right-eye and background planes on 20 October 2026 (First Come First Served).
+          On 26 October 2026 the <a href="https://www.iana.org/assignments/matroska#matroska-stereo-modes">Matroska Stereo Modes registry</a> assigned values 15 through 20 to packed picture-and-depth layouts after designated-expert review (Specification Required).
+          Daniel Ramos is the change controller for both; the reference is the immutable <a href="https://github.com/Sparky-OS/stereo-layer/blob/v1.9.0/docs/depth-marks.md">stereo-layer v1.9.0 specification</a>.
+          A registry assignment names a layout; whether a muxer, decoder or player supports it is a separate fact, checked per program.
+        </p>
+      </section>
+      <section id="tpac">
+        <h3>26 to 30 October: TPAC 2026</h3>
+        <p>
+          W3C's TPAC 2026 took place in Dublin and online from 26 to 30 October (<a href="https://www.w3.org/news-events/tpac/2026/">event page</a>).
+          Daniel took part remotely in the public breakout sessions.
+          Three of their draft minutes carry the stereo points.
+        </p>
+        <ul>
+          <li>
+            <strong>27 October, "Mind the gaps"</strong> (<a href="https://www.w3.org/2026/10/27-mind-the-gaps-minutes.html">minutes</a>).
+            The record holds the measured gap: "One gap we measured is 3D content. The mark is already in H.264, Matroska and MP4 files", "Every browser drops it, so a 3D video plays as two flat halves", and the open question "Which group should own stereo for the video element?".
+            Brian Kardell (Igalia) added, on the first report: "the interop forms Mozilla made should be in here too imo."
+            The ownership question was not resolved in the session.
+          </li>
+          <li>
+            <strong>28 October, "Evolving the web browser and websites for Spatial Computing, Digital Twins, Physical AI, and Robotics"</strong> (<a href="https://www.w3.org/2026/10/28-spatial-computing-minutes.html">minutes</a>).
+            Daniel's question, read into the record: "which format carries a fabric to a WebXR page today, so current 2D and 3D devices and headsets" all see it; with the proposal that each WebXR page, running in its own origin, becomes spatial content composited by the browser, and the <a href="https://github.com/Sparky-OS/sparky-stereo-os/blob/main/docs/dynamic-procedural-foveated-rendering.md">Dynamic Procedural Foveated Rendering</a> note addressed to Neil Trevett.
+          </li>
+          <li>
+            <strong>30 October, "Unleashing a Spatial Web: Mapping W3C Standards to Support a Web of Worlds"</strong> (<a href="https://www.w3.org/2026/10/30-spatial-web-msf-minutes.html">minutes</a>, <a href="https://www.w3.org/2026/10/30-spatial-web-msf-irc">IRC log</a>).
+            Daniel, in the log: "Most people have current 2D and 3D devices, not headsets. WebXR's inline-stereo now lets a page draw both eyes" and "Should the user agent's duties include presenting a world on those screens too?"; then "We need to form a "Task Force" that goes all the way to the OS layer as well, we can not stop at the browser only", recorded by the scribe as "Currently we are headset-centric; we need to include everyone."
+            Dave Raggett (W3C) proposed the next step the room took: "Useful to hold a Workshop with W3C, MSF, Khronos as co-organisers", and "Next step is to form a program committee to discus scope".
+            Don Brutzman (Web3D Consortium) had asked for the same: "a workshop would be a good way to figure out choreography of this big challenge."
+          </li>
+        </ul>
+        <p>
+          The inline-stereo line refers to <a href="https://github.com/immersive-web/webxr/pull/1436">WebXR pull request #1436</a>, merged by Rik Cabanier on 9 June 2026: a page may now draw both eyes outside an immersive session.
+          That is the web platform's own step towards stereo on screens that are not headsets, and the first report's proposals build on it.
+        </p>
+      </section>
+      <section id="petitions">
+        <h3>27 October: two petitions to standards bodies</h3>
+        <p>
+          A sink that declares 3D under <a href="https://www.hdmi.org/resource/brand">HDMI®</a> 1.4a must accept the mandatory set of 3D formats: frame packing and top-and-bottom at 1080p24, 720p50 and 720p60, and side-by-side half at 1080i50 and 1080i60.
+          The Linux kernel's open implementation lists exactly that set in <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/gpu/drm/drm_edid.c"><code>drm_edid.c</code></a> (<code>stereo_mandatory_modes</code>).
+          A cheap headset built from one phone-class panel split between two eyes cannot accept frame packing at 1920 by 2205 pixels, so it cannot declare 3D compliantly, and today such devices take side by side as plain 2D and skip the 3D signalling.
+        </p>
+        <p>
+          On 27 October 2026 Daniel wrote to HDMI Licensing Administrator, Inc., with the HDMI Forum in copy, asking for a side-by-side-only sink profile at the panel's native timing and a low-cost licence and certification path for such headsets.
+          The same day he wrote to the Wi-Fi Alliance, because wireless display belongs to Miracast, whose Wi-Fi Display specification already has an optional 3D video formats capability that the public overview does not mention.
+          Each letter named the other body.
+          The Wi-Fi Alliance answered that it has no current plans for such a profile.
+          HDMI Licensing Administrator answered too, and Daniel's follow-up of 2 November made the request precise: it changes no specification, and asks for a reduced certification of the side-by-side half subset that HDMI® 1.4a already defines, a compliance and licensing matter.
+          On 30 October he asked the member companies of both bodies, through W3C's Media and Entertainment Interest Group, to carry the two requests (<a href="https://lists.w3.org/Archives/Public/public-web-and-tv/2026Oct/0021.html">public archive</a>).
+          The bodies' own words are correspondence and are not reproduced here.
+        </p>
+        <p>
+          The pricing point raised with them is Daniel's: a membership or certification fee that is the same number of dollars everywhere weighs very differently per country.
+          W3C has scaled its membership fees by the World Bank's country income classification since 2005 (<a href="https://www.w3.org/Consortium/fees.php">W3C fees page</a>); that precedent exists and is the one offered.
+          Theoretically, many certified makers paying less can outnumber a few paying more, and for a body paid per certified unit that means more income, not less; this is an argument to measure, not a measured fact.
+        </p>
+      </section>
+      <section id="upstream">
+        <h3>Upstream changes, recounted on 3 November 2026</h3>
+        <p>
+          The edition keeps <a href="https://github.com/Sparky-OS/sparky-stereo-os/blob/main/docs/upstream-merges.md">one list of changes merged outside Sparky Stereo</a>.
+          Each of its entries was checked again on 3 November 2026 through the forge's own API (GitHub, Codeberg, freedesktop GitLab, code.ffmpeg.org, code.videolan.org).
+          Result: 23 changes merged in 13 projects by 14 maintainers between 16 September and 1 November 2026 (HandBrake, mpv, x265, Universal Media Server, MKVToolNix, Teams for Linux, Qt Multimedia, Bino, spice-gtk, PeerTube, wiz3D, PhotoCraft and FFmpeg), and 8 in review (Universal Media Server, two in FFmpeg, Media3, VLC, gamescope, NVIDIA's open kernel modules, FreeRDP).
+          MKVToolNix's two show as closed pull requests on Codeberg because Moritz Bunkus merged them by hand (<a href="https://codeberg.org/mbunkus/mkvtoolnix/commit/ebd8445b1185d35d6bdbb9c1463757fbc9aa7c29">ebd8445b</a>, <a href="https://codeberg.org/mbunkus/mkvtoolnix/commit/70889f220e">70889f220e</a>).
+          Qt's Gerrit refused the API query from this machine, so the two Qt Multimedia changes stand on the list's record (<a href="https://codereview.qt-project.org/c/qt/qtmultimedia/+/778399">778399</a>, <a href="https://codereview.qt-project.org/c/qt/qtmultimedia/+/778580">778580</a>).
+          None was rejected on technical grounds.
+        </p>
+        <p>
+          The newest item in review is <a href="https://github.com/FreeRDP/FreeRDP/pull/14003">FreeRDP #14003</a>, opened on 2 November 2026: the Android client's core kept usable in apps built for API 24 (Android 7.0, 2016), so older phones can serve as headsets.
+          It comes from <a href="https://github.com/Sparky-OS/flat-headset">Flat Headset</a>, the viewer app that turns an Android phone in a cardboard viewer into a screen for the stereo desktop; on 19 October 2026 Daniel accepted the USB setup as usable on a Redmi Note 7, a phone of 2019, driven by a laptop of 2016 (<a href="https://github.com/Sparky-OS/flat-headset/blob/main/docs/usb-desktop-2026-10-19.md">measurements and limits</a>).
+          Video is still choppy on that link; the desktop and the mouse work.
+        </p>
+        <p>
+          The one upstream stereo item that is not ours is still open too: <a href="https://gitlab.freedesktop.org/wayland/wayland-protocols/-/merge_requests/533">xx-stereoscopy-v1</a>, the Wayland protocol for 3D surfaces revived in September 2026, last updated on 3 November 2026.
+        </p>
+      </section>
+    </section>
+
+    <section id="market">
+      <h2>The market, measured</h2>
+      <p>
+        Two markets, side by side.
+        Each row names its source; "primary" means the body that produced the number published it, "press" means a trade-press report of a figure not published by its producer in a form this author could read.
+      </p>
+      <section id="headsets">
+        <h3>Headset VR, 2024 to 2026</h3>
+        <table class="data">
+          <thead>
+            <tr><th scope="col">Date</th><th scope="col">Fact</th><th scope="col">Source</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>18 March 2024</td><td>Sony pauses PlayStation VR2 production to clear unsold stock; more than 2 million built.</td><td>Bloomberg, "Sony Hits Pause on PSVR2 Production as Unsold Inventory Piles Up" (<a href="https://finance.yahoo.com/news/sony-hits-pause-psvr2-production-015605830.html">syndicated copy</a>); press.</td></tr>
+            <tr><td>June 2024</td><td>Sony reported to cut first-party PlayStation VR2 development to two games.</td><td>Android Central report, via <a href="https://www.digitaltrends.com/gaming/report-sony-cut-funding-psvr2">Digital Trends</a>; press, anonymously sourced, no comment from Sony.</td></tr>
+            <tr><td>3 June 2024</td><td>Sony announces a PC adapter for PlayStation VR2 (7 August 2024) that opens the headset to SteamVR, without HDR, eye tracking, adaptive triggers or headset feedback.</td><td><a href="https://blog.playstation.com/2024/06/03/playstation-vr2-players-can-access-games-on-pc-with-adapter-starting-on-august-7/">PlayStation Blog</a>; primary.</td></tr>
+            <tr><td>July 2024</td><td>After a promotional cut of the PlayStation VR2 to US$349.99, one retailer's sales rose about 2,350% in a day; Sony publishes no unit totals.</td><td>The Shortcut's retailer data, via <a href="https://www.pushsquare.com/news/2024/07/psvr2-sales-explode-after-sonys-deep-price-cut-up-more-than-2000percent">Push Square</a>; press.</td></tr>
+            <tr><td>7 August 2024</td><td>Meta closes Ready at Dawn (Lone Echo); Meta confirmed the closure.</td><td><a href="https://androidcentral.com/gaming/virtual-reality/ready-at-dawn-studios-closing">Android Central</a>, <a href="https://www.gematsu.com/2024/08/ready-at-dawn-shuts-down">Gematsu</a>; press with company confirmation.</td></tr>
+            <tr><td>2024</td><td>Apple Vision Pro shipped about 390,000 units in 2024; Meta Quest about 5.6 million.</td><td>IDC figures as reported by <a href="https://www.theregister.com/2026/01/02/apple_vision_pro_meta_quest_sales_drop/">The Register</a>, 2 January 2026; press quoting IDC.</td></tr>
+            <tr><td>27 February 2025</td><td>Sony cuts the PlayStation VR2's recommended price permanently from US$549.99 to US$399.99 from March 2025.</td><td><a href="https://blog.playstation.com/2025/02/27/a-great-new-price-for-playstation-vr2/">PlayStation Blog</a>; primary.</td></tr>
+            <tr><td>H1 2025</td><td>Global VR headset shipments down 14% year over year; Meta about 80% of them.</td><td>Counterpoint Research, as reported by <a href="https://www.mactech.com/2025/09/25/vr-headset-sales-decline-while-smart-glasses-sales-are-on-the-rise/">MacTech</a>; press quoting Counterpoint.</td></tr>
+            <tr><td>11 December 2025</td><td>IDC: mixed and virtual reality headset shipments expected to decline 42.8% in 2025, while XR devices as a whole grow 41.6% to 14.5 million units, the rest of the market (glasses) growing 211.2%; glasses forecast at 29.3% a year to 2029.</td><td><a href="https://www.idc.com/resource-center/press-releases/global-xr-shipments-rebound-behind-glasses-first-momentum-idc-reports/">IDC press release</a>; primary.</td></tr>
+            <tr><td>December 2025</td><td>Meta executives reported to be considering cuts of up to 30% to the metaverse teams of Reality Labs.</td><td>Bloomberg report, via <a href="https://www.uploadvr.com/meta-reality-labs-reportedly-facing-up-to-30-budget-cut/">UploadVR</a>; press.</td></tr>
+            <tr><td>2025</td><td>Apple Vision Pro shipped about 45,000 units in 2025; Meta Quest 1.7 million in the first three quarters.</td><td>IDC figures as reported by <a href="https://www.theregister.com/2026/01/02/apple_vision_pro_meta_quest_sales_drop/">The Register</a>; press quoting IDC.</td></tr>
+            <tr><td>Early 2025</td><td>Vision Pro production at its contract manufacturer reported halted; digital advertising for it cut by more than 95%.</td><td>Financial Times and Sensor Tower, via <a href="https://www.tomsguide.com/computing/vr-ar/apple-essentially-suspended-support-for-vision-pro-headset-production-per-leaker-future-of-the-next-generation-uncertain">Tom's Guide</a>; press, not read at the primary source.</td></tr>
+            <tr><td>January 2026</td><td>Meta closes Armature, Sanzaru and Twisted Pixel and cuts about 10% of Reality Labs; Meta confirmed the closures.</td><td><a href="https://www.engadget.com/ar-vr/meta-has-closed-three-vr-studios-as-part-of-its-metaverse-cuts-202720670.html">Engadget</a>; press with company confirmation. Camouflaj (Batman: Arkham Shadow) heavily cut, Arkham sequel cancelled (<a href="https://www.uploadvr.com/batman-arkham-shadow-sequel-canceled-as-camouflaj-sees-significant-layoffs/">UploadVR</a>); press.</td></tr>
+            <tr><td>28 January 2026</td><td>Reality Labs 2025: revenue US$2,207 million, loss from operations US$19,193 million (2024: US$17,729 million); fourth quarter loss US$6,021 million.</td><td><a href="https://investor.atmeta.com/investor-news/press-release-details/2026/Meta-Reports-Fourth-Quarter-and-Full-Year-2025-Results/default.aspx">Meta, fourth quarter and full year 2025 results</a>; primary.</td></tr>
+            <tr><td>December 2025 to January 2026</td><td>Kluge Interactive (Synth Riders) halves its staff to 50.</td><td><a href="https://www.roadtovr.com/synth-riders-studio-layoffs-2026/">Road to VR</a>, CEO confirmed; press.</td></tr>
+            <tr><td>January and September 2026</td><td>Mighty Coconut (Walkabout Mini Golf) cuts 25% of staff, then 10 more people.</td><td><a href="https://roadtovr.com/walkabout-mini-golf-lays-off-2026/">Road to VR</a>, <a href="https://www.uploadvr.com/mighty-coconut-downsizes-for-the-second-time-t/">UploadVR</a>; press.</td></tr>
+            <tr><td>5 March 2026</td><td>nDreams proposes closing two studios with 78 roles at risk, citing a "challenging" VR games market.</td><td><a href="https://www.pocketgamer.biz/ndreams-proposes-restructuring-with-78-roles-at-risk-and-two-studios-set-to-close">PocketGamer.biz</a>; press.</td></tr>
+            <tr><td>Q1 2026</td><td>Global VR headset shipments down 17% year over year and 39% quarter over quarter; Meta's share 58%.</td><td><a href="https://counterpointresearch.com/en/reports/global-ar-vr-market-insights-and-development-trends-q1-2026">Counterpoint Research</a>; primary summary page.</td></tr>
+            <tr><td>May 2026</td><td>Survios (Alien: Rogue Incursion) lays off most of its development team.</td><td><a href="https://www.uploadvr.com/survios-reportedly-sees-critical-layoffs/">UploadVR</a>; press, from employees' posts.</td></tr>
+            <tr><td>2026</td><td>Vertigo Games closes its Amsterdam studio, citing the VR market.</td><td><a href="https://gamedev.net/news/embracer-owned-vr-developer-vertigo-games-closes-amsterdam-studio-r3839/">GameDev.net</a>; press.</td></tr>
+            <tr><td>August 2026</td><td>Schell Games lays off 14 people, about 10%, its first layoffs.</td><td><a href="https://roadtovr.com/among-us-vr-studio-schell-games-layoffs-aug-2026/">Road to VR</a>, CEO confirmed; press.</td></tr>
+            <tr><td>11 September 2026</td><td>Polyarc (Moss) closes after twelve years.</td><td><a href="https://www.gamedeveloper.com/business/moss-developer-polyarc-has-shut-down">Game Developer</a>; press.</td></tr>
+            <tr><td>Q2 2026</td><td>Global VR headset shipments down 18% year over year.</td><td>Counterpoint Research, as reported by <a href="https://www.pcgamer.com/hardware/vr-hardware/vr-headset-shipments-are-down-18-percent-compared-to-this-time-last-year-and-that-may-not-be-great-news-for-valve/">PC Gamer</a>; press quoting Counterpoint.</td></tr>
+          </tbody>
+        </table>
+        <p>
+          Pico (ByteDance) cut hundreds of jobs in November 2023 (Reuters, via <a href="https://www.investing.com/news/stock-market-news/chinas-bytedance-to-overhaul-vr-arm-pico-as-global-demand-declines-sources-3224360">Investing.com</a>; press) and is still shipping headsets; nothing more recent could be verified for it.
+        </p>
+        <h4>Counter-signals</h4>
+        <ul>
+          <li>The share of Steam users with a headset was 1.35% in September and 1.75% in October 2026 (<a href="https://store.steampowered.com/hwsurvey/">Steam Hardware Survey</a>, read 3 November 2026; primary, self-selected sample).</li>
+          <li>Valve's Steam Frame, released in September 2026, is 5.61% of the surveyed headsets in October, up 5.06 points in its second month on the survey; Meta Quest 3 is 27.27% (same survey).</li>
+          <li>The money is moving to glasses, not out of head-worn devices: IDC's 2025 total grows because glasses grow (above).</li>
+          <li>The PlayStation VR2 sold whenever its price fell (the July 2024 row), which is evidence for the price argument below, and evidence that the demand exists.</li>
+        </ul>
+      </section>
+      <section id="tv">
+        <h3>3D television, 2009 to 2019</h3>
+        <table class="data">
+          <thead>
+            <tr><th scope="col">Date</th><th scope="col">Fact</th><th scope="col">Source</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>17 December 2009</td><td>The Blu-ray Disc Association finalises Blu-ray 3D: full 1080p per eye, encoded with MVC, the multiview extension of ITU-T H.264 (Annex H), playable in 2D on existing players.</td><td>BDA press release, copy at <a href="https://www.sportsvideo.org/2009/12/17/blu-ray-disc-association-announces-final-3d-specification/">Sports Video Group</a>; primary text, secondary copy.</td></tr>
+            <tr><td>4 March 2010</td><td>HDMI® 1.4a adds the mandatory 3D formats for broadcast content and the top-and-bottom format.</td><td><a href="https://www.hdmi.org/announce/detail/84">HDMI Licensing, LLC release</a>; primary.</td></tr>
+            <tr><td>2012 to 2016</td><td>3D televisions fall from 23% of television sales dollars in 2012 to 8% in 2016 in the United States.</td><td>NPD Group figures, in <a href="https://www.cnet.com/tech/home-entertainment/3d-tv-is-dead/">CNET, "3D TV is dead"</a>, January 2017; press quoting NPD.</td></tr>
+            <tr><td>2016</td><td>Samsung drops 3D from its television range.</td><td>Same CNET article; press.</td></tr>
+            <tr><td>January 2017</td><td>LG: "We decided to drop 3D support for 2017 to focus our efforts on new capabilities such as HDR, which has much more universal appeal" (Tim Alessi). Sony: "Based on current market trends we decided not to support 3D for our 2017 models." Studios kept releasing 3D Blu-ray titles, and Sony's 2017 Ultra HD Blu-ray player kept 3D playback.</td><td>Same CNET article; press quoting the companies.</td></tr>
+            <tr><td>March 2019</td><td>NVIDIA announces that Release 418 is the last driver branch with 3D Vision; critical fixes until April 2020; 3DTV Play bundled free into it.</td><td><a href="https://nvidia.custhelp.com/app/answers/detail/a_id/4787">NVIDIA support notice</a> (primary, which refused this machine's request), as reported by <a href="https://www.engadget.com/2019-03-11-nvidia-ends-3d-vision-support.html">Engadget</a>; press.</td></tr>
+            <tr><td>6 November 2019</td><td>Google open-sources the Cardboard SDK; more than 15 million viewers shipped; Google says usage declined over time.</td><td><a href="https://developers.googleblog.com/en/open-sourcing-google-cardboard/">Google developers blog</a>; primary.</td></tr>
+          </tbody>
+        </table>
+        <p>
+          The first report already recorded the BBC's and ESPN's 2013 exits from 3D broadcasting.
+          Between them and the rows above, the pattern is the one Daniel named: specialised, costly hardware whose makers left, while every standard those products used is still published and still in homes.
+        </p>
+      </section>
+    </section>
+
+    <section id="why">
+      <h2>Why: closed stacks, case by case</h2>
+      <p>
+        The first report found that nobody had to act: a decoder that ignores the frame packing message is conformant, and each step after that was reasonable on its own.
+        This report adds the other half of the explanation.
+        Where the stereo path ran through a closed stack, the path died with its owner's business decision; where it ran through an open standard, the path is still there, and the Sparky Stereo OS work could pick it up in 2026 with the same files, cables and televisions.
+      </p>
+      <section id="cases">
+        <h3>Five closed stacks</h3>
+        <dl>
+          <dt>NVIDIA 3D Vision (2008 to 2019)</dt>
+          <dd>
+            Stereo on PC needed NVIDIA's GPU, NVIDIA's driver and NVIDIA's glasses and emitter.
+            When NVIDIA ended it with Release 418, every kit became a shelf object, and the games, Windows and monitors did not change.
+            The 3D television path NVIDIA sold as 3DTV Play was HDMI® 1.4a signalling, a public standard; that part is what the edition's kernel work now provides on every GPU, with open drivers.
+          </dd>
+          <dt>Apple Vision Pro (2024 to 2025)</dt>
+          <dd>
+            One device at US$3,499 (<a href="https://www.apple.com/newsroom/2024/01/apple-vision-pro-available-in-the-us-on-february-2/">Apple, January 2024</a>), one operating system, one store.
+            Shipments went from about 390,000 to about 45,000 units a year; production was reported halted and advertising cut.
+            The stereo content made for it (Apple's spatial video and photos) is tied to Apple's formats and viewers; the first report's depth-photo section shows the edition reading those files on any screen, which Apple's platform does not offer.
+          </dd>
+          <dt>Meta Quest and Horizon (2019 to 2026)</dt>
+          <dd>
+            Every Quest app ships through Meta's store; App Lab was folded into it in August 2024 (<a href="https://developers.meta.com/horizon/blog/get-apps-ready-app-lab-meta-horizon-store-meta-quest-developers/">Meta developer blog</a>).
+            Reality Labs lost US$19.2 billion in 2025 on US$2.2 billion of revenue, closed three studios and cut a tenth of its staff in January 2026, and studios funded for Horizon Worlds cut staff when that funding changed.
+            When the owner of the store and the platform changes course, the whole ecosystem above it contracts at once; the rows above show it happening within two months.
+          </dd>
+          <dt>Sony PlayStation VR2 (2023 to 2025)</dt>
+          <dd>
+            Tied to one console at launch, it paused production in 2024 and lost first-party support.
+            The two moves that lifted it were openings: a PC adapter that let it run SteamVR (with features lost on the way, because the link is proprietary), and price cuts, after which it sold.
+          </dd>
+          <dt>HDMI® 2.1 (2017 to 2024)</dt>
+          <dd>
+            The HDMI Forum restricted public access to its specification in 2021, and in February 2024 Alex Deucher (AMD) wrote on the kernel's bug tracker (<a href="https://gitlab.freedesktop.org/drm/amd/-/issues/1417">drm/amd issue 1417</a>) that the Forum had rejected AMD's proposal for open-source HDMI® 2.1 support, so Linux users with AMD GPUs cannot drive 4K at 120 Hz over HDMI® with the open driver (<a href="https://www.phoronix.com/news/HDMI-2.1-OSS-Rejected">Phoronix</a>, <a href="https://www.tomshardware.com/pc-components/gpus/hdmi-forum-rejects-amds-hdmi-21-open-source-driver">Tom's Hardware</a>; press, the tracker page sits behind a bot check).
+            The 3D signalling is not in that closed part: it is in HDMI® 1.4a, whose text the kernel implements in the open, which is why a petition for a cheap headset profile is addressed to the licensing body and not to a closed specification.
+          </dd>
+        </dl>
+      </section>
+      <section id="open-survived">
+        <h3>What stayed open survived</h3>
+        <ul>
+          <li>HDMI® 1.4a's 3D structures, vendor InfoFrame and EDID bits are on every 3D television sold from 2010 and in the Linux kernel; the edition's kernel series uses them on AMD, NVIDIA and Intel GPUs (<a href="https://github.com/Sparky-OS/sparky-stereo-os/blob/main/docs/how-it-works.md">how it works</a>).</li>
+          <li>Blu-ray 3D's MVC is H.264 Annex H; the discs play in 2D on every player, titles kept coming after the television makers left, and FFmpeg's decoders read the second view today.</li>
+          <li>Matroska's <code>StereoMode</code> is in <a href="https://www.rfc-editor.org/info/rfc9559">RFC 9559</a> (2024, Steve Lhomme, Moritz Bunkus and Dave Rice), with an IANA registry that was extended in October 2026 by the registrations above.</li>
+          <li>H.264's and H.265's frame packing message is in the streams themselves, which is what the merged encoder, remuxer, server and player changes read and write.</li>
+        </ul>
+        <p>
+          Theoretically, a standard outlives a product because anyone may implement it after the vendor leaves; in practice, that is what happened to every item in this list and to none of the closed stacks above.
+        </p>
+      </section>
+      <section id="other-causes">
+        <h3>The other causes, stated plainly</h3>
+        <p>
+          Closed stacks are not the only cause, and this report does not claim they are.
+        </p>
+        <ul>
+          <li><strong>Cost.</strong> The Vision Pro at US$3,499, the Steam Frame and the Quest 3 at prices above a console, and before them 3D televisions and shutter glasses sold at a premium.</li>
+          <li><strong>Content.</strong> The first report recorded the BBC's and ESPN's exits in 2013; the rows above record studios closing when their one platform's funding changed.</li>
+          <li><strong>Comfort.</strong> The literature is clear on where discomfort comes from: motion. Solimini's 2013 prospective study of 497 adults found 54.8% reporting symptoms after a 3D film against 14.1% after 2D (<a href="https://doi.org/10.1371/journal.pone.0056160">PLoS ONE</a>); Read and Bohr's 2014 study of 433 viewers found about 14% with headache or eyestrain from stereo itself and about 8% reporting symptoms from the glasses or from expecting them (<a href="https://doi.org/10.1080/00140139.2014.914581">Ergonomics</a>); Hoffman and colleagues (2008, <a href="https://doi.org/10.1167/8.3.33">Journal of Vision</a>) and Shibata and colleagues (2011, <a href="https://doi.org/10.1167/11.8.11">Journal of Vision</a>) measured the vergence-accommodation conflict and the zone of comfort it leaves on desktop displays.
+            The edition's answer is its design, not a warning: 2D content stays at the screen plane with zero disparity, depth is drawn only inside stereo windows and kept within that zone, a desktop has no camera motion, and 2D is always one switch away (<a href="https://github.com/Sparky-OS/sparky-stereo-os/blob/main/docs/depth-on-the-desktop.md">depth on the desktop</a>).</li>
+        </ul>
+      </section>
+      <section id="price-comfort">
+        <h3>Price against comfort: Daniel's argument</h3>
+        <p>
+          This section is the author's reasoning, and it says which parts rest on measurement.
+        </p>
+        <p>
+          The argument: paying a high price and receiving discomfort is part of the blame.
+          Had people paid less, the same discomfort would have been expected and more tolerable, because people weigh cost against benefit.
+          A US$3,499 headset that gives a headache after an hour is returned; a US$15 cardboard viewer that does the same is put back in the drawer and taken out again on the next rainy day.
+        </p>
+        <p>
+          What is measured:
+        </p>
+        <ul>
+          <li>The returns of the Vision Pro in its first two weeks were reported with comfort, headaches and weight as the leading reasons (<a href="https://www.theverge.com/2024/2/14/24072792/apple-vision-pro-early-adopters-returns">The Verge, 14 February 2024</a>; press, read through its coverage elsewhere; no return rate was published).</li>
+          <li>The PlayStation VR2 sold when its price fell (the July 2024 row), and Sony made the cut permanent in March 2025.</li>
+          <li>More than 15 million Cardboard viewers shipped at a price near US$15, and Google reported that their use declined over time while opening the SDK so the design could continue; a cardboard viewer with a 2019 phone is the device the edition's Flat Headset runs on today.</li>
+          <li>The general mechanism is in the consumer-satisfaction literature: Richard L. Oliver's expectation-disconfirmation model (1980, <a href="https://doi.org/10.1177/002224378001700405">Journal of Marketing Research</a>) expresses satisfaction as a function of prior expectation and of how far the experience departs from it.</li>
+        </ul>
+        <p>
+          What is reasoning: that price sets the expectation in Oliver's sense, so the same discomfort disconfirms more at a higher price; and that this, rather than the discomfort alone, explains why the costly closed devices were returned or shelved while cheap and open ones were kept.
+          No study known to the author measures return rates of headsets against price and comfort together; that is a measurement a reader could make.
+        </p>
+      </section>
+    </section>
+
+    <section id="opening">
+      <h2>What we are opening</h2>
+      <p>
+        Sparky Stereo OS is in development; nothing below is a released product, and each link leads to the public record of the piece.
+      </p>
+      <ul>
+        <li><strong>Kernel and drivers.</strong> HDMI® 1.4a 3D on amdgpu and NVIDIA's open kernel modules, the whole set of 3D structures, DisplayPort frame-sequential stereo behind a per-connector opt-in, a virtual display (VKMS) that speaks HDMI® 3D for testing without a 3D television, and deep colour (10, 12 and 16 bits per channel): <a href="https://github.com/Sparky-OS/sparky-stereo-os-build/blob/main/kernel/series/series.txt">the kernel series</a>, <a href="https://github.com/NVIDIA/open-gpu-kernel-modules/pull/1386">NVIDIA #1386</a> (in review), <a href="https://github.com/Sparky-OS/sparky-stereo-os/blob/main/docs/test-stereo-without-a-3d-tv.md">testing without a 3D TV</a>.</li>
+        <li><strong>Mesa and the compositor.</strong> Mesa packs OpenGL, EGL and Vulkan stereo views and declares them to KWin; Stereo KWin takes one format from every program, full side by side declared once, and turns it into each screen's format at the output (<a href="https://invent.kde.org/danielcamposramos/kwin/-/blob/stereo3d/STEREO3D.md">compositor design</a>, <a href="https://github.com/Sparky-OS/sparky-stereo-os/blob/main/docs/stereo-labor-division.md">labour division</a>).</li>
+        <li><strong>Encoders, containers, servers and players.</strong> The 23 merged changes above, in the projects' own trees, so the stereo mark travels with the file from encoder to screen (<a href="https://github.com/Sparky-OS/sparky-stereo-os/blob/main/docs/upstream-merges.md">the one list</a>, <a href="https://github.com/Sparky-OS/sparky-stereo-os/blob/main/docs/programs-in-detail.md">programs in detail</a>).</li>
+        <li><strong>Registrations.</strong> The IANA Matroska plane types 3 to 5 and stereo modes 15 to 20, with their open specification in <a href="https://github.com/Sparky-OS/stereo-layer">stereo-layer</a>.</li>
+        <li><strong>Petitions.</strong> The HDMI® and Wi-Fi Alliance letters of 27 October 2026 for a low-cost, certifiable 3D profile for single-panel headsets.</li>
+        <li><strong>The web.</strong> <a href="https://github.com/w3c/webcodecs/issues/970">WebCodecs #970</a>, <a href="https://github.com/w3c/media-capabilities/issues/249">Media Capabilities #249</a>, the <a href="https://github.com/WICG/proposals/issues/316">SVGStereo proposal at the WICG</a>, and the first report's five proposals for a browser.</li>
+        <li><strong>Phones as headsets.</strong> <a href="https://github.com/Sparky-OS/flat-headset">Flat Headset</a> and <a href="https://github.com/FreeRDP/FreeRDP/pull/14003">FreeRDP #14003</a>, so a phone from 2016 onwards in a cardboard viewer is a stereo screen for the desktop, drawn by the PC.</li>
+      </ul>
+      <p>
+        Every piece is under a free licence in a public repository, which is the whole point of the thesis: when this author leaves, the path stays.
+      </p>
+    </section>
+
+    <section id="questions">
+      <h2>Questions for readers</h2>
+      <ol>
+        <li>
+          <strong>For display and headset makers, and for HDMI Licensing Administrator, Inc. and the Wi-Fi Alliance:</strong> would a side-by-side-only sink profile at the panel's native timing, with a certification path priced per country, let cheap single-panel headsets declare 3D compliantly?
+          A maker that wants it can say so to those bodies; the technical basis is in <a href="#petitions">the petitions section</a>.
+        </li>
+        <li>
+          <strong>For W3C participants in the Media, Immersive Web and CSS groups:</strong> "Which group should own stereo for the video element?" was left open at TPAC.
+          An answer, even "not us, try there", moves the first report's proposals to a venue that can take them.
+        </li>
+        <li>
+          <strong>For anyone with a 3D television, a 3D monitor, a projector or an Android phone and a cardboard viewer:</strong> try the developer ISO or the Flat Headset test build and report your gear and what you saw (<a href="https://github.com/Sparky-OS/sparky-stereo-os#readme">how to sign up</a>).
+          The loop in the first report began with reviewers who had no stereo display; every tester with one shortens it.
+        </li>
+      </ol>
+    </section>
+
+    <section id="claims" class="appendix">
+      <h2>Claims and sources</h2>
+      <p>
+        Checked on 3 November 2026.
+        "Primary" means read at the producer's own page; "press" means a trade-press report; "not read" means the primary page refused this machine's request and the figure rests on the press reports cited.
+      </p>
+      <table class="data">
+        <thead>
+          <tr><th scope="col">Claim</th><th scope="col">Source</th><th scope="col">Kind</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>IDC 2025: headsets -42.8%, XR +41.6% to 14.5 M, glasses CAGR 29.3%</td><td>IDC press release, 11 December 2025</td><td>primary</td></tr>
+          <tr><td>Vision Pro 390,000 (2024) and 45,000 (2025); Quest 5.6 M (2024), 1.7 M (three quarters of 2025)</td><td>The Register quoting IDC, 2 January 2026</td><td>press quoting IDC</td></tr>
+          <tr><td>Counterpoint H1 2025 -14%; Q1 2026 -17% and -39% QoQ; Q2 2026 -18%</td><td>MacTech; Counterpoint Q1 2026 page; PC Gamer</td><td>press; primary summary; press</td></tr>
+          <tr><td>Reality Labs 2025 loss US$19,193 M, revenue US$2,207 M</td><td>Meta results, 28 January 2026</td><td>primary</td></tr>
+          <tr><td>Meta cuts of up to 30% considered</td><td>Bloomberg via UploadVR, December 2025</td><td>press</td></tr>
+          <tr><td>Meta closed Armature, Sanzaru, Twisted Pixel; about 10% of Reality Labs</td><td>Engadget, January 2026; Meta confirmed</td><td>press with confirmation</td></tr>
+          <tr><td>Vision Pro US$3,499</td><td>Apple newsroom, 8 January 2024</td><td>primary</td></tr>
+          <tr><td>Vision Pro returns over comfort, headaches, weight</td><td>The Verge, 14 February 2024</td><td>press, not read directly</td></tr>
+          <tr><td>Vision Pro production halted, advertising cut over 95%</td><td>Financial Times and Sensor Tower via Tom's Guide</td><td>press, not read at the primary</td></tr>
+          <tr><td>PSVR2 production pause, over 2 M built</td><td>Bloomberg, 18 March 2024 (syndicated copy)</td><td>press</td></tr>
+          <tr><td>PSVR2 first-party development cut</td><td>Android Central via Digital Trends, June 2024</td><td>press, anonymously sourced</td></tr>
+          <tr><td>PSVR2 PC adapter and its unsupported features</td><td>PlayStation Blog, 3 June 2024</td><td>primary</td></tr>
+          <tr><td>PSVR2 permanent cut to US$399.99</td><td>PlayStation Blog, 27 February 2025</td><td>primary</td></tr>
+          <tr><td>PSVR2 sales up about 2,350% in a day after the July 2024 cut</td><td>The Shortcut via Push Square</td><td>press, one retailer's data</td></tr>
+          <tr><td>Ready at Dawn closed 7 August 2024</td><td>Android Central; Gematsu with Meta's confirmation</td><td>press with confirmation</td></tr>
+          <tr><td>Kluge, Mighty Coconut, nDreams, Survios, Vertigo Amsterdam, Schell Games, Polyarc, Camouflaj</td><td>Road to VR, UploadVR, PocketGamer.biz, GameDev.net, Game Developer</td><td>press</td></tr>
+          <tr><td>Pico layoffs, November 2023</td><td>Reuters via Investing.com</td><td>press</td></tr>
+          <tr><td>Steam survey: 1.75% with a headset in October 2026 (+0.40); Steam Frame 5.61%; Quest 3 27.27%</td><td>Steam Hardware Survey, read 3 November 2026</td><td>primary</td></tr>
+          <tr><td>Blu-ray 3D finalised 17 December 2009, MVC, 1080p per eye</td><td>BDA release, copy at Sports Video Group</td><td>primary text, secondary copy</td></tr>
+          <tr><td>HDMI® 1.4a, 4 March 2010, mandatory broadcast 3D formats and top-and-bottom</td><td>hdmi.org announcement 84</td><td>primary</td></tr>
+          <tr><td>3D TV 23% of US TV sales dollars in 2012, 8% in 2016; Samsung 2016; LG and Sony 2017 quotes</td><td>CNET quoting NPD and the companies, January 2017</td><td>press, not read directly</td></tr>
+          <tr><td>NVIDIA 3D Vision ends with Release 418; fixes to April 2020</td><td>NVIDIA notice 4787; Engadget, 11 March 2019</td><td>primary not read; press</td></tr>
+          <tr><td>Cardboard over 15 M shipped; usage declined; SDK open-sourced</td><td>Google developers blog, 6 November 2019</td><td>primary</td></tr>
+          <tr><td>HDMI Forum rejected AMD's open-source HDMI® 2.1 proposal; specification restricted in 2021</td><td>drm/amd issue 1417 (behind a bot check); Phoronix; Tom's Hardware</td><td>primary not read; press</td></tr>
+          <tr><td>App Lab folded into the Meta Horizon Store, August 2024</td><td>Meta developer blog</td><td>primary</td></tr>
+          <tr><td>RFC 9559, Matroska, 2024, Lhomme, Bunkus, Rice</td><td>RFC Editor</td><td>primary</td></tr>
+          <tr><td>IANA plane types 3 to 5 (20 October) and stereo modes 15 to 20 (26 October 2026)</td><td>IANA Matroska registries</td><td>primary</td></tr>
+          <tr><td>M&amp;E IG lines of 13 October 2026</td><td>W3C minutes</td><td>primary</td></tr>
+          <tr><td>TPAC lines of 27, 28 and 30 October 2026</td><td>W3C draft minutes and IRC log</td><td>primary, draft</td></tr>
+          <tr><td>WebXR #1436 merged 9 June 2026</td><td>GitHub API</td><td>primary</td></tr>
+          <tr><td>23 merged, 8 in review; FreeRDP #14003 open since 2 November 2026</td><td>GitHub, Codeberg, freedesktop, code.ffmpeg.org and code.videolan.org APIs; Qt's Gerrit refused the query</td><td>primary, Qt from the list's record</td></tr>
+          <tr><td>Flat Headset on a Redmi Note 7 and a 2016 laptop</td><td>Flat Headset documentation, 19 October 2026</td><td>primary (the project's own record)</td></tr>
+          <tr><td>Oliver 1980, expectation-disconfirmation</td><td>Journal of Marketing Research 17(4), DOI 10.1177/002224378001700405</td><td>primary, DOI listing</td></tr>
+          <tr><td>Comfort literature: Solimini 2013 (497 participants, 54.8% against 14.1%); Read and Bohr 2014; Hoffman 2008; Shibata 2011</td><td>DOIs as linked</td><td>primary</td></tr>
+          <tr><td>W3C fees scaled by country income since 2005</td><td>W3C fees page</td><td>primary</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <p>HDMI®, HDMI® High-Definition Multimedia Interface and the HDMI® Logo are trademarks or registered trademarks of HDMI Licensing Administrator, Inc.</p>
+  </body>
+</html>
