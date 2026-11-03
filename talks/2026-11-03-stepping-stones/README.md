@@ -47,4 +47,12 @@ Would you describe your own stepping stone in three lines?
 
 Replies on the list are welcome, and I will collect them on this page.
 
+## Replies
+
+**Christoph Dorn, 3 November ([public-pm-kr 2026Nov/0004](https://lists.w3.org/Archives/Public/public-pm-kr/2026Nov/0004.html)):** his path, from his own work.
+1. Use LLMs to build deterministic systems.
+2. Use LLMs to configure deterministic systems, with every configuration change validated by policy models and escalated to a person for signature.
+Probabilistic systems build models people can understand and approve; they do not make decisions without reasoning.
+He sees PM-KR defining how knowledge is represented and linked, so systems like these find what they need to structure themselves.
+
 AI partners were leveraged in the production of this work.
