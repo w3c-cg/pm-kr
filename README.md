@@ -12,6 +12,7 @@
 
 - [TPAC 2026: seven breakouts, one thread](talks/2026-10-30-tpac-2026-report/README.md), 27 to 30 October 2026: individual written input to seven breakouts, with each session's minutes; the Web of Worlds session ended with a workshop as its next step and a Task Force map as input for its scope.
 - [Synthetic User explainer](explainers/synthetic-user.md), 31 October 2026: individual input on an AI that acts as a declared, delegated user (a mandate like a power of attorney, autonomy only inside institutions, provenance by CRediT roles), with three questions for the group; Knowledge3D is the paused reference implementation, the model rather than the specification.
+- [Glossary: one idea, one name, across every technology](glossary/README.md), 4 November 2026: individual input; each entry gives one idea, the one shared name, the name every specification gives it with its clause, the group that owns each specification and where to get its text, and the status of every name.
 - [IANA Matroska registrations](https://www.iana.org/assignments/matroska), 20 and 26 October 2026: Track Plane Types 3 through 5 and StereoMode 15 through 20 assigned for separate depth tracks and packed picture-and-depth layouts, respectively. The [format specification](https://github.com/Sparky-OS/stereo-layer/blob/main/docs/depth-marks.md#registrations) records the details; assignment is separate from implementation support or W3C adoption.
 
 PM-KR investigates how reusable procedures, explicit meaning and provenance could let human interfaces and AI systems share knowledge. The group is incubating proposals; this README does not announce an adopted W3C standard.
@@ -256,6 +257,7 @@ pm-kr/
 │   ├── source/                  # ReSpec sources of the reports
 │   └── experiments/             # Individual pilots with their prompts and checks
 ├── talks/                       # Dated inputs from individual participants
+├── glossary/                    # One idea, one name, across every technology: terms, clauses, groups and where to get the texts
 ├── skills/
 │   └── notebooklm/              # Using the PM-KR notebook in Gemini Notebook (NotebookLM)
 ├── scripts/                     # Report and profile check scripts
