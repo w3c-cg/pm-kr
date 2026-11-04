@@ -40,7 +40,7 @@ CHF at R$ 6,6937 and USD at R$ 5,4935 (PTAX, 2026-11-03).
 | CTA-861.3-A, HDR static metadata | USD 74 | R$ 406,52 | none found | [CTA](https://shop.cta.tech/products/cta-861-3) |
 
 Not in any sum, because no issuer price is published:
-- **HDMI:** the specification goes only to adopters who sign an agreement and pay fees the [HDMI adopter page](https://www.hdmi.org/adopter/index) does not list. The HDMI Forum's own membership is USD 12.500 a year ([FAQ](https://hdmiforum.org/about/faq)).
+- **HDMI and Miracast:** see their own section below.
 - **VESA DisplayPort:** members only ([VESA](https://vesa.org/vesa-standards/)).
 - **SMPTE ST 2084 and ST 2094-40, and Blu-ray 3D.**
 - **IEC 60958 and IEC 61937 for digital audio:** IEC sells them only as series packs, at [CHF 1.256](https://webstore.iec.ch/en/publication/4048) and [CHF 2.150](https://webstore.iec.ch/en/publication/6141).
@@ -53,9 +53,20 @@ With the three amendments that change those texts: CHF 416, R$ 2.784,58, 1,72 mi
 
 Everything in the table, amendments included, adds up to CHF 1.491 and USD 479: R$ 12.611,69.
 That is 7,78 monthly minimum wages, or 233 days of work.
-It is a floor: HDMI, DisplayPort, SMPTE, Blu-ray and the IEC audio packs are not in it.
+It is a floor: HDMI, Miracast, DisplayPort, SMPTE, Blu-ray and the IEC audio packs are not in it.
 
 The minimum wage is R$ 1.621,00 a month and R$ 54,04 a day ([Decreto 12.797](https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2025/decreto/d12797.htm), 23 December 2025).
+
+## HDMI and Miracast
+
+HDMI carries the 3D picture from the computer to the television, and Miracast carries it over Wi-Fi.
+Neither specification can be bought as a document.
+
+- **HDMI goes only to adopters,** who sign an agreement and pay every year. The [HDMI adopter page](https://www.hdmi.org/adopter/index) does not publish the amounts. Reported terms: USD 10.000 a year above 10.000 units, or USD 5.000 a year plus USD 1 per unit below that, and a royalty of USD 0,15 per device (USD 0,05 with the HDMI logo, USD 0,04 with HDCP as well) ([Symmetry Electronics](https://symmetryelectronics.com/blog/what-are-the-licensing-costs-associated-with-hdmi), [HDMI Licensing, 2006](https://design-reuse.com/news/13854/hdmi-annual-fee-reduced-hdmi-growth-fee-reduction-making-hdmi-even-more-affordable-all.html)).
+- **In reais,** the smallest adopter fee is R$ 27.467,50 a year, 16,94 minimum wages, and the larger one is R$ 54.935,00 a year, 33,89 minimum wages, before any royalty.
+- **The HDMI Forum,** which writes HDMI 2.1 and later, charges its members USD 12.500 a year, R$ 68.668,75, 42,36 minimum wages ([FAQ](https://hdmiforum.org/about/faq)).
+- **The 3D part of HDMI 1.4a is the one exception.** HDMI Licensing sends it to anyone who gives an email address, but its licence allows using it only "for the purposes of (a) informing itself of such 3D video format and signaling and/or (b) evaluating" it ([hdmi.org](https://www.hdmi.org/docs/hdmi14bspecs)). It can be read, not built with.
+- **Miracast** is the Wi-Fi Alliance's Wi-Fi Display specification, which the Alliance owns ([Wi-Fi Alliance](https://www.wi-fi.org/node/6909)). Developers report it can be downloaded after registering and accepting a licence that does not allow sharing it. Miracast certification requires Alliance membership, and the [membership page](https://www.wi-fi.org/membership) does not publish its dues.
 
 ## What a registered engineer's access covers
 
