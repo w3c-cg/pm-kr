@@ -211,7 +211,7 @@
             <tr><th scope="col">Date</th><th scope="col">Fact</th><th scope="col">Source</th></tr>
           </thead>
           <tbody>
-            <tr><td>17 December 2009</td><td>The Blu-ray Disc Association finalises Blu-ray 3D: full 1080p per eye, encoded with MVC, the multiview extension of ITU-T H.264 (Annex H), playable in 2D on existing players.</td><td>BDA press release, copy at <a href="https://www.sportsvideo.org/2009/12/17/blu-ray-disc-association-announces-final-3d-specification/">Sports Video Group</a>; primary text, secondary copy.</td></tr>
+            <tr><td>17 December 2009</td><td>The Blu-ray Disc Association finalises Blu-ray 3D: full 1080p per eye, encoded with MVC, the multiview extension of ITU-T H.264 (Annex H in that edition; Annex G in the current one, H.264 V16 of 06/2026), playable in 2D on existing players.</td><td>BDA press release, copy at <a href="https://www.sportsvideo.org/2009/12/17/blu-ray-disc-association-announces-final-3d-specification/">Sports Video Group</a>; primary text, secondary copy.</td></tr>
             <tr><td>4 March 2010</td><td>HDMI® 1.4a adds the mandatory 3D formats for broadcast content and the top-and-bottom format.</td><td><a href="https://www.hdmi.org/announce/detail/84">HDMI Licensing, LLC release</a>; primary.</td></tr>
             <tr><td>2012 to 2016</td><td>3D televisions fall from 23% of television sales dollars in 2012 to 8% in 2016 in the United States.</td><td>NPD Group figures, in <a href="https://www.cnet.com/tech/home-entertainment/3d-tv-is-dead/">CNET, "3D TV is dead"</a>, January 2017; press quoting NPD.</td></tr>
             <tr><td>2016</td><td>Samsung drops 3D from its television range.</td><td>Same CNET article; press.</td></tr>
@@ -271,7 +271,7 @@
         <h3>What stayed open survived</h3>
         <ul>
           <li>HDMI® 1.4a's 3D structures, vendor InfoFrame and EDID bits are on every 3D television sold from 2010 and in the Linux kernel; the edition's kernel series uses them on AMD, NVIDIA and Intel GPUs (<a href="https://github.com/Sparky-OS/sparky-stereo-os/blob/main/docs/how-it-works.md">how it works</a>).</li>
-          <li>Blu-ray 3D's MVC is H.264 Annex H; the discs play in 2D on every player, titles kept coming after the television makers left, and FFmpeg's decoders read the second view today.</li>
+          <li>Blu-ray 3D's MVC is H.264's multiview extension (Annex G in H.264 V16 of 06/2026, Annex H in the 2009 edition); the discs play in 2D on every player, titles kept coming after the television makers left, and FFmpeg's decoders read the second view today.</li>
           <li>Matroska's <code>StereoMode</code> is in <a href="https://www.rfc-editor.org/info/rfc9559">RFC 9559</a> (2024, Steve Lhomme, Moritz Bunkus and Dave Rice), with an IANA registry that was extended in October 2026 by the registrations above.</li>
           <li>H.264's and H.265's frame packing message is in the streams themselves, which is what the merged encoder, remuxer, server and player changes read and write.</li>
         </ul>
