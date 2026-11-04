@@ -116,6 +116,14 @@ The values to keep are already written in the [Ethical Web Principles](https://w
 The [minutes](https://www.w3.org/2026/10/30-spatial-web-msf-minutes.html) record the Task Force proposal and the room's next step: a two-day workshop co-organised by W3C, the Metaverse Standards Forum and Khronos, starting with a program committee on its scope.
 The map above is ready as input for that scope.
 The session's follow-up to the Web of Worlds group of the Metaverse Standards Forum listed this input as an "in-depth analysis", beside the session's slides and minutes.
+
+**glTF 2.1 against the room's wish list.** Amanda Morgan, who hosts Khronos's [glTF 2.1 Town Hall](https://www.khronos.org/events/gltf-2.1-town-hall) on 17 November, read the minutes and this input and mapped them to glTF 2.1 and 3D Tiles 2.0 (quoted with her permission, 4 November 2026):
+
+> glTF 2.1 gets you closer to meeting your requirements based on the following: a world document can reference independently maintained glTF assets; those assets can be positioned in a shared scene graph; file references and packaging can support online and offline delivery; stable identifiers can provide targets for metadata, links, selection, or agent actions; bounding volumes allow clients to reason spatially without loading all renderable content; glTF extensions can introduce avatars, interactivity, Gaussian splats, physics, metadata, and other specialized representations.
+>
+> 3D Tiles 2.0 can get you even closer with world-scale spatial organization, hierarchical LOD, refinement, implicit tiling, CRS needs, regional bounding volumes, and allows for progressive streaming.
+
+Her lines meet three of the eight points: stable identifiers give doors and links their targets inside a world (point 2), the same targets serve people and AI agents (point 4), and packaging with bounding volumes lets a client find and receive a world before loading everything (point 7).
 My report on the whole week: [TPAC 2026: seven breakouts, one thread](../2026-10-30-tpac-2026-report/README.md).
 
 ---
