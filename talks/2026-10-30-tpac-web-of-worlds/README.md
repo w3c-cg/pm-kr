@@ -91,11 +91,11 @@ And this session is itself organised jointly by W3C and the Metaverse Standards 
 
 | Area | Where I would start it | W3C groups with it | Bodies outside W3C |
 |---|---|---|---|
-| Linking, addressing and locating | Immersive Web CG | Immersive Web WG; Spatio-temporal Data on the Web WG; Maps for HTML CG | OGC (GeoPose); IETF and IANA |
+| Linking, addressing and locating | Immersive Web CG | Immersive Web WG; Spatio-temporal Data on the Web WG; Maps for HTML CG; [Metaverse Interoperability CG](https://www.w3.org/community/metaverse-interop/) (OMI) | OGC (GeoPose); IETF and IANA |
 | Composition and semantics | PM-KR CG (the knowledge layer) | JSON-LD WG; RDF & SPARQL WG; Immersive Web CG (`<model>` nodes) | Web3D Consortium (X3D, HAnim) and ISO/IEC JTC 1/SC 24; IEEE's Spatial Web work (P2874) |
 | Presenting worlds on the screens people own | Immersive Web WG (inline-stereo) | CSS WG; Media WG; Accessible Platform Architectures WG | HDMI Forum; VESA (DisplayPort); CTA (CTA-861); Wi-Fi Alliance (Miracast); Khronos (OpenXR) |
 | Portable identity, user data and preferences | Credentials CG | Verifiable Credentials WG; Decentralized Identifier WG; Federated Identity WG; Privacy WG | Metaverse Standards Forum (User Manifest) |
-| Assets, size and procedural layers | GPU for the Web WG | Immersive Web WG | Khronos 3D Formats WG (glTF); Web3D Consortium |
+| Assets, size and procedural layers | GPU for the Web WG | Immersive Web WG; Metaverse Interoperability CG (OMI, [glTF extensions](https://github.com/omigroup/gltf-extensions)) | Khronos 3D Formats WG (glTF); Web3D Consortium |
 | Finding and moving between worlds | Web of Things WG (WoT Discovery) | Spatio-temporal Data on the Web WG; WebTransport WG | IETF; 3GPP; Bluetooth SIG; OGC |
 | Sound in shared spaces | Web Real-Time Communications WG | Media WG; Audio WG | Bluetooth SIG (Auracast) |
 | Media that carries stereo and depth | Media WG | Media and Entertainment IG; Timed Text WG | IETF CELLAR and IANA; ISO/IEC JTC 1/SC 29 (MPEG); ITU-T SG16; AOMedia |
@@ -124,6 +124,11 @@ The session's follow-up to the Web of Worlds group of the Metaverse Standards Fo
 > 3D Tiles 2.0 can get you even closer with world-scale spatial organization, hierarchical LOD, refinement, implicit tiling, CRS needs, regional bounding volumes, and allows for progressive streaming.
 
 Her lines meet three of the eight points: stable identifiers give doors and links their targets inside a world (point 2), the same targets serve people and AI agents (point 4), and packaging with bounding volumes lets a client find and receive a world before loading everything (point 7).
+
+**The Community Group that already exists.** The W3C [Metaverse Interoperability Community Group](https://www.w3.org/community/metaverse-interop/), the Open Metaverse Interoperability Group (OMI), has worked on this since 2021, writing [glTF extensions for worlds](https://github.com/omigroup/gltf-extensions): physics, seats, spawn points, vehicles and, until it was archived in March 2026, `OMI_link` for links between worlds.
+It belongs on the map above, and the session's organisers have been told; thanks to Aaron Franke, Godot's glTF maintainer, for pointing to it.
+A door between worlds still needs more than a link: how it is crossed, its shape, how it is shown, and a preview of the destination.
+
 My report on the whole week: [TPAC 2026: seven breakouts, one thread](../2026-10-30-tpac-2026-report/README.md).
 
 ---
