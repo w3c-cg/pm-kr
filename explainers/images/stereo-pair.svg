@@ -1,24 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="700" height="300" viewBox="0 0 700 300" font-family="sans-serif" font-size="14">
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="290" viewBox="0 0 480 290" font-family="sans-serif" font-size="13">
   <title>A stereo pair as full side by side: the left eye's view first, then the right eye's, each complete</title>
-  <desc>Two frames side by side. In both, a square sits at the same place: it is on the screen. A circle is drawn further right in the left view and further left in the right view: it is popped, in front of the screen. A triangle is drawn further left in the left view and further right in the right view: it is sunk, behind the screen.</desc>
-  <rect width="700" height="300" fill="#fff"/>
-  <text x="170" y="24" text-anchor="middle" font-weight="bold">Left eye's view</text>
-  <text x="530" y="24" text-anchor="middle" font-weight="bold">Right eye's view</text>
-  <rect x="10" y="36" width="320" height="200" fill="#f4f4f4" stroke="#444"/>
-  <rect x="370" y="36" width="320" height="200" fill="#f4f4f4" stroke="#444"/>
+  <desc>Two frames side by side, their centres 240 pixels apart so that the pair can be free-viewed with the eyes relaxed. In both, a square sits at the same place: it is on the screen. A circle is drawn further right in the left view and further left in the right view: it is popped, in front of the screen. A triangle is drawn further left in the left view and further right in the right view: it is sunk, behind the screen.</desc>
+  <rect width="480" height="290" fill="#fff"/>
+  <text x="120" y="22" text-anchor="middle" font-weight="bold">Left eye's view</text>
+  <text x="360" y="22" text-anchor="middle" font-weight="bold">Right eye's view</text>
+  <rect x="10" y="32" width="220" height="165" fill="#f4f4f4" stroke="#444"/>
+  <rect x="250" y="32" width="220" height="165" fill="#f4f4f4" stroke="#444"/>
   <!-- square on the screen plane: same place in both -->
-  <rect x="150" y="100" width="40" height="40" fill="#5b7fa6"/>
-  <rect x="510" y="100" width="40" height="40" fill="#5b7fa6"/>
+  <rect x="105" y="90" width="30" height="30" fill="#5b7fa6"/>
+  <rect x="345" y="90" width="30" height="30" fill="#5b7fa6"/>
   <!-- circle popped: right in the left view, left in the right view -->
-  <circle cx="250" cy="190" r="22" fill="#d9822b"/>
-  <circle cx="586" cy="190" r="22" fill="#d9822b"/>
+  <circle cx="178" cy="160" r="16" fill="#d9822b"/>
+  <circle cx="406" cy="160" r="16" fill="#d9822b"/>
   <!-- triangle sunk: left in the left view, right in the right view -->
-  <polygon points="60,80 90,80 75,50" fill="#3a9d5d"/>
-  <polygon points="444,80 474,80 459,50" fill="#3a9d5d"/>
-  <text x="170" y="256" text-anchor="middle">square: on the screen, same place in both</text>
-  <text x="170" y="274" text-anchor="middle">circle: popped, shifted the opposite way in each eye</text>
-  <text x="170" y="292" text-anchor="middle">triangle: sunk, shifted the other way round</text>
-  <text x="530" y="256" text-anchor="middle">one picture, 640 wide:</text>
-  <text x="530" y="274" text-anchor="middle">the left view first, then the right view,</text>
-  <text x="530" y="292" text-anchor="middle">each complete, each at its own size</text>
+  <polygon points="42,72 64,72 53,50" fill="#3a9d5d"/>
+  <polygon points="294,72 316,72 305,50" fill="#3a9d5d"/>
+  <text x="240" y="220" text-anchor="middle">square: on the screen, same place in both</text>
+  <text x="240" y="238" text-anchor="middle">circle: popped, shifted the opposite way in each eye</text>
+  <text x="240" y="256" text-anchor="middle">triangle: sunk, shifted the other way round</text>
+  <text x="240" y="280" text-anchor="middle">one picture: the left view first, then the right, each complete, each at its own size</text>
 </svg>
