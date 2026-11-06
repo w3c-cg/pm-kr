@@ -30,7 +30,7 @@ One form across W3C, with language and accessibility help handled as the draft's
 
 ## Where it exists today
 
-- Every page in this repository ends with one line, "AI partners were leveraged in the production of this work", and the project pages credit people and partners by CRediT role.
+- The dated input pages in this repository end with one line, "AI partners were leveraged in the production of this work", and the project pages credit people and partners by CRediT role.
 - A finished case: in October 2026 IANA registered nine Matroska values for a stereo picture with its depth, Track Plane Types 3 to 5 and Stereo Modes 15 to 20, the latter after review by the registry's designated experts ([IANA Matroska registry](https://www.iana.org/assignments/matroska)).
   The specification the registry cites was written with AI partners, its history labels that commit by commit, and one person is the change controller who answers for the values ([point 15](../talks/2026-10-28-tpac-ai-policy/README.md#15-a-finished-case-a-registry-entry-written-with-ai-partners)).
 - The [Synthetic User](synthetic-user.md) explainer gives the same rule for an AI acting on the web: declared, delegated, bounded, and credited by roles.
