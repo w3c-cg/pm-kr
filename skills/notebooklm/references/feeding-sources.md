@@ -43,6 +43,10 @@ Each of those was fixable only in the sources, because a Revise step does not re
 | A planned feature drawn as working | Outreach or a plan sat in a source without a status word | The status word inside each sentence, and "outreach is not a built path" as a rule line | Worked pattern in SKILL.md (the 20 October architecture image) |
 | A corrections note is read as new facts | Wrong statements were written as plain sentences | Wrong statements only after "Do not say", true statement first | The cold reader's outline, below |
 | A source is cited as a whole | It is very short | Merge tiny notes; keep each source over a few hundred words | SKILL.md, FAQ answer 16269187 |
+| A cold reader says "not in the sources" for a claim that is in a source | The status word was in the claims table but not in the sentence | Generate the status word into the sentence ("... (built)") from the table | Cold check of 2026-11-06, round 1 |
+| A scope sentence reads stronger than a status ("serves every display" beside "planned") | Design and status in different files | Say "designed for", and put the status of each family in the same source | The cold reader's list of contradictions |
+| Two rules about one declaration seem to conflict ("left eye first" and "never an eye") | Both true, in different senses, written side by side | Rewrite one so the sense is named ("gives the size of one view") | Same list |
+| An agent given the file paths cannot read them | A project hook can refuse an agent's first tool call until memory files are read | Pass the source text inline in the prompt and ask for a plain-text answer; read the answer from the agent's transcript if its hand-back is lost | Round 1 of this lane |
 | A mark or name is lost in a source | Markdown links change the line | Compare after stripping links; link a trademark's first mention once and end the file with the trademark holder's notice | The verify script of this lane |
 
 ## The cold-reader check, what to look at
