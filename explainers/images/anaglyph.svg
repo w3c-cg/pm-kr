@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="300" viewBox="0 0 360 300" font-family="sans-serif" font-size="14">
+  <title>The same pair as a red and cyan anaglyph: the left view in red, the right view in cyan, for red-cyan glasses</title>
+  <desc>One frame. The square on the screen is drawn once, where red and cyan overlap, so it looks dark grey. The popped circle appears twice, its red copy to the right and its cyan copy to the left. The sunk triangle appears twice, its red copy to the left and its cyan copy to the right.</desc>
+  <rect width="360" height="300" fill="#fff"/>
+  <text x="180" y="24" text-anchor="middle" font-weight="bold">Red and cyan, on any monitor</text>
+  <rect x="20" y="36" width="320" height="200" fill="#f4f4f4" stroke="#444"/>
+  <!-- square: red and cyan copies at the same place -->
+  <rect x="160" y="100" width="40" height="40" fill="#d00000" opacity="0.6"/>
+  <rect x="160" y="100" width="40" height="40" fill="#00b0c0" opacity="0.6"/>
+  <!-- circle popped: red (left view) right, cyan (right view) left -->
+  <circle cx="260" cy="190" r="22" fill="#d00000" opacity="0.6"/>
+  <circle cx="236" cy="190" r="22" fill="#00b0c0" opacity="0.6"/>
+  <!-- triangle sunk: red (left view) left, cyan (right view) right -->
+  <polygon points="70,80 100,80 85,50" fill="#d00000" opacity="0.6"/>
+  <polygon points="94,80 124,80 109,50" fill="#00b0c0" opacity="0.6"/>
+  <text x="180" y="256" text-anchor="middle">red: the left view, seen through the red filter</text>
+  <text x="180" y="274" text-anchor="middle">cyan: the right view, seen through the cyan filter</text>
+  <text x="180" y="292" text-anchor="middle">the same two views, mixed by colour instead of placed side by side</text>
+</svg>

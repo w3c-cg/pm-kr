@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="320" viewBox="0 0 720 320" font-family="sans-serif" font-size="14">
+  <title>Three planes: sunk behind the screen, the screen, popped in front; each a few pixels within limits the person sets</title>
+  <desc>Seen from the side, a person on the left looks at a screen drawn as a vertical line. Behind the screen a band is labelled sunk, down to the sunk limit; in front of it a smaller band is labelled popped, up to the popped limit. The active window sits on the screen line, menus and tooltips in the popped band, background windows and the wallpaper in the sunk band. A note says that each plane is drawn once per eye, shifted by a few pixels, and that a popped thing touching the screen's edge stays at the screen.</desc>
+  <rect width="720" height="320" fill="#fff"/>
+  <!-- person -->
+  <circle cx="60" cy="150" r="14" fill="none" stroke="#444" stroke-width="2"/>
+  <line x1="60" y1="164" x2="60" y2="210" stroke="#444" stroke-width="2"/>
+  <text x="60" y="235" text-anchor="middle">person</text>
+  <!-- popped band -->
+  <rect x="300" y="60" width="60" height="200" fill="#fde9d3"/>
+  <!-- sunk band -->
+  <rect x="360" y="60" width="150" height="200" fill="#dde9f5"/>
+  <!-- screen -->
+  <line x1="360" y1="50" x2="360" y2="270" stroke="#222" stroke-width="4"/>
+  <text x="360" y="40" text-anchor="middle" font-weight="bold">screen</text>
+  <!-- limits -->
+  <line x1="300" y1="60" x2="300" y2="260" stroke="#d9822b" stroke-dasharray="6 4" stroke-width="2"/>
+  <text x="300" y="282" text-anchor="middle" fill="#d9822b">popped limit</text>
+  <line x1="510" y1="60" x2="510" y2="260" stroke="#5b7fa6" stroke-dasharray="6 4" stroke-width="2"/>
+  <text x="510" y="282" text-anchor="middle" fill="#5b7fa6">sunk limit</text>
+  <text x="330" y="78" text-anchor="middle" font-weight="bold" fill="#a05a10">popped</text>
+  <text x="435" y="78" text-anchor="middle" font-weight="bold" fill="#2f5680">sunk</text>
+  <!-- elements -->
+  <rect x="355" y="110" width="10" height="90" fill="#444"/>
+  <text x="372" y="118" font-size="12">active window, on the screen</text>
+  <rect x="318" y="130" width="8" height="30" fill="#d9822b"/>
+  <text x="200" y="150" font-size="12" text-anchor="end">menu, tooltip, dialog: popped</text>
+  <line x1="205" y1="146" x2="316" y2="146" stroke="#d9822b"/>
+  <rect x="400" y="140" width="8" height="70" fill="#5b7fa6"/>
+  <rect x="440" y="150" width="8" height="70" fill="#7a9bc0"/>
+  <rect x="500" y="100" width="8" height="140" fill="#9fb6d0"/>
+  <text x="404" y="232" font-size="12">windows behind, in stacking order</text>
+  <text x="504" y="252" font-size="12" text-anchor="end">wallpaper, deepest</text>
+  <!-- notes -->
+  <text x="20" y="305" font-size="12">Each plane is drawn once per eye, shifted by a few pixels: 4 px popped and 10 px sunk at 1920 wide by default, the person's own setting on each display.</text>
+</svg>

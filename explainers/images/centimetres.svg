@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="330" viewBox="0 0 760 330" font-family="sans-serif" font-size="14">
+  <title>The same 1 cm of pop needs a different shift on a phone, a monitor, a 3D TV and a headset</title>
+  <desc>Four displays drawn at their usual distance from a person's eyes: a phone at 30 cm, a monitor at 60 cm, a 3D TV at 250 cm, and a headset whose lenses place a virtual screen at a distance the maker chose. Under each, the on-screen shift between the two eyes' copies that puts a point 1 cm in front of that screen, worked for eyes 65 mm apart: about 2.2 mm on the phone, 1.1 mm on the monitor, 0.26 mm on the TV, and on the headset a value that depends on its optics. The same millimetres are then a different number of pixels on each, from tens of pixels on the phone to under one pixel on the TV.</desc>
+  <rect width="760" height="330" fill="#fff"/>
+  <text x="380" y="26" text-anchor="middle" font-weight="bold">One centimetre in front of the screen, seen from the same pair of eyes</text>
+  <!-- eyes -->
+  <circle cx="40" cy="150" r="6" fill="#444"/>
+  <circle cx="40" cy="190" r="6" fill="#444"/>
+  <text x="40" y="215" text-anchor="middle" font-size="12">eyes, 65 mm apart</text>
+  <!-- phone -->
+  <rect x="120" y="120" width="12" height="90" fill="#444"/>
+  <text x="126" y="110" text-anchor="middle" font-size="12">phone</text>
+  <text x="126" y="230" text-anchor="middle" font-size="12">30 cm away</text>
+  <text x="126" y="250" text-anchor="middle" font-size="12" fill="#a05a10">shift 2.2 mm</text>
+  <text x="126" y="268" text-anchor="middle" font-size="12">about 34 px</text>
+  <!-- monitor -->
+  <rect x="260" y="100" width="12" height="130" fill="#444"/>
+  <text x="266" y="90" text-anchor="middle" font-size="12">monitor</text>
+  <text x="266" y="250" text-anchor="middle" font-size="12">60 cm away</text>
+  <text x="266" y="268" text-anchor="middle" font-size="12" fill="#a05a10">shift 1.1 mm</text>
+  <text x="266" y="286" text-anchor="middle" font-size="12">about 4 px</text>
+  <!-- TV -->
+  <rect x="520" y="70" width="12" height="190" fill="#444"/>
+  <text x="526" y="60" text-anchor="middle" font-size="12">3D TV</text>
+  <text x="526" y="280" text-anchor="middle" font-size="12">250 cm away</text>
+  <text x="526" y="298" text-anchor="middle" font-size="12" fill="#a05a10">shift 0.26 mm</text>
+  <text x="526" y="316" text-anchor="middle" font-size="12">under 1 px</text>
+  <!-- headset -->
+  <rect x="660" y="130" width="12" height="40" fill="#444"/>
+  <rect x="660" y="180" width="12" height="40" fill="#444"/>
+  <text x="666" y="120" text-anchor="middle" font-size="12">headset</text>
+  <text x="666" y="240" text-anchor="middle" font-size="12">one panel per eye</text>
+  <text x="666" y="258" text-anchor="middle" font-size="12">a virtual screen</text>
+  <text x="666" y="276" text-anchor="middle" font-size="12">where its lenses put it</text>
+  <text x="666" y="294" text-anchor="middle" font-size="12" fill="#a05a10">shift set by its optics</text>
+  <!-- the 1 cm marker in front of each screen -->
+  <circle cx="108" cy="165" r="4" fill="#d9822b"/>
+  <circle cx="248" cy="165" r="4" fill="#d9822b"/>
+  <circle cx="508" cy="165" r="4" fill="#d9822b"/>
+  <text x="380" y="50" text-anchor="middle" font-size="12" fill="#a05a10">the orange dot is 1 cm in front of each screen; shift = 65 mm x 10 mm / (distance - 10 mm)</text>
+</svg>
