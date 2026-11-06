@@ -3,6 +3,7 @@
 **Status:** an individual's input to the Procedural Memory Knowledge Representation Community Group, by Daniel Campos Ramos, 6 November 2026.
 It is not a decision or a report of the group.
 Comments and objections are welcome in this repository's issues.
+**Why in PM-KR:** a review rule written about what a contribution is and whether its author understands it, rather than about the tool, is a rule people and AI can follow from one text, which is what a procedure stored once means in practice.
 
 ## The question
 

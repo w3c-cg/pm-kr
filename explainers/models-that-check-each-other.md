@@ -3,6 +3,7 @@
 **Status:** an individual's input to the Procedural Memory Knowledge Representation Community Group, by Daniel Campos Ramos, 6 November 2026.
 It is not a decision or a report of the group.
 Comments and objections are welcome in this repository's issues.
+**Why in PM-KR:** several models reading one procedure and a person deciding is the charter's dual consumption at work, the same source read by people and AI, with a log that makes every step inspectable.
 
 ## The question
 

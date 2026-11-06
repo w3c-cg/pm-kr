@@ -3,6 +3,7 @@
 **Status:** an individual's input to the Procedural Memory Knowledge Representation Community Group, by Daniel Campos Ramos, 6 November 2026.
 It is not a decision or a report of the group.
 Comments and objections are welcome in this repository's issues.
+**Why in PM-KR:** a need written as the need, the workaround and a live page is a knowledge entry with its evidence attached, so that a reviewer can run the check instead of taking the text on trust.
 
 ## The question
 

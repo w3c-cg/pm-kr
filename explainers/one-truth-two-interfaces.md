@@ -3,6 +3,7 @@
 **Status:** an individual's input to the Procedural Memory Knowledge Representation Community Group, by Daniel Campos Ramos, 6 November 2026.
 It is not a decision or a report of the group.
 Comments and objections are welcome in this repository's issues.
+**Why in PM-KR:** one source presented to people and to machines, kept in step and restorable, is the charter's same procedural source consumed by both, and Lean Code is one place where it already runs at the scale of an operating system.
 
 ## The question
 

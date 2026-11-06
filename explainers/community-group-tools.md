@@ -3,6 +3,7 @@
 **Status:** an individual's input to the Procedural Memory Knowledge Representation Community Group, by Daniel Campos Ramos, 6 November 2026.
 It is not a decision or a report of the group.
 Comments and objections are welcome in this repository's issues.
+**Why in PM-KR:** a decision recorded where it was taken, and an answer recorded for every newcomer, are the provenance of a group's own knowledge, and a small group needs the tools that write them down.
 
 ## The question
 

@@ -3,6 +3,7 @@
 **Status:** an individual's input to the Procedural Memory Knowledge Representation Community Group, by Daniel Campos Ramos, 6 November 2026.
 It is not a decision or a report of the group.
 Comments and objections are welcome in this repository's issues.
+**Why in PM-KR:** a document's status is part of its provenance, and a group that asks every knowledge entry to carry where it came from and who answers for it owes the same to its own pages.
 
 ## The question
 

@@ -3,6 +3,7 @@
 **Status:** an individual's input to the Procedural Memory Knowledge Representation Community Group, by Daniel Campos Ramos, 6 November 2026.
 It is not a decision or a report of the group.
 Comments and objections are welcome in this repository's issues.
+**Why in PM-KR:** the charter asks how the group's knowledge model relates to other W3C technologies, and a map of where each piece of a Web of Worlds belongs is that relationship written down, with the group's own row in it.
 
 ## The question
 

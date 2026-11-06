@@ -3,6 +3,7 @@
 **Status:** an individual's input to the Procedural Memory Knowledge Representation Community Group, by Daniel Campos Ramos, 6 November 2026.
 It is not a decision or a report of the group.
 Comments and objections are welcome in this repository's issues.
+**Why in PM-KR:** a depth is a fact about an element that a theme, a desktop, a drawing and a page each describe in their own words today, so three plain words and the person's limits are the form in which that fact can be stored once and resolved by any renderer.
 
 ## The question
 

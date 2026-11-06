@@ -3,6 +3,7 @@
 **Status:** an individual's input to the Procedural Memory Knowledge Representation Community Group, by Daniel Campos Ramos, 6 November 2026.
 It is not a decision or a report of the group.
 Comments and objections are welcome in this repository's issues.
+**Why in PM-KR:** provenance is one of the three things the group says a knowledge entry carries, beside its procedure and its meaning, and this page says how a tool's part is recorded in it without giving the tool standing.
 
 ## The question
 

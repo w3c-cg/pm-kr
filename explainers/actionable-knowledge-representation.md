@@ -3,6 +3,7 @@
 **Status:** an individual's input to the Procedural Memory Knowledge Representation Community Group, by Daniel Campos Ramos, 6 November 2026.
 It is not a decision or a report of the group.
 Comments and objections are welcome in this repository's issues.
+**Why in PM-KR:** an object that shows what it is and what it does, where it is, is a knowledge entry with its procedure attached, readable by a person in the space and executable by an AI or a robot in the same place.
 
 ## The question
 

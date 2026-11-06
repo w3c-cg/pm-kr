@@ -3,6 +3,7 @@
 **Status:** an individual's input to the Procedural Memory Knowledge Representation Community Group, by Daniel Campos Ramos, 6 November 2026.
 It is not a decision or a report of the group.
 Comments and objections are welcome in this repository's issues.
+**Why in PM-KR:** this is the group's own question, from its charter: knowledge stored once as executable procedures, like font programs, consumed by humans and AI systems from the same source.
 
 ## The question
 

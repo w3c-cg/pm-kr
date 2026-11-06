@@ -3,6 +3,7 @@
 **Status:** an individual's input to the Procedural Memory Knowledge Representation Community Group, by Daniel Campos Ramos, 6 November 2026.
 It is not a decision or a report of the group.
 Comments and objections are welcome in this repository's issues.
+**Why in PM-KR:** the charter wants humans and AI systems to consume the same source, and the people who reach that source through captions, speech or translation are the first test of whether it is reachable at all.
 
 ## The question
 

@@ -3,6 +3,7 @@
 **Status:** an individual's input to the Procedural Memory Knowledge Representation Community Group, by Daniel Campos Ramos, 6 November 2026.
 It is not a decision or a report of the group.
 Comments and objections are welcome in this repository's issues.
+**Why in PM-KR:** a surface stored as a small procedure with one image as its last layer is the charter's font-program idea applied to textures: the knowledge of a surface stored once and evaluated by each device at the detail it needs.
 
 ## The question
 

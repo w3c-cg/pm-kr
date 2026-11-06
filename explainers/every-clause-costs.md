@@ -3,6 +3,7 @@
 **Status:** an individual's input to the Procedural Memory Knowledge Representation Community Group, by Daniel Campos Ramos, 6 November 2026.
 It is not a decision or a report of the group.
 Comments and objections are welcome in this repository's issues.
+**Why in PM-KR:** a representation that follows every clause of a specification depends on reading that clause, so the price of the text is a cost of the knowledge itself, and a free twin is the difference between a rule that can be checked and one that cannot.
 
 ## The question
 

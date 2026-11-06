@@ -3,6 +3,7 @@
 **Status:** an individual's input to the Procedural Memory Knowledge Representation Community Group, by Daniel Campos Ramos, 6 November 2026.
 It is not a decision or a report of the group.
 Comments and objections are welcome in this repository's issues.
+**Why in PM-KR:** a skill file is procedural memory that already runs, one text that people and AI follow alike with its checks, its traps and its provenance, so it is a stepping stone the group can study rather than a design to build.
 
 ## The question
 

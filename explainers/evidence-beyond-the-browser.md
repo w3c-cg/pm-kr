@@ -3,6 +3,7 @@
 **Status:** an individual's input to the Procedural Memory Knowledge Representation Community Group, by Daniel Campos Ramos, 6 November 2026.
 It is not a decision or a report of the group.
 Comments and objections are welcome in this repository's issues.
+**Why in PM-KR:** the charter says the group will study data models, execution semantics and conformance levels, and a status display for such work needs signals for test corpora and implementations, not only a browser's.
 
 ## The question
 

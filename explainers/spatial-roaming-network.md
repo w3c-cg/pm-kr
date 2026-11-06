@@ -3,6 +3,7 @@
 **Status:** an individual's input to the Procedural Memory Knowledge Representation Community Group, by Daniel Campos Ramos, 6 November 2026.
 It is not a decision or a report of the group.
 Comments and objections are welcome in this repository's issues.
+**Why in PM-KR:** finding, entering and receiving a world across independent publishers is how a visitor, human or AI, reaches knowledge stored in many places, and the spatial concepts the charter names need a model of that movement.
 
 ## The question
 

@@ -3,6 +3,7 @@
 **Status:** an individual's input to the Procedural Memory Knowledge Representation Community Group, by Daniel Campos Ramos, 6 November 2026.
 It is not a decision or a report of the group.
 Comments and objections are welcome in this repository's issues.
+**Why in PM-KR:** a headset and a 3D TV take the same two views, so stereo content stored once serves both, and what the headset adds, head pose and lens geometry, is knowledge about the device kept beside the content, not a second copy of it.
 
 ## The question
 

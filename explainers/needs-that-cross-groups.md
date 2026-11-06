@@ -3,6 +3,7 @@
 **Status:** an individual's input to the Procedural Memory Knowledge Representation Community Group, by Daniel Campos Ramos, 6 November 2026.
 It is not a decision or a report of the group.
 Comments and objections are welcome in this repository's issues.
+**Why in PM-KR:** a group that studies knowledge stored once and referenced across technologies meets, in its own process, the problem it studies, a need that no single owner holds and that must be linked between groups rather than copied into each.
 
 ## The question
 

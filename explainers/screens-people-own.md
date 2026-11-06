@@ -3,6 +3,7 @@
 **Status:** an individual's input to the Procedural Memory Knowledge Representation Community Group, by Daniel Campos Ramos, 6 November 2026.
 It is not a decision or a report of the group.
 Comments and objections are welcome in this repository's issues.
+**Why in PM-KR:** knowledge, media and worlds should reach people on the devices they already own, so a representation of a world cannot assume a headset, and the user agent's duties on every screen are part of what the group studies.
 
 ## The question
 

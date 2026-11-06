@@ -3,6 +3,7 @@
 **Status:** an individual's input to the Procedural Memory Knowledge Representation Community Group, by Daniel Campos Ramos, 6 November 2026.
 It is not a decision or a report of the group.
 Comments and objections are welcome in this repository's issues.
+**Why in PM-KR:** two views and which eye comes first are one fact about a picture that every format stores in its own way and most programs drop, the duplication the group's charter names, so a representation stored once must carry them under one set of names.
 
 ## The question
 

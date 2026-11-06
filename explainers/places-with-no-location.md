@@ -3,6 +3,7 @@
 **Status:** an individual's input to the Procedural Memory Knowledge Representation Community Group, by Daniel Campos Ramos, 6 November 2026.
 It is not a decision or a report of the group.
 Comments and objections are welcome in this repository's issues.
+**Why in PM-KR:** a place with no location is a spatial concept of the kind the charter names, a house with doors in Knowledge3D's terms, that a representation must be able to address without a coordinate on Earth.
 
 ## The question
 

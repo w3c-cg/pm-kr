@@ -3,6 +3,7 @@
 **Status:** an individual's input to the Procedural Memory Knowledge Representation Community Group, by Daniel Campos Ramos, 6 November 2026.
 It is not a decision or a report of the group.
 Comments and objections are welcome in this repository's issues.
+**Why in PM-KR:** one format inside and conversions only at the edges is the charter's idea applied to pictures, the content stored once and every output derived from it, so programs and AI systems consume the same source instead of each keeping its own.
 
 ## The question
 

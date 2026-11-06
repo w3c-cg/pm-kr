@@ -3,6 +3,7 @@
 **Status:** an individual's input to the Procedural Memory Knowledge Representation Community Group, by Daniel Campos Ramos, 31 October 2026.
 It is not a decision or a report of the group.
 Comments and objections are welcome in this repository's issues.
+**Why in PM-KR:** the charter says humans and AI systems consume the same procedural source, and a Synthetic User is how an AI reaches that source: through an account like a person's, under a person's mandate, credited by roles.
 
 ## The question
 

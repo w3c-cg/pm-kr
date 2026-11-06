@@ -3,6 +3,7 @@
 **Status:** an individual's input to the Procedural Memory Knowledge Representation Community Group, by Daniel Campos Ramos, 6 November 2026.
 It is not a decision or a report of the group.
 Comments and objections are welcome in this repository's issues.
+**Why in PM-KR:** a page composed into a world as a branch that keeps its own origin is the charter's composition by reference applied to content from many sources, referenced into one scene instead of copied into it.
 
 ## The question
 

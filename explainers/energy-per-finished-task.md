@@ -3,6 +3,7 @@
 **Status:** an individual's input to the Procedural Memory Knowledge Representation Community Group, by Daniel Campos Ramos, 6 November 2026.
 It is not a decision or a report of the group.
 Comments and objections are welcome in this repository's issues.
+**Why in PM-KR:** the charter counts performance among the costs of duplicated knowledge, and a finished task with its checking is the unit in which that cost, and any saving from a shared procedural source, can be measured.
 
 ## The question
 

@@ -3,6 +3,7 @@
 **Status:** an individual's input to the Procedural Memory Knowledge Representation Community Group, by Daniel Campos Ramos, 6 November 2026.
 It is not a decision or a report of the group.
 Comments and objections are welcome in this repository's issues.
+**Why in PM-KR:** one idea under one name, with where and when each name was defined, is the charter's composition by reference applied to terms: a term stored once and referenced across groups instead of redefined in each wiki.
 
 ## The question
 

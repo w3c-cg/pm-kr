@@ -3,6 +3,7 @@
 **Status:** an individual's input to the Procedural Memory Knowledge Representation Community Group, by Daniel Campos Ramos, 6 November 2026.
 It is not a decision or a report of the group.
 Comments and objections are welcome in this repository's issues.
+**Why in PM-KR:** a scene graph stores where things are, and the layer that stores what they are, what they do and where that knowledge came from, once, for people and AI alike, is the group's subject.
 
 ## The question
 

@@ -3,6 +3,7 @@
 **Status:** an individual's input to the Procedural Memory Knowledge Representation Community Group, by Daniel Campos Ramos, 6 November 2026.
 It is not a decision or a report of the group.
 Comments and objections are welcome in this repository's issues.
+**Why in PM-KR:** the group's editorial rules kept in its repository are a procedure that people and assistants execute alike, with a result anyone can inspect, the smallest working example of what the group studies.
 
 ## The question
 

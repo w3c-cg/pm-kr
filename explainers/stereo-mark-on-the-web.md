@@ -3,6 +3,7 @@
 **Status:** an individual's input to the Procedural Memory Knowledge Representation Community Group, by Daniel Campos Ramos, 6 November 2026.
 It is not a decision or a report of the group.
 Comments and objections are welcome in this repository's issues.
+**Why in PM-KR:** the stereo mark is knowledge that already exists in the file and is lost between the decoder and the screen, the fragmentation the charter names, so the question is how a representation travels with its object through every layer.
 
 ## The question
 
