@@ -8,7 +8,7 @@ description: >-
 
 ## Working recipe
 
-1. **Curate the sources.** One notebook per question. Add only sources you have read or trust, name them so a prompt can point at them, and select per output only the sources that output may use.
+1. **Curate the sources.** One notebook per question. Add only sources you have read or trust, name them so a prompt can point at them, and select per output only the sources that output may use. For a product or a project, write the sources yourself, one subject per file, with a corrections note first: [Feed it the right sources](references/feeding-sources.md).
 2. **Set the notebook.** Settings, then Output Language. Chat panel, then Configure Chat for the style and length of answers. Share only after the outputs exist.
 3. **Trigger the feature.** In the Studio panel, select the pencil (Customize) on the tile before Generate; pick format, length, language and sources; paste the prompt; Generate now or Generate later. For slides and videos, turn on the review toggle and correct the plan before it renders.
 4. **Check the result against the sources.** Chat answers carry citations: open each one. Studio outputs carry none: paste their claims back into chat and ask for the citation of each, as "Check the output" says. Correct, regenerate, then credit the notebook where the result is used.
@@ -75,6 +75,18 @@ In the Sources panel, Discover sources, choose Web or Drive, type the query ([an
 
 Read an imported report as a secondary source, because it was written from pages you have not read.
 Import the primary pages it cites rather than the report alone, then ask chat to compare the report with those pages.
+
+### Feed it the right sources
+
+A deck says what its selected sources say, and a prompt cannot take a wrong fact out of a source that is ticked.
+When the notebook is about a product or a project and people will rely on its decks, write the source set instead of collecting pages.
+The recipe, in short (the long form, with the traps and the check, is [references/feeding-sources.md](references/feeding-sources.md), written on 2026-11-06 from the Sparky Stereo notebook):
+
+1. One subject per source, a short Markdown file, one sentence per line, the status word (built, in development, planned, proposal) inside the sentence.
+2. A dated corrections note as source 00, with the true statement first and the wrong one named after it.
+3. A claims table beside the sources: one row per sentence, with the document each rests on.
+4. Leave out of the notebook, or untick for the deck, every source from another question (a research notebook's optics, an earlier generated report or deck).
+5. Run a cold reader on the set before the first deck: it writes a ten-slide outline from the files alone, and you check each line against the table.
 
 ### Curation rules that change the output
 
