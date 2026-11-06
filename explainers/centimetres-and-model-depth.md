@@ -81,7 +81,7 @@ When two things overlap on the page at different depths, the eyes get two cues, 
   A caption at the page plane lying across a popped model does not, so it takes the model's depth or sits beside it.
 - **Edges.**
   A popped thing cut by the edge of the viewport or the window looks wrong; a sunk thing cut by the edge reads like a view through a window.
-  The desktop keeps anything touching the output's edge at the screen plane and places popups at least 10 pixels inside the edges; a page in full screen needs the same, and the draft's pulling content back when a dialog opens is a rule of the same kind.
+  The desktop keeps anything touching the output's edge at the screen plane and places popups at least 10 pixels inside the edges of a 3D output (built on 6 November 2026, coming in the next update); a page in full screen needs the same, and the draft's pulling content back when a dialog opens is a rule of the same kind.
 - **The limits cap the pile.**
   A stack of popped models never passes the front limit and a pile of sunk ones never passes the back limit; between the limits, things fit by their order.
 

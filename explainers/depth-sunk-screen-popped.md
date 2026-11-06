@@ -30,7 +30,7 @@ All subtle, a few pixels of parallax, within limits the person sets.
 Sunk and popped are two limits; anything between them is valid, nothing beyond.
 The defaults are 4 pixels popped and 10 pixels sunk at 1920 pixels wide, scaled for each output, set once in System Settings and read by every program.
 The back needs the larger range: a popped thing cut by the screen's edge looks wrong, a sunk thing seen through the edge reads like a view through a window.
-So anything that touches the output's edge stays at the screen plane (the stereo window), and popups are placed at least 10 pixels inside the edges so they keep their pop.
+So anything that touches the output's edge stays at the screen plane (the stereo window), and on outputs that show 3D, popups are placed at least 10 pixels inside the edges so they keep their pop (built on 6 November 2026 and coming in the next update; a plain 2D screen is unchanged).
 The order of precedence is the person's choice first, built on the current display's default: a headset tolerates more separation, a framed 3D screen wants less, and both show a coherent picture.
 
 ## The same names everywhere
