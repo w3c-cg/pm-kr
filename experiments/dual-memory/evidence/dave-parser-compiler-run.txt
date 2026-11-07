@@ -1,0 +1,99 @@
+DSL lines (real newlines): 19
+DSL contains literal backslash-n: false
+parse(dsl) as served -> 0 nodes
+parse(dsl) with newlines turned into literal \n -> 16 nodes
+  s = input() attrs={"dataType":"int32","shape":[1]}
+  s_next = input() attrs={"dataType":"int32","shape":[1]}
+  E = param() attrs={"dataType":"float32","shape":[16,32]}
+  A = param() attrs={"dataType":"float32","shape":[32]}
+  B = param() attrs={"dataType":"float32","shape":[32,32]}
+  W_head = param() attrs={"dataType":"float32","shape":[32,16]}
+  e = embedding(s, E) attrs={"dataType":"float32","shape":[32]}
+  mutable h = ssm_step(e, h, A, B) attrs={"dataType":"float32","shape":[32]}
+  logits = linear(h, W_head) attrs={"dataType":"float32","shape":[16]}
+  pred_prob = softmax(logits) attrs={"dataType":"float32","shape":[16]}
+  surprise = surprise_error(pred_prob, s_next) attrs={"dataType":"float32","shape":[1]}
+  g = gate_threshold(surprise) attrs={"threshold":1,"dataType":"float32","shape":[1]}
+  mutable M_work = working_buffer(h, g) attrs={"capacity":128,"dataType":"float32","shape":[32,128]}
+  mutable X = hopfield_ltm(h, M_work, g, X) attrs={"steps":4,"beta":18,"decay":0.01,"dataType":"float32","shape":[32,256]}
+  output h_out = identity(h) attrs={"dataType":"float32","shape":[32]}
+  output pred = identity(pred_prob) attrs={"dataType":"float32","shape":[16]}
+
+compile(as served): plan=0 nodes, wgsl=919 bytes
+Cycle detected in DAG topological sort; falling back to original node order.
+compile(full AST): plan=15 nodes, wgsl=2114 bytes
+
+===== WGSL generated from the full AST =====
+
+// Fused & Optimized Dual-Memory Compute Pipeline WGSL (Auto-Generated from AST Plan)
+
+struct Params {
+    vocabSize: u32,
+    embedDim: u32,
+    memCapacity: u32,
+    beta: f32,
+    threshold: f32,
+    decay: f32,
+};
+
+@group(0) @binding(0) var<uniform> params : Params;
+@group(0) @binding(1) var<storage, read> input_symbol : u32;
+@group(0) @binding(2) var<storage, read> target_symbol : u32;
+@group(0) @binding(3) var<storage, read> embedding_table : array<f32>;
+@group(0) @binding(4) var<storage, read_write> state_h : array<f32>;
+@group(0) @binding(5) var<storage, read_write> logits_output : array<f32>;
+@group(0) @binding(6) var<storage, read_write> surprise_out : f32;
+@group(0) @binding(7) var<storage, read_write> hopfield_X : array<f32>;
+
+@compute @workgroup_size(64)
+fn main(@builtin(global_invocation_id) global_id : vec3<u32>) {
+    let tid = global_id.x;
+    let embed_dim_val = params.embedDim;
+
+    
+    // [Node 6] embedding: e
+    if (tid < embed_dim_val) {
+        let sym = input_symbol;
+        let e_val = embedding_table[sym * embed_dim_val + tid];
+        // Store in temporary working register or state
+    }
+    // [Node 7] ssm_step (mutable h)
+    if (tid < 32u) {
+        let e_val = embedding_table[input_symbol * 32u + tid];
+        state_h[tid] = state_h[tid] * 0.85 + e_val * 0.15;
+    }
+    // [Node 8] fused_linear_softmax: pred_prob
+    if (tid < 16u) {
+        var sum: f32 = 0.0;
+        for (var i: u32 = 0u; i < 32u; i = i + 1u) {
+            sum = sum + state_h[i] * 0.05;
+        }
+        logits_output[tid] = sum;
+    }
+    // [Node 9] surprise_error: surprise
+    if (tid == 0u) {
+        var target_f = f32(target_symbol % 16u);
+        var pred_val = logits_output[u32(target_f)];
+        surprise_out = -log(max(pred_val, 1e-5)) + 0.12;
+    }
+    // [Node 10] gate_threshold: g
+    // Gating check against threshold
+    
+    // [Node 11] working_buffer (mutable M_work)
+    
+    // [Node 12] hopfield_ltm (mutable X)
+    // Modern Hopfield attractor retrieval step
+    if (tid < 32u) {
+        hopfield_X[tid] = hopfield_X[tid] * 0.99 + state_h[tid] * 0.01;
+    }
+}
+
+===== identifiers the DSL declares but the WGSL never reads =====
+  A: absent in main()
+  B: absent in main()
+  W_head: absent in main()
+  M_work: mentioned in main()
+  beta: absent in main()
+  steps: absent in main()
+  decay: absent in main()
+  threshold: mentioned in main()

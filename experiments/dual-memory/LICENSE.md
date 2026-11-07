@@ -1,0 +1,1 @@
+All documents and files in this folder are licensed by their contributors under the [W3C Document License](https://www.w3.org/Consortium/Legal/copyright-documents), the licence of Dave Raggett's [w3c/cogai](https://github.com/w3c/cogai), on whose dual-memory work this folder builds.

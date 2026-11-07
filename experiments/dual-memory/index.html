@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contrastive dual memory on WebGPU</title>
+<link rel="icon" href="data:,">
+<!-- Marked and KaTeX render formulation.md, as Dave's page renders its intro.md; pinned versions; if they fail to load the text shows as source and the harness runs -->
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+<style>
+  :root { --bg: #fbfbf8; --fg: #1b1b1b; --muted: #5c5c5c; --line: #d8d6cf; --card: #ffffff; --accent: #2a5db0; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #15171a; --fg: #e8e6e0; --muted: #a2a09a; --line: #34373c; --card: #1d2024; --accent: #7fa8ea; } }
+  html, body { background: var(--bg); color: var(--fg); font: 15px/1.45 system-ui, sans-serif; margin: 0; }
+  main { max-width: 1100px; margin: 0 auto; padding: 16px; }
+  h1 { font-size: 1.5em; margin: 0.2em 0; } h2 { font-size: 1.15em; margin: 1.2em 0 0.4em; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; margin: 10px 0; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px 14px; }
+  label { display: block; font-size: 0.9em; color: var(--muted); }
+  input, select { width: 100%; box-sizing: border-box; padding: 4px 6px; background: var(--bg); color: var(--fg); border: 1px solid var(--line); border-radius: 4px; }
+  button { padding: 6px 14px; border-radius: 6px; border: 1px solid var(--line); background: var(--accent); color: #fff; cursor: pointer; }
+  button[disabled] { opacity: 0.5; cursor: default; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.88em; } th, td { border-bottom: 1px solid var(--line); padding: 3px 6px; text-align: right; white-space: nowrap; } th:first-child, td:first-child { text-align: left; }
+  pre { background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 8px; overflow: auto; max-height: 360px; font-size: 0.8em; }
+  #formulation h2 { margin-top: 0.2em; } #formulation h3 { font-size: 1.05em; margin: 1em 0 0.3em; } #formulation .katex-display { overflow-x: auto; }
+  canvas { width: 100%; height: 260px; background: var(--card); border: 1px solid var(--line); border-radius: 6px; }
+  .muted { color: var(--muted); } .small { font-size: 0.85em; }
+  details summary { cursor: pointer; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Contrastive dual memory on WebGPU</h1>
+  <p class="muted">A positive memory, a negative memory three times its size, and a decisor, as three compute dispatches per step. The task, the notation and the two metrics follow Dave Raggett's dual-memory demo (W3C Cognitive AI). The negative memory follows Daniel Campos Ramos's W- contrastive formulation, open and engine-agnostic. Everything runs on the GPU in your browser; nothing is installed and nothing leaves this page.</p>
+
+  <div class="card">
+    <div><span class="muted">GPU:</span> <span id="gpu">checking WebGPU...</span></div>
+    <div class="small muted">Same WGSL as the headless runner; a seed gives the same symbol stream on every GPU (integer hashes), so differences between GPUs come only from floating point.</div>
+  </div>
+
+  <div class="card" id="formulationCard">
+    <div id="formulation" class="small"><p class="muted">Loading the formulation (formulation.md)...</p></div>
+    <div id="fewshot" class="small"></div>
+  </div>
+
+  <div class="card">
+    <h2>Run</h2>
+    <div class="grid">
+      <div><label>Arms</label><select id="arms" multiple size="7"></select></div>
+      <div>
+        <label>Seeds</label><input id="seeds" type="number" min="1" max="50" value="3">
+        <label>Task</label><select id="task"><option value="markov">markov background (as described)</option><option value="uniform">uniform background (as implemented)</option><option value="cycle">deterministic cycle</option></select>
+        <label>Confuser injections per cycle</label><input id="confuser" type="number" min="0" max="5" value="0">
+        <label>Negative kind</label><select id="kind"></select>
+        <label>Decisor</label><select id="fusion"></select>
+      </div>
+      <div>
+        <label>Negative write</label><select id="negwrite"></select>
+        <label>Eviction</label><select id="evict"><option value="decay">decay (weakest slot)</option><option value="fifo">fifo (ring)</option></select>
+        <label>beta</label><input id="beta" type="number" step="0.5" value="18">
+        <label>lambda</label><input id="lambda" type="number" step="0.1" value="1">
+      </div>
+      <div>
+        <label>theta (Dave's DSL fixed threshold)</label><input id="theta" type="number" step="0.1" value="1">
+        <label>kappa (Dave's adaptive theta, mean + kappa sd)</label><input id="kappa" type="number" step="0.1" value="1">
+        <label>alpha (state carry)</label><input id="alpha" type="number" step="0.05" value="0.3">
+        <label>Positive slots (negative = 3x)</label><input id="cp" type="number" step="256" value="2048">
+      </div>
+    </div>
+    <p><button id="run">Run</button> <span id="progress" class="muted"></span></p>
+  </div>
+
+  <div class="card">
+    <h2>Results</h2>
+    <p class="small muted">1-shot: accuracy on the pattern's continuation at its second exposure, per position (p1 is predicting the second symbol from the first, which the background also produces; p2 and p3 carry the pattern's own context). acq k2-7: mean of p2 and p3 over exposures 2 to 7. FRS: accuracy at the first exposure after the gap over accuracy at the last exposure before it. Ambient: accuracy on background steps (ceiling 45% in the markov task, 6.25% in the uniform one). Chance for every pattern position is 6.25%.</p>
+    <div id="table"></div>
+    <canvas id="chart" width="1000" height="260"></canvas>
+    <p class="small muted">Acquisition curve: mean of p2 and p3 per exposure; the gap exposures carry no pattern.</p>
+    <pre id="result" class="small" data-done="0"></pre>
+  </div>
+
+  <div class="card">
+    <h2>What runs</h2>
+    <p class="small">Each step is three dispatches, in order. Dispatch 1 updates the state h = alpha h + (1 - alpha) E[s], normalizes it to the query q, and reads the positive memory: every stored (key, symbol) votes with weight exp(beta (key . q - 1)). Dispatch 2 reads the negative memory the same way, shaped by the chosen formulation (one pass; a recursive pass that first pulls q toward the stored negatives; a sign-flipped SiLU gate; a bounded -tanh; three parallel slabs averaged). Dispatch 3 is the decisor: it scores every symbol from the positive evidence and the negative evidence, predicts, measures surprise, and writes: the surprising truth into the positive memory, and the positive memory's best wrong alternative into the negative memory, until the negative memory separates the two by a margin. The metrics accumulate on the GPU and are read once at the end.</p>
+    <details><summary class="small">WGSL</summary><pre id="wgsl"></pre></details>
+    <p class="small muted">Credits: Dave Raggett (W3C Cognitive AI) for the dual-memory demo, its task and its metrics; J. J. Hopfield (1982), Krotov and Hopfield (2016) and Ramsauer et al. (2020) for the memory; Hopfield, Feinstein and Palmer (1983) for unlearning in Hopfield networks, the earlier form of a negative memory; Daniel Campos Ramos for the W- contrastive formulation, the three-dispatch pattern and the 2x2 discipline.</p>
+  </div>
+</main>
+<script type="module">
+import { ARMS, FUSIONS, NEG_KINDS, NEG_WRITES, WGSL, avg, createEngine, defaultConfig, getDevice, runExperiment, sd } from "./harness.js";
+
+const $ = (id) => document.getElementById(id);
+const q = new URLSearchParams(location.search);
+function fill(sel, values, chosen) { for (const v of values) { const o = document.createElement("option"); o.value = v; o.textContent = v; if (chosen.includes(v)) o.selected = true; sel.appendChild(o); } }
+const ARM_LABELS = { baseline: "Dave, DSL threshold 1.0 (fixed)", control: "Dave, adaptive threshold θ (his intro; realised as mean + one sd)", tuner: "open live tuner (Daniel)", contrastive: "W- on the fixed 1.0 (Daniel)", both: "Dave adaptive θ + W-", "tuner-contrastive": "tuner + W-", "ctrl-nomem": "control: no memory", "ctrl-scrambled": "control: scrambled pattern", "ctrl-randomneg": "control: random negatives" };
+fill($("arms"), Object.keys(ARMS), (q.get("arms") ?? "baseline,control,contrastive,both").split(","));
+for (const o of $("arms").options) o.textContent = ARM_LABELS[o.value] ?? o.value;
+fill($("kind"), NEG_KINDS, [q.get("kind") ?? defaultConfig.negKind]);
+fill($("fusion"), FUSIONS, [q.get("fusion") ?? defaultConfig.fusion]);
+fill($("negwrite"), NEG_WRITES, [q.get("negwrite") ?? defaultConfig.negWrite]);
+for (const k of ["seeds", "task", "evict", "beta", "lambda", "theta", "kappa", "alpha", "cp", "confuser"]) if (q.has(k)) $(k).value = q.get(k);
+$("wgsl").textContent = WGSL;
+
+// The formulation: Dave's part and Daniel's part, from formulation.md, rendered with Marked and KaTeX when they loaded, shown as source otherwise.
+(async () => {
+  const box = $("formulation");
+  let text;
+  try { const res = await fetch("./formulation.md"); if (!res.ok) throw new Error(String(res.status)); text = await res.text(); }
+  catch (e) { box.innerHTML = '<p class="muted">The formulation is in formulation.md beside this page (serve the folder over http to see it here).</p>'; return; }
+  if (window.marked && typeof window.marked.parse === "function") {
+    box.innerHTML = window.marked.parse(text);
+    if (typeof window.renderMathInElement === "function") {
+      window.renderMathInElement(box, { delimiters: [{ left: "$$", right: "$$", display: true }, { left: "$", right: "$", display: false }], throwOnError: false });
+    } else {
+      const note = document.createElement("p"); note.className = "muted"; note.textContent = "KaTeX did not load: the mathematics is shown as source."; box.prepend(note);
+    }
+  } else {
+    const pre = document.createElement("pre"); pre.textContent = text; box.replaceChildren(pre);
+    const note = document.createElement("p"); note.className = "muted"; note.textContent = "Marked did not load: the formulation is shown as source."; box.prepend(note);
+  }
+})();
+
+let engine = null, gpuInfo = {};
+try {
+  const g = await getDevice();
+  engine = await createEngine(g.device);
+  gpuInfo = g.info;
+  $("gpu").textContent = `${g.info.description || g.info.vendor || "adapter"} ${g.info.architecture || ""} (workgroup memory ${g.device.limits.maxComputeWorkgroupStorageSize} bytes)`;
+} catch (e) {
+  $("gpu").textContent = "WebGPU is not available: " + e.message;
+  $("run").disabled = true;
+  $("result").textContent = JSON.stringify({ error: "WebGPU is not available: " + e.message }, null, 1);
+  $("result").dataset.done = "1";
+}
+
+const pct = (x) => Number.isFinite(x) ? (100 * x).toFixed(1) : "nan";
+const f2 = (x) => Number.isFinite(x) ? x.toFixed(2) : "nan";
+
+async function runAll() {
+  $("run").disabled = true;
+  const arms = Array.from($("arms").selectedOptions).map(o => o.value);
+  const seeds = Number($("seeds").value);
+  const base = { task: $("task").value, negKind: $("kind").value, fusion: $("fusion").value, negWrite: $("negwrite").value, evict: $("evict").value, beta: Number($("beta").value), lambda: Number($("lambda").value), theta: Number($("theta").value), kappa: Number($("kappa").value), alpha: Number($("alpha").value), Cp: Number($("cp").value), Cn: 3 * Number($("cp").value), confuserCount: Number($("confuser").value) };
+  const runs = [];
+  const total = arms.length * seeds; let done = 0;
+  for (const arm of arms) for (let s = 1; s <= seeds; s++) {
+    $("progress").textContent = `running ${arm} seed ${s} (${done}/${total})`;
+    const r = await runExperiment(engine, { ...defaultConfig, ...ARMS[arm], ...base, seed: s });
+    runs.push({ arm, seed: s, ...r });
+    done++;
+    render(runs, base);
+    await new Promise(r => requestAnimationFrame(r));
+  }
+  $("progress").textContent = `done: ${total} runs`;
+  const out = { gpu: gpuInfo, config: base, summary: summarize(runs), runs: runs.map(r => ({ arm: r.arm, seed: r.seed, oneShot: r.oneShot, oneShot23: r.oneShot23, acq27: r.acq27, frs: r.frs, ambientAcc: r.ambientAcc, writesP: r.writesP, writesN: r.writesN, emaBg: r.emaBg, stepsPerSec: r.stepsPerSec, curve: r.curve.map(c => c.acc) })) };
+  $("result").textContent = JSON.stringify(out, null, 1);
+  $("result").dataset.done = "1";
+  $("run").disabled = false;
+}
+
+function summarize(runs) {
+  const by = {};
+  for (const r of runs) (by[r.arm] = by[r.arm] || []).push(r);
+  return Object.entries(by).map(([arm, rs]) => ({
+    arm, n: rs.length,
+    p1: avg(rs.map(r => r.oneShot[0])), p2: avg(rs.map(r => r.oneShot[1])), p3: avg(rs.map(r => r.oneShot[2])),
+    oneShot23: avg(rs.map(r => r.oneShot23)), oneShot23sd: sd(rs.map(r => r.oneShot23)),
+    acq27: avg(rs.map(r => r.acq27)), acq27sd: sd(rs.map(r => r.acq27)),
+    frs: avg(rs.map(r => r.frs)), frsN: rs.map(r => r.frs).filter(Number.isFinite).length,
+    ambientAcc: avg(rs.map(r => r.ambientAcc)), emaBg: avg(rs.map(r => r.emaBg)),
+    writesP: avg(rs.map(r => r.writesP)), writesN: avg(rs.map(r => r.writesN)), stepsPerSec: avg(rs.map(r => r.stepsPerSec)),
+    curve: rs[0].curve.map((c, k) => avg(rs.map(r => (r.curve[k].acc[1] + r.curve[k].acc[2]) / 2))),
+    injected: rs[0].curve.map(c => c.injected),
+  }));
+}
+
+function render(runs, base) {
+  const rows = summarize(runs);
+  let html = "<table><tr><th>arm</th><th>n</th><th>1-shot p1</th><th>p2</th><th>p3</th><th>1-shot (p2,p3)</th><th>sd</th><th>acq k2-7</th><th>sd</th><th>FRS</th><th>(n)</th><th>ambient</th><th>surprise</th><th>writes+</th><th>writes-</th><th>steps/s</th></tr>";
+  for (const r of rows) html += `<tr><td>${ARM_LABELS[r.arm] ?? r.arm}</td><td>${r.n}</td><td>${pct(r.p1)}</td><td>${pct(r.p2)}</td><td>${pct(r.p3)}</td><td>${pct(r.oneShot23)}</td><td>${f2(r.oneShot23sd)}</td><td>${pct(r.acq27)}</td><td>${f2(r.acq27sd)}</td><td>${f2(r.frs)}</td><td>${r.frsN}</td><td>${pct(r.ambientAcc)}</td><td>${f2(r.emaBg)}</td><td>${r.writesP.toFixed(0)}</td><td>${r.writesN.toFixed(0)}</td><td>${r.stepsPerSec.toFixed(0)}</td></tr>`;
+  html += "</table>";
+  const b = rows.find(r => r.arm === "baseline"), c = rows.find(r => r.arm === "control"), k = rows.find(r => r.arm === "contrastive"), both = rows.find(r => r.arm === "both");
+  if (b && c && k && both) {
+    html += `<p class="small">2x2 on acq k2-7: baseline ${pct(b.acq27)}, control ${(100 * (c.acq27 - b.acq27)).toFixed(1)} points, contrastive ${(100 * (k.acq27 - b.acq27)).toFixed(1)}, both ${(100 * (both.acq27 - b.acq27)).toFixed(1)}, sum of singles ${(100 * (c.acq27 + k.acq27 - 2 * b.acq27)).toFixed(1)}, synergy ${(100 * (both.acq27 - c.acq27 - k.acq27 + b.acq27)).toFixed(1)}.</p>`;
+  }
+  $("table").innerHTML = html;
+  drawChart(rows);
+}
+
+function drawChart(rows) {
+  const cv = $("chart"), ctx = cv.getContext("2d");
+  const W = cv.width, H = cv.height, L = 40, R = 10, T = 10, B = 28;
+  const fg = getComputedStyle(document.documentElement).getPropertyValue("--fg").trim();
+  const line = getComputedStyle(document.documentElement).getPropertyValue("--line").trim();
+  ctx.clearRect(0, 0, W, H);
+  ctx.strokeStyle = line; ctx.fillStyle = fg; ctx.font = "12px system-ui";
+  for (let i = 0; i <= 4; i++) { const y = T + (H - T - B) * (1 - i / 4); ctx.beginPath(); ctx.moveTo(L, y); ctx.lineTo(W - R, y); ctx.stroke(); ctx.fillText(`${i * 25}%`, 4, y + 4); }
+  if (!rows.length) return;
+  const K = rows[0].curve.length;
+  const x = (k) => L + (W - L - R) * (k + 0.5) / K;
+  for (let k = 0; k < K; k++) { ctx.fillStyle = rows[0].injected[k] ? fg : line; ctx.fillText(String(k), x(k) - 4, H - 10); }
+  const colors = ["#2a5db0", "#c0392b", "#27ae60", "#8e44ad", "#7f8c8d", "#d35400", "#16a085"];
+  rows.forEach((r, i) => {
+    ctx.strokeStyle = colors[i % colors.length]; ctx.lineWidth = 2; ctx.beginPath(); let started = false;
+    r.curve.forEach((v, k) => { if (!Number.isFinite(v)) { started = false; return; } const y = T + (H - T - B) * (1 - v); if (!started) { ctx.moveTo(x(k), y); started = true; } else ctx.lineTo(x(k), y); });
+    ctx.stroke();
+    ctx.fillStyle = colors[i % colors.length]; ctx.fillText(ARM_LABELS[r.arm] ?? r.arm, W - R - 330, T + 14 + 14 * i);
+  });
+}
+
+// The few-shot view, from fewshot.md, rendered the same way as the formulation.
+(async () => {
+  const box = $("fewshot");
+  let text;
+  try { const res = await fetch("./fewshot.md"); if (!res.ok) throw new Error(String(res.status)); text = await res.text(); }
+  catch (e) { box.innerHTML = '<p class="muted">The few-shot view is in fewshot.md beside this page.</p>'; return; }
+  if (window.marked && typeof window.marked.parse === "function") { box.innerHTML = window.marked.parse(text); }
+  else { const pre = document.createElement("pre"); pre.textContent = text; box.replaceChildren(pre); }
+})();
+$("run").addEventListener("click", runAll);
+if (q.get("auto") === "1" && engine) runAll();
+</script>
+</body>
+</html>

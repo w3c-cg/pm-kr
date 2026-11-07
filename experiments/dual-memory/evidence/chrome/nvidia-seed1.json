@@ -1,0 +1,188 @@
+{
+ "gpu": {
+  "vendor": "google",
+  "architecture": "swiftshader",
+  "device": "",
+  "description": ""
+ },
+ "config": {
+  "task": "markov",
+  "negKind": "flat_linear",
+  "fusion": "logratio",
+  "negWrite": "gated",
+  "evict": "decay",
+  "beta": 18,
+  "lambda": 1,
+  "theta": 1,
+  "kappa": 1,
+  "alpha": 0.3,
+  "Cp": 2048,
+  "Cn": 6144
+ },
+ "summary": [
+  {
+   "arm": "baseline",
+   "n": 1,
+   "p1": 1,
+   "p2": 1,
+   "p3": 0,
+   "oneShot23": 0.5,
+   "oneShot23sd": null,
+   "acq27": 0.4166666666666667,
+   "acq27sd": null,
+   "frs": 0,
+   "frsN": 1,
+   "ambientAcc": 0.448692152917505,
+   "emaBg": 1.3412379026412964,
+   "writesP": 3402,
+   "writesN": 0,
+   "stepsPerSec": 106.18543427850804,
+   "curve": [
+    0,
+    0.5,
+    0.5,
+    0.5,
+    0.5,
+    0,
+    0.5,
+    0.5,
+    null,
+    null,
+    null,
+    null,
+    0,
+    0,
+    0,
+    0
+   ],
+   "injected": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    true,
+    true,
+    true,
+    true
+   ]
+  }
+ ],
+ "runs": [
+  {
+   "arm": "baseline",
+   "seed": 1,
+   "oneShot": [
+    1,
+    1,
+    0
+   ],
+   "oneShot23": 0.5,
+   "acq27": 0.4166666666666667,
+   "frs": 0,
+   "ambientAcc": 0.448692152917505,
+   "writesP": 3402,
+   "writesN": 0,
+   "emaBg": 1.3412379026412964,
+   "stepsPerSec": 106.18543427850804,
+   "curve": [
+    [
+     0,
+     0,
+     0
+    ],
+    [
+     1,
+     1,
+     0
+    ],
+    [
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     1,
+     0
+    ],
+    [
+     null,
+     null,
+     null
+    ],
+    [
+     null,
+     null,
+     null
+    ],
+    [
+     null,
+     null,
+     null
+    ],
+    [
+     null,
+     null,
+     null
+    ],
+    [
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0
+    ]
+   ]
+  }
+ ],
+ "chrome": "158.0.8127.18",
+ "chromeArgs": [
+  "--no-sandbox",
+  "--enable-unsafe-webgpu",
+  "--ignore-gpu-blocklist",
+  "--use-angle=vulkan",
+  "--enable-features=Vulkan"
+ ],
+ "gpuLine": "google swiftshader (workgroup memory 16384 bytes)"
+}
