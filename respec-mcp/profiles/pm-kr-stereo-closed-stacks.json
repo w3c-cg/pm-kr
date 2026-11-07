@@ -1,0 +1,28 @@
+{
+  "group_type": "cg",
+  "repo_metadata_source": "w3c.json",
+  "source_root": "reports/source",
+  "build_root": "reports/build",
+  "required_links": [
+    "https://www.w3.org/community/pm-kr/",
+    "https://github.com/w3c-cg/pm-kr"
+  ],
+  "forbidden_phrases": [],
+  "profile_id": "pm-kr-stereo-closed-stacks",
+  "label": "Stereo 3D after TPAC 2026: individual input",
+  "allowed_statuses": [
+    "unofficial"
+  ],
+  "default_status": "unofficial",
+  "default_source": "reports/source/stereo-3d-closed-stacks-open-standards.html",
+  "required_sections": [
+    "Abstract",
+    "Status of This Document",
+    "Since the first report",
+    "The market, measured",
+    "Why: closed stacks, case by case",
+    "What we are opening",
+    "Questions for readers",
+    "Claims and sources"
+  ]
+}

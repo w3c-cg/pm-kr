@@ -6,7 +6,7 @@
 | --- | --- | --- |
 | [Canonical Procedural Knowledge Interoperability Report](source/pm-kr-standards-track-transition-report.html) | CG-DRAFT; proposed standards path, not an approved transition | `pm-kr-transition` |
 | [Stereo 3D and HDR adoption](source/stereo-3d-adoption-report.html) | Individual input (`unofficial`), not a CG report | `pm-kr-stereo-adoption` |
-| [Stereo 3D after TPAC 2026: Closed Stacks Retreated, Open Standards Stayed](source/stereo-3d-closed-stacks-open-standards.html) | Individual input (`unofficial`), not a CG report | `pm-kr-stereo-adoption` |
+| [Stereo 3D after TPAC 2026: Closed Stacks Retreated, Open Standards Stayed](source/stereo-3d-closed-stacks-open-standards.html) | Individual input (`unofficial`), not a CG report | `pm-kr-stereo-closed-stacks` |
 | [General report source](source/index.html) and templates | CG drafting material | `pm-kr` |
 
 These profiles check the structure and existing status of each document. They do not establish group consensus, validate product claims or confer W3C approval. The discussion profiles allow legitimate discussion of standards-track terminology; literal phrase bans in the general CG scaffold profile are not appropriate for that discussion.
@@ -24,7 +24,7 @@ npm run test:profile
 npm run check:reports
 ```
 
-Both reports receive source preflight and full browser validation, with JSON evidence in `reports/build/`. Exit zero means the configured checks passed. The GitHub editorial workflow runs the same checker at a pinned revision and retains reports as artifacts; its job summary is available without an MCP client.
+Every report in the table above receives source preflight and full browser validation against the profile the table names for it, with JSON evidence in `reports/build/`. Exit zero means the configured checks passed; a row that names a profile its report does not satisfy fails. The GitHub editorial workflow reads the same table (`node scripts/check-reports.mjs --list`), runs the same checker at a pinned revision on each report and profile pair, and retains reports as artifacts; its job summary is available without an MCP client.
 
 `npm run mcp:start` opens the standalone MCP server against this repository. Its default `pm-kr` profile scaffolds CG reports. Pass the matching profile explicitly when checking an existing discussion report. `npm run mcp:build:docker` and `npm run mcp:start:docker` provide the container alternative.
 
