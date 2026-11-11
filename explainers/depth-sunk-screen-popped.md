@@ -40,7 +40,7 @@ The vocabulary is `sunk | screen | popped | <percentage> | <number>`, a percenta
 It is used, under those words, in:
 
 - the desktop's compositor (Stereo KWin, `SunkLimit`, `PoppedLimit`, `ElementLimit` in `kwinrc`);
-- the theme engine's model (KDE Union's `depth:`, on the edition's branch, with finished work to offer upstream);
+- the theme engine's model (Stereo Union's `depth:`, the edition's fork of KDE's Union, with finished work to offer upstream);
 - SVG drawings ([SVGStereo, DEPTH.md](https://github.com/Sparky-OS/svgstereo/blob/main/DEPTH.md)), where the reader doubles a single-view drawing and evaluates its gradients and animation per view;
 - a proposal for CSS ([WebKit/explainers #163](https://github.com/WebKit/explainers/issues/163)), discussed in [Centimetres, pixels and where a model sits in depth](centimetres-and-model-depth.md).
 

@@ -25,7 +25,7 @@ Today each group defines its terms in its own wiki, a newcomer cannot find who d
 ## Where it exists today
 
 - The glossary, 4 November 2026, with the names of the stereo and spatial work across H.264, H.265, H.274, H.273, RFC 9559, HDMI, HEIF, WebXR, FFmpeg, X3D and the desktop ([glossary](../glossary/README.md)); its twin for the edition's own words is the [Sparky Stereo OS glossary](https://github.com/Sparky-OS/sparky-stereo-os/blob/main/docs/glossary.md).
-- The same names carried into each technology as the work reaches it: the layout values in Qt, KImageFormats and SVGStereo; the depth words in KWin, Union, SVG and the CSS proposal; DPFR in glTF and X3D ([the glossary's "Why one name"](../glossary/README.md#why-one-name)).
+- The same names carried into each technology as the work reaches it: the layout values in Qt, KImageFormats and SVGStereo; the depth words in Stereo KWin, Stereo Union, SVG and the CSS proposal; DPFR in glTF and X3D ([the glossary's "Why one name"](../glossary/README.md#why-one-name)).
 
 ## Questions for the group
 
