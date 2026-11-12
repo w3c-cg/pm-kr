@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Procedural Texture Rendering: a 3D scene drawn before its pictures arrive</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22%3E%3Crect width=%2216%22 height=%2216%22 rx=%223%22 fill=%22%237a46d4%22/%3E%3Cpath d=%22M3 11h10M3 8h7M3 5h4%22 stroke=%22%23fff%22 stroke-width=%221.6%22/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" id="skip" href="#panel">Skip to the download panel</a>
+<header>
+  <div class="head-text">
+    <h1 id="h-title">Procedural Texture Rendering</h1>
+    <p id="h-lead">This 3D courtyard appears almost at once, even on a dial-up connection. Each surface is first drawn from a tiny recipe, called a procedure, and its photograph takes over when its download ends.</p>
+    <p id="h-next">Pick a connection speed in the panel and press “Restart with these settings”.</p>
+    <p id="h-status" class="note">A working demo by Daniel Ramos, offered as input to the W3C PM-KR Community Group, and a proposal for the glTF 3D format. It is not part of glTF yet.</p>
+  </div>
+  <div class="head-lang">
+    <label for="lang" id="l-lang">Language</label>
+    <select id="lang"></select>
+  </div>
+</header>
+<main>
+  <section id="view" aria-labelledby="h-scene">
+    <h2 id="h-scene" class="sr">The scene</h2>
+    <canvas id="scene" role="img" aria-labelledby="h-scene" aria-describedby="scene-text"></canvas>
+    <div id="first" hidden></div>
+    <p id="scene-text" class="sr"></p>
+  </section>
+  <section id="panel" aria-labelledby="panel-title" tabindex="-1"></section>
+</main>
+<section id="about" aria-labelledby="h-about">
+  <h2 id="h-about">About this demo</h2>
+  <div class="cols">
+    <div>
+      <h3 id="a-how-h">How the scene loads</h3>
+      <ol id="a-how">
+        <li>Every procedure arrives first. All seven together are about 15 KB.</li>
+        <li>The scene is drawn at once from the procedures.</li>
+        <li>The pictures (6.26 MB) download beside the drawing.</li>
+        <li>Each procedure blends into its picture when the picture has arrived.</li>
+        <li>That procedure then stops being computed.</li>
+      </ol>
+      <h3 id="a-sim-h">What is simulated</h3>
+      <p id="a-sim">The connection speed is simulated in this page. Your browser downloads each file at your own speed, and the page releases its bytes at the speed you choose, as Macromedia Flash's Simulate Download did. Nothing is sent anywhere.</p>
+    </div>
+    <div>
+      <h3 id="a-who-h">Whose work this is</h3>
+      <p id="a-who">An individual contribution by Daniel Ramos, offered as input to the W3C Procedural Memory Knowledge Representation Community Group. It is not a report or a decision of the group.</p>
+      <h3 id="a-fmt-h">The format</h3>
+      <p><span id="a-fmt">The scene is a glTF 2.0 file. Each texture names its procedure through a draft extension, KHR_texture_procedural_rendering, written as a proposal for glTF. A viewer that does not know it shows the pictures.</span> <a id="a-fmt-link" href="extension/KHR_texture_procedural_rendering/README.md">Read the proposal</a></p>
+      <h3 id="a-3d-h">In 3D</h3>
+      <p id="a-3d">Where the browser offers a WebXR device, “Enter 3D” draws one view for each eye. In an ordinary browser this is a 2D page, and the panel says so.</p>
+    </div>
+    <div>
+      <h3 id="a-credits-h">Credits and licence</h3>
+      <p id="a-credits">Pictures: Poly Haven, CC0, by Rob Tuytel and Amal Kumar. Operators after Farbrausch's werkkzeug3. The panel follows Macromedia Flash's Simulate Download and Dreamweaver's download time. The page's code is under the BSD 2-clause licence; the scene's geometry, script and sound are CC0.</p>
+      <p><a id="a-credits-link" href="CREDITS.md">All credits</a> · <a id="a-licence-link" href="LICENSE.txt">Licence</a></p>
+      <h3 id="a-run-h">Run it yourself</h3>
+      <p id="a-run">This folder is plain files. Copy it to any web server, or to any folder of one, and open it.</p>
+    </div>
+  </div>
+</section>
+<noscript><p class="noscript">This demo draws a 3D scene with JavaScript, which is switched off in this browser.</p></noscript>
+<script type="module" src="tester.js"></script>
+</body>
+</html>

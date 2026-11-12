@@ -1,0 +1,110 @@
+/* Procedural Texture Rendering: the demo page. Colours are chosen by tools/palette.py so that text stands 4.5:1
+   against what is behind it and every bar's fill 3:1 against its track and the panel, in both colour schemes
+   (WCAG 2.2, 1.4.3 and 1.4.11). Our code, BSD 2-clause. */
+:root {
+  color-scheme: light dark;
+  --fg: #1d1d1f; --bg: #f3f3f5; --panel: #ffffff; --line: #85858f; --muted: #5a5a64; --bar: #f3f3f5;
+  --proc: #9e79df; --down: #3a91dc; --blend: #c47c10; --pic: #2ea05d; --bad: #b3261e; --badfill: #e76157;
+  --focus: #0b57d0; --link: #0b57d0;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fg: #ececee; --bg: #0e0e10; --panel: #151518; --line: #7a7a85; --muted: #a4a4ae; --bar: #19191c;
+    --proc: #7a46d4; --down: #1e6aab; --blend: #8f5b0c; --pic: #227544; --bad: #ff8a80; --badfill: #c4271c;
+    --focus: #a8c7fa; --link: #a8c7fa;
+  }
+}
+* { box-sizing: border-box; }
+html { font-size: 100%; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 0.875rem/1.45 system-ui, sans-serif; }
+a { color: var(--link); }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+.sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+.skip { position: absolute; left: 0.5rem; top: -4rem; background: var(--panel); color: var(--link); padding: 0.5rem 0.75rem; border: 2px solid var(--focus); border-radius: 4px; z-index: 10; }
+.skip:focus { top: 0.5rem; }
+
+header { display: flex; gap: 1rem; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; padding: 0.6rem 0.9rem 0.5rem; background: var(--panel); border-bottom: 1px solid var(--line); }
+.head-text { flex: 1 1 28rem; min-width: 0; max-width: 62rem; }
+header h1 { font-size: 1.25rem; margin: 0 0 0.2rem; }
+header p { margin: 0.15rem 0; }
+.head-lang { display: flex; gap: 0.4rem; align-items: center; }
+
+main { display: flex; height: 82vh; min-height: 34rem; }
+#view { flex: 1; position: relative; min-width: 0; }
+#view canvas { width: 100%; height: 100%; display: block; }
+#first { position: absolute; left: 0.75rem; top: 0.6rem; background: #000000; color: #ffffff; padding: 0.2rem 0.5rem; border-radius: 4px; max-width: calc(100% - 1.5rem); }
+#panel { width: 30rem; max-width: 100%; overflow-y: auto; background: var(--panel); border-left: 1px solid var(--line); padding: 0.6rem 0.75rem; }
+#panel h2 { font-size: 1rem; margin: 0 0 0.15rem; }
+#panel h3, #about h3 { font-size: 0.8rem; margin: 0.8rem 0 0.25rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
+.note { color: var(--muted); font-size: 0.8rem; margin: 0 0 0.5rem; }
+.headline { font-weight: 600; margin: 0.25rem 0 0.4rem; }
+.row { display: flex; gap: 0.5rem; align-items: center; margin: 0.3rem 0; flex-wrap: wrap; }
+.row > label:first-child { min-width: 8.5rem; color: var(--muted); }
+select, input, button { font: inherit; color: inherit; background: var(--bg); border: 1px solid var(--line); border-radius: 4px; padding: 0.15rem 0.4rem; min-height: 1.75rem; max-width: 100%; }
+input[type=checkbox] { width: 1.5rem; height: 1.5rem; min-height: 0; margin: 0; accent-color: var(--focus); vertical-align: middle; }
+input[type=number] { width: 6rem; }
+button { cursor: pointer; padding: 0.2rem 0.7rem; }
+.check { display: inline-flex; align-items: center; gap: 0.35rem; min-height: 1.75rem; }
+.field-error { color: var(--bad); font-size: 0.8rem; flex-basis: 100%; }
+table { width: 100%; border-collapse: collapse; }
+td, th { padding: 0.15rem 0.25rem; text-align: left; vertical-align: middle; }
+th { color: var(--muted); font-weight: 600; }
+td.num { text-align: right; font-variant-numeric: tabular-nums; }
+#summary td.num:nth-child(2) { white-space: nowrap; }
+#panel th, #panel td { overflow-wrap: anywhere; hyphens: auto; }
+/* the timeline's table has six columns and the panel is narrow: each texture is a block, every value after its
+   column's name (the table roles are stated in the markup, so it is still a table for assistive technology) */
+#timeline-table, #timeline-table tbody { display: block; }
+#timeline-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+#timeline-table tr { display: block; padding: 0.3rem 0; border-top: 1px solid var(--line); }
+#timeline-table td, #timeline-table tbody th { display: block; width: auto; padding: 0.05rem 0.25rem; text-align: left; }
+#timeline-table td[data-label]::before { content: attr(data-label) ": "; color: var(--muted); }
+caption { text-align: left; color: var(--muted); font-size: 0.8rem; padding: 0.15rem 0.25rem; }
+
+.bar { position: relative; min-height: 1rem; background: var(--bar); border: 1px solid var(--line); border-radius: 3px; overflow: hidden; min-width: 4.5rem; }
+.bar > i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--down); }
+.bar > b { position: relative; display: block; padding: 0 0.3rem; font-size: 0.75rem; line-height: 1.5; font-weight: 500; color: var(--fg); }
+.bar.done > i { background: var(--pic); }
+.bar.bad > i { background: var(--badfill); width: 100% !important; }
+.bar.proc > i { background: var(--proc); }
+#stream { min-height: 1.1rem; }
+#detail td:first-child { overflow-wrap: anywhere; }
+#detail td:last-child { width: 40%; }
+#msgs div { margin: 0.15rem 0; }
+#msgs div.problem { color: var(--bad); font-weight: 600; }
+#msgs div.info { color: var(--muted); }
+#timeline { width: 100%; height: 9.5rem; display: block; }
+.legend { display: flex; flex-wrap: wrap; gap: 0.2rem 0.8rem; margin: 0.2rem 0; }
+.legend span { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.8rem; color: var(--muted); }
+.legend i { width: 1.1rem; height: 0.7rem; display: inline-block; border-radius: 2px; }
+.legend i.proc { background: var(--proc); }
+.legend i.down { background: var(--down); height: 0.2rem; }
+.legend i.blend { background: repeating-linear-gradient(90deg, var(--blend) 0 3px, var(--panel) 3px 5px); border: 1px solid var(--blend); }
+.legend i.pic { background: var(--panel); border: 2px solid var(--pic); }
+.legend i.tick { background: var(--fg); width: 2px; height: 0.9rem; }
+details { margin: 0.3rem 0; }
+summary { cursor: pointer; min-height: 1.75rem; display: list-item; padding: 0.15rem 0; }
+
+#about { padding: 0.8rem 0.9rem 1.5rem; background: var(--panel); border-top: 1px solid var(--line); }
+#about h2 { font-size: 1.05rem; margin: 0 0 0.3rem; }
+#about .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 0.5rem 2rem; max-width: 80rem; }
+#about p, #about ol { margin: 0.2rem 0 0.4rem; }
+#about ol { padding-left: 1.3rem; }
+.noscript { padding: 0.75rem 0.9rem; color: var(--bad); font-weight: 600; }
+
+@media (max-width: 900px) {
+  main { flex-direction: column; height: auto; min-height: 0; }
+  #view { height: 56vh; min-height: 12rem; flex: none; }
+  #panel { width: auto; border-left: none; border-top: 1px solid var(--line); overflow-y: visible; }
+}
+/* narrow windows: the component table lays each row out as a block too */
+@media (max-width: 560px) {
+  .row > label:first-child { min-width: 100%; }
+  #detail, #detail tbody { display: block; }
+  #detail thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  #detail tr { display: block; padding: 0.3rem 0; border-top: 1px solid var(--line); }
+  #detail td { display: block; width: auto; padding: 0.05rem 0.25rem; text-align: left; }
+  #detail td:first-child { font-weight: 600; }
+  #detail td:last-child { width: auto; padding-top: 0.2rem; }
+  #detail td[data-label]::before { content: attr(data-label) ": "; color: var(--muted); }
+}

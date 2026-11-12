@@ -1,0 +1,24 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "texture.KHR_texture_procedural_rendering.schema.json",
+    "title": "KHR_texture_procedural_rendering glTF Texture Extension",
+    "type": "object",
+    "description": "The procedure a texture is drawn from until its picture (the texture's own `source`) has arrived.",
+    "allOf": [ { "$ref": "glTFProperty.schema.json" } ],
+    "properties": {
+        "procedure": {
+            "allOf": [ { "$ref": "glTFid.schema.json" } ],
+            "description": "The index of the procedure in the root extension object's `procedures` array."
+        },
+        "views": {
+            "type": "array",
+            "description": "One procedure and one picture for each eye: exactly two entries, `left` and `right`. The left eye's pair MUST be the texture's own.",
+            "items": { "$ref": "view.schema.json" },
+            "minItems": 2,
+            "maxItems": 2
+        },
+        "extensions": { },
+        "extras": { }
+    },
+    "required": [ "procedure" ]
+}

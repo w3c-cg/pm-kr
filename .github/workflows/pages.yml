@@ -1,0 +1,72 @@
+# Deploy the demos folder to GitHub Pages, under /demos/ of the repository's site.
+# The repository's Pages source is "GitHub Actions" (build type "workflow"), so nothing is served until this runs.
+# Every demo is a folder of plain files under demos/ (demos/procedural-texture-rendering/ is the first); the site is
+# that folder as it is: no build step, no generator. The site's root is a short page that points to the group's own
+# page and to the demos; the group's front page stays at w3.org.
+name: Deploy the demos to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'demos/**'
+      - '.github/workflows/pages.yml'
+      - '.github/pages-root.html'
+      - '.github/scripts/check_site.py'
+  workflow_dispatch:
+
+# only what a deployment needs
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# one deployment at a time; a run under way is left to finish
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - name: Check the folder
+        run: |
+          set -eu
+          test -f demos/index.html
+          test -f demos/procedural-texture-rendering/index.html
+          # GitHub Pages: no symbolic or hard links in the artifact, and a published site of at most 1 GB
+          if [ -n "$(find demos -type l)" ]; then echo "symbolic links in demos/"; exit 1; fi
+          size=$(du -sm demos | cut -f1)
+          echo "demos/ is ${size} MB"
+          test "$size" -lt 1000
+          # every file the page names is there, the scene's sizes are the files', no address starts at the host's root
+          python3 .github/scripts/check_site.py demos/procedural-texture-rendering
+      - name: Stage the site
+        run: |
+          set -eu
+          mkdir _site
+          cp -r demos _site/demos
+          cp .github/pages-root.html _site/index.html
+          touch _site/.nojekyll
+      - name: Setup Pages
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4

@@ -1,0 +1,28 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "view.schema.json",
+    "title": "KHR_texture_procedural_rendering View",
+    "type": "object",
+    "description": "One eye's procedure and picture.",
+    "allOf": [ { "$ref": "glTFProperty.schema.json" } ],
+    "properties": {
+        "eye": {
+            "description": "The eye this view is for: the values of XREye in the WebXR Device API.",
+            "anyOf": [
+                { "const": "left" },
+                { "const": "right" }
+            ]
+        },
+        "procedure": {
+            "allOf": [ { "$ref": "glTFid.schema.json" } ],
+            "description": "The index of this eye's procedure."
+        },
+        "source": {
+            "allOf": [ { "$ref": "glTFid.schema.json" } ],
+            "description": "The index of this eye's image."
+        },
+        "extensions": { },
+        "extras": { }
+    },
+    "required": [ "eye", "procedure", "source" ]
+}

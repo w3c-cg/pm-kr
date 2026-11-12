@@ -1,0 +1,24 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "glTF.KHR_texture_procedural_rendering.schema.json",
+    "title": "KHR_texture_procedural_rendering glTF Document Extension",
+    "type": "object",
+    "description": "The procedures of an asset whose textures are drawn from a procedure until their picture has arrived.",
+    "allOf": [ { "$ref": "glTFProperty.schema.json" } ],
+    "properties": {
+        "version": {
+            "type": "integer",
+            "description": "The version of this extension object.",
+            "minimum": 1
+        },
+        "procedures": {
+            "type": "array",
+            "description": "The asset's procedures.",
+            "items": { "$ref": "procedure.schema.json" },
+            "minItems": 1
+        },
+        "extensions": { },
+        "extras": { }
+    },
+    "required": [ "version", "procedures" ]
+}
