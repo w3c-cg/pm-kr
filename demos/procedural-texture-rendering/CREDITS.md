@@ -1,6 +1,6 @@
 # Credits
 
-Procedural Texture Rendering is an individual contribution by Daniel Campos Ramos, offered as input to the W3C Procedural Memory Knowledge Representation Community Group.
+Dynamic Procedural Texture Rendering is an individual contribution by Daniel Campos Ramos, offered as input to the W3C Procedural Memory Knowledge Representation Community Group.
 It is not a report or a decision of the group.
 
 ## The scene
@@ -36,3 +36,9 @@ The geometry, the script and the sound (made from noise) are ours, CC0 1.0.
 
 The page's code and the WebAssembly player are under the BSD 2-clause licence: see [LICENSE.txt](LICENSE.txt).
 The text of the extension proposal is under CC-BY-4.0.
+
+## Showing the comparison
+
+- Jake Archibald's [two-up](https://github.com/GoogleChromeLabs/two-up), a Google Chrome Labs project, is an example of the sliding comparison pattern. Its own package record names him as author. No code or dependency from two-up is included here.
+- W3C's [ARIA button pattern](https://www.w3.org/WAI/ARIA/apg/patterns/button/) informs the stable button name and pressed state. The hold button is momentary; the split control is a native range input.
+- The three small explanatory drawings are original SVG artwork for this page, under the page's BSD 2-clause licence.

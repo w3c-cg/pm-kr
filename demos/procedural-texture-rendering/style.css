@@ -29,11 +29,11 @@ header h1 { font-size: 1.25rem; margin: 0 0 0.2rem; }
 header p { margin: 0.15rem 0; }
 .head-lang { display: flex; gap: 0.4rem; align-items: center; }
 
-main { display: flex; height: 82vh; min-height: 34rem; }
-#view { flex: 1; position: relative; min-width: 0; }
+main { max-width: 80rem; margin: auto; }
+#view { position: relative; height: clamp(16rem, 54vh, 38rem); min-width: 0; }
 #view canvas { width: 100%; height: 100%; display: block; }
 #first { position: absolute; left: 0.75rem; top: 0.6rem; background: #000000; color: #ffffff; padding: 0.2rem 0.5rem; border-radius: 4px; max-width: calc(100% - 1.5rem); }
-#panel { width: 30rem; max-width: 100%; overflow-y: auto; background: var(--panel); border-left: 1px solid var(--line); padding: 0.6rem 0.75rem; }
+#panel { max-width: 100%; background: var(--panel); padding: 0.6rem 0.75rem; }
 #panel h2 { font-size: 1rem; margin: 0 0 0.15rem; }
 #panel h3, #about h3 { font-size: 0.8rem; margin: 0.8rem 0 0.25rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
 .note { color: var(--muted); font-size: 0.8rem; margin: 0 0 0.5rem; }
@@ -93,8 +93,8 @@ summary { cursor: pointer; min-height: 1.75rem; display: list-item; padding: 0.1
 .noscript { padding: 0.75rem 0.9rem; color: var(--bad); font-weight: 600; }
 
 @media (max-width: 900px) {
-  main { flex-direction: column; height: auto; min-height: 0; }
-  #view { height: 56vh; min-height: 12rem; flex: none; }
+  main { display: block; }
+  #view { height: clamp(13rem, 38vh, 26rem); }
   #panel { width: auto; border-left: none; border-top: 1px solid var(--line); overflow-y: visible; }
 }
 /* narrow windows: the component table lays each row out as a block too */
@@ -108,3 +108,68 @@ summary { cursor: pointer; min-height: 1.75rem; display: list-item; padding: 0.1
   #detail td:last-child { width: auto; padding-top: 0.2rem; }
   #detail td[data-label]::before { content: attr(data-label) ": "; color: var(--muted); }
 }
+
+/* The experiment comes first; measurements keep their own disclosure. */
+html { scroll-padding-top: 7rem; }
+[id] { scroll-margin-top: 7rem; }
+header { max-width: none; }
+header .head-text { max-width: 66rem; }
+#h-next { display: none; }
+.demo-controls { position: sticky; top: 0; z-index: 5; display: flex; gap: .4rem .65rem; flex-wrap: wrap; align-items: center; padding: .45rem .9rem; background: var(--panel); border-bottom: 1px solid var(--line); }
+.demo-controls label { font-weight: 600; }
+.demo-controls .note { margin: 0; }
+#scene-state { padding: .5rem .9rem; margin: 0; font-weight: 600; min-height: 3rem; }
+#msgs { padding: 0 .9rem; }
+#surface-states { list-style: none; display: flex; flex-wrap: wrap; gap: .35rem .8rem; margin: 0; padding: .2rem .9rem .5rem; font-size: .8rem; }
+#surface-states li::before { content: '○ '; }
+#surface-states li[data-state=picture]::before { content: '✓ '; }
+#surface-states li[data-state=both]::before { content: '◐ '; }
+#surface-states li[data-state=blend]::before { content: '↔ '; }
+#comparison { padding: .4rem .9rem; }
+#comparison > * { margin-right: .4rem; }
+#comparison label { display: inline-block; }
+#comparison .note { margin-top: .4rem; }
+#compare-hold { touch-action: none; user-select: none; }
+#compare-hold[aria-pressed=true] { outline: 3px solid var(--focus); }
+#split-control { align-items: center; }
+#split-position { width: min(15rem, 100%); min-height: 2rem; vertical-align: middle; }
+#split-labels { position: absolute; top: .5rem; left: .5rem; right: .5rem; display: flex; justify-content: space-between; pointer-events: none; }
+#split-labels span { background: #000; color: #fff; padding: .2rem .5rem; border-radius: .2rem; }
+#split-labels[hidden] { display: none; }
+#seeing { padding: .6rem .9rem 1rem; background: var(--panel); }
+#seeing h2 { font-size: 1rem; margin: 0 0 .6rem; }
+#seeing ol { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1rem; margin: 0; padding: 0; list-style-position: inside; }
+#seeing li { display: flex; align-items: center; gap: .5rem; }
+#seeing svg { width: 4.5rem; flex: none; fill: var(--bg); stroke: var(--fg); stroke-width: 2; }
+#seeing p { margin: .6rem 0 0; }
+#measurements { max-width: 80rem; margin: .5rem auto; background: var(--panel); border: 1px solid var(--line); }
+#measurements > summary { padding: .6rem .9rem; font-weight: 600; }
+.pending { flex-basis: 100%; font-size: .8rem; color: var(--fg); font-weight: 600; }
+@media (max-width: 600px) {
+ header { padding: .45rem .65rem; gap: .3rem; }
+ header h1 { font-size: 1.1rem; }
+ .head-lang { font-size: .8rem; }
+ .demo-controls { padding: .4rem .65rem; gap: .3rem .5rem; }
+ .demo-controls label { font-size: .8rem; }
+ .demo-controls .note { flex-basis: 100%; }
+ #scene-state { font-size: .85rem; }
+ #surface-states { gap: .2rem .6rem; }
+ #seeing li { flex-direction: column; text-align: center; align-items: center; }
+ #seeing svg { width: 3rem; }
+ #seeing ol { gap: .5rem; }
+}
+
+#comparison { flex-basis: 100%; padding: .2rem 0; }
+#measurements > .note, #measurements > #msgs { padding: .4rem .75rem; margin: 0; }
+#problems { padding: 0 .9rem; color: var(--bad); font-weight: 600; }
+@media (max-width: 600px) {
+ #view { height: clamp(12rem, 31vh, 24rem); }
+ #surface-states { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); font-size: .75rem; }
+ #surface-states li { overflow-wrap: anywhere; }
+ #comparison { display: flex; flex-wrap: wrap; gap: .3rem; }
+ #comparison[hidden] { display: none; }
+ #comparison > * { margin: 0; }
+}
+
+#split-divider { position: absolute; top: 0; bottom: 0; left: 50%; width: 3px; background: #fff; border-left: 1px solid #000; border-right: 1px solid #000; pointer-events: none; }
+#compare-error { flex-basis: 100%; }

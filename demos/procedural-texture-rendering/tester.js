@@ -9,6 +9,7 @@ import { t, setLanguage, pickLanguage, language, languageTag, LANGS } from './st
 import { GpuPlayer, parse, unknownParts } from './gpu-player.js';
 import { GlScene, M } from './gl-scene.js';
 import { PageLink } from './link.js';
+import { Presentation } from './presentation.js';
 
 const EXT = 'KHR_texture_procedural_rendering';   // the proposal's draft identifier (extension/KHR_texture_procedural_rendering)
 const FORMAT_VERSION = 1;                         // the extension object's version word this player knows
@@ -28,12 +29,13 @@ const S = {
   speed: Q.get('speed') in RATES ? Q.get('speed') : 'd56',
   kbps: +(Q.get('kbps') || 56) > 0 ? +(Q.get('kbps') || 56) : 56,
   conns: Math.max(1, Math.min(6, +(Q.get('conns') || 6))),
-  limit: Q.get('limit') === 'everything' ? 'everything' : 'pictures',
+  limit: Q.get('limit') === 'pictures' ? 'pictures' : 'everything',
   blend: Q.get('blend') === 'cross' ? 'cross' : 'coarse',
   blendSec: Math.max(0.1, +(Q.get('blendsec') || 2)),
   player: ['webgpu', 'wasm'].includes(Q.get('player')) ? Q.get('player') : 'auto',
   link: Q.get('link') === 'server' ? 'server' : 'page',
   detailed: Q.get('detailed') !== '0',
+  detailsOpen: Q.get('details') === '1',
   motion: Q.has('motion') ? Q.get('motion') !== '0' : !reducedMotion,
   lang: pickLanguage([Q.get('lang'), stored('ptr-lang'), ...(navigator.languages || [navigator.language])]),
   proof: Q.get('proof') === '1',
@@ -45,6 +47,19 @@ const S = {
   first: +(Q.get('first') || 256),
   fps: +(Q.get('fps') || 0),          // 0: every display frame; proofs draw fewer to spare the shared GPU
 };
+// Settings waiting for the next run stay separate from the active loader's settings.
+const pending = Object.fromEntries(['speed','kbps','conns','limit','blend','blendSec','link'].map((key) => [key,S[key]]));
+const presentation = new Presentation(S, pending, replay);
+function replay(focus = 'restart') {
+  if (pending.speed === 'custom' && !(+pending.kbps > 0)) { document.getElementById('kbps').focus(); return; }
+  if (!(+pending.blendSec >= 0.1)) { document.getElementById('blendsec').reportValidity(); document.getElementById('blendsec').focus(); return; }
+  const q = new URLSearchParams(location.search);
+  for (const [key,value] of Object.entries(pending)) q.set(key === 'blendSec' ? 'blendsec' : key, String(value));
+  q.set('lang', S.lang); q.set('detailed', S.detailed ? '1' : '0'); q.set('motion', S.motion ? '1' : '0');
+  q.set('details', S.detailsOpen ? '1' : '0');
+  try { sessionStorage.setItem('ptr-replay-focus', focus); } catch (e) { /* focus restoration is optional */ }
+  location.search = q.toString();
+}
 const bitsPerSecond = () => { const r = RATES[S.speed]; return r == null ? 56000 : r < 0 ? S.kbps * 1000 : r; };
 const now = () => performance.now();
 // numbers as the page's language writes them (6.26 in English, 6,26 in Polish); the units are the same everywhere
@@ -261,11 +276,14 @@ async function main() {
   try { await setLanguage(S.lang); } catch (e) { S.lang = 'en'; say('msgLanguageFailed', (LANGS.find((x) => x[0] === askedLang) || [askedLang, askedLang])[1], 'English'); }
   setupLanguage();
   applyPageStrings();
+  presentation.strings();
   renderPanel();
+  try { const focus = sessionStorage.getItem('ptr-replay-focus'); if (focus) { document.getElementById(focus)?.focus({preventScroll:true}); sessionStorage.removeItem('ptr-replay-focus'); } } catch (e) { /* no stored focus */ }
   serverThere = await findServer();
   if (S.link === 'server' && !serverThere) { say('msgNoServerLink'); renderPanel(); if (S.proof) finishProof(); return; }
   if (serverThere) renderPanel();
   try { scene = new GlScene(document.getElementById('scene')); } catch (e) { say('msgNoWebgl'); if (S.proof) finishProof(); return; }
+  presentation.attach(scene);
   if (S.nostop) say('msgNoStop');
   if (S.link === 'server') await fetch('link/reset', { method: 'POST' });
   else pageLink.reset();
@@ -534,6 +552,7 @@ function setupLanguage() {
     q.set('lang', S.lang);
     history.replaceState(null, '', location.pathname + '?' + q.toString());
     applyPageStrings();
+    presentation.strings();
     renderPanel();
     render();
   };
@@ -596,43 +615,62 @@ function renderPanel() {
   // the link: a choice only where a link server answers beside the page
   let linkSel = null;
   if (serverThere) {
-    linkSel = el('select', { id: 'link' }, el('option', { value: 'page', textContent: t('linkChoicePage'), selected: S.link === 'page' }), el('option', { value: 'server', textContent: t('linkChoiceServer'), selected: S.link === 'server' }));
+    linkSel = el('select', { id: 'link' }, el('option', { value: 'page', textContent: t('linkChoicePage'), selected: pending.link === 'page' }), el('option', { value: 'server', textContent: t('linkChoiceServer'), selected: pending.link === 'server' }));
     p.append(row(t('linkChoice'), 'link', linkSel));
   }
   const sel = el('select', { id: 'speed' });
-  for (const [id, label] of presets()) sel.append(el('option', { value: id, textContent: label, selected: id === S.speed }));
-  const kb = el('input', { id: 'kbps', type: 'number', min: 0.1, step: 0.1, value: S.kbps, hidden: S.speed !== 'custom' });
+  for (const [id, label] of presets()) sel.append(el('option', { value: id, textContent: label, selected: id === pending.speed }));
+  const kb = el('input', { id: 'kbps', type: 'number', min: 0.1, step: 0.1, value: pending.kbps, hidden: pending.speed !== 'custom' });
   kb.setAttribute('aria-label', t('customLabel'));
   const kbErr = el('div', { className: 'field-error', id: 'kbps-error', hidden: true });
   kbErr.setAttribute('role', 'alert');
   kb.setAttribute('aria-describedby', 'kbps-error');
-  sel.onchange = async () => { S.speed = sel.value; kb.hidden = S.speed !== 'custom'; R.settings.bitsPerSecond = bitsPerSecond(); await setRate(); render(); };
+  sel.onchange = async () => {
+    S.speed = pending.speed = sel.value;
+    kb.hidden = S.speed !== 'custom';
+    R.settings.bitsPerSecond = bitsPerSecond();
+    presentation.speedChoices();
+    await setRate();
+    render();
+  };
+  kb.oninput = () => {
+    pending.kbps = kb.value;
+    const valid = +kb.value > 0;
+    kbErr.hidden = valid;
+    kbErr.textContent = valid ? '' : t('customBad', fmtRate(bitsPerSecond()));
+    if (valid) kb.removeAttribute('aria-invalid'); else kb.setAttribute('aria-invalid','true');
+  };
   kb.onchange = async () => {
-    const v = +kb.value;
-    if (!(v > 0)) { kbErr.hidden = false; kbErr.textContent = t('customBad', fmtRate(bitsPerSecond())); kb.setAttribute('aria-invalid', 'true'); return; }
-    kbErr.hidden = true; kb.removeAttribute('aria-invalid');
-    S.kbps = v; R.settings.bitsPerSecond = bitsPerSecond(); await setRate(); render();
+    kb.oninput();
+    if (!(+kb.value > 0)) return;
+    S.kbps = +kb.value;
+    R.settings.bitsPerSecond = bitsPerSecond();
+    await setRate();
+    render();
   };
   const conns = el('select', { id: 'conns' });
-  for (let i = 1; i <= 6; i++) conns.append(el('option', { value: i, textContent: String(i), selected: i === S.conns }));
-  const lim = el('select', { id: 'limit' }, el('option', { value: 'pictures', textContent: t('limitPictures'), selected: S.limit === 'pictures' }), el('option', { value: 'everything', textContent: t('limitEverything'), selected: S.limit === 'everything' }));
-  const bl = el('select', { id: 'blend' }, el('option', { value: 'coarse', textContent: t('blendCoarse'), selected: S.blend === 'coarse' }), el('option', { value: 'cross', textContent: t('blendCross'), selected: S.blend === 'cross' }));
-  const bs = el('input', { id: 'blendsec', type: 'number', min: 0.1, step: 0.1, value: S.blendSec });
+  for (let i = 1; i <= 6; i++) conns.append(el('option', { value: i, textContent: String(i), selected: i === +pending.conns }));
+  const lim = el('select', { id: 'limit' }, el('option', { value: 'pictures', textContent: t('limitPictures'), selected: pending.limit === 'pictures' }), el('option', { value: 'everything', textContent: t('limitEverything'), selected: pending.limit === 'everything' }));
+  const bl = el('select', { id: 'blend' }, el('option', { value: 'coarse', textContent: t('blendCoarse'), selected: pending.blend === 'coarse' }), el('option', { value: 'cross', textContent: t('blendCross'), selected: pending.blend === 'cross' }));
+  const bs = el('input', { id: 'blendsec', type: 'number', min: 0.1, step: 0.1, value: pending.blendSec });
   const det = el('input', { id: 'detailed', type: 'checkbox', checked: S.detailed });
   det.onchange = () => { S.detailed = det.checked; render(); };
   const mot = el('input', { id: 'motion', type: 'checkbox', checked: S.motion });
   mot.onchange = () => { S.motion = mot.checked; };
-  const restart = el('button', { id: 'restart', type: 'button', textContent: t('restart') });
-  restart.onclick = () => {
-    const q = new URLSearchParams({ speed: sel.value, kbps: +kb.value > 0 ? kb.value : String(S.kbps), conns: conns.value, limit: lim.value, blend: bl.value, blendsec: bs.value, detailed: det.checked ? '1' : '0', motion: mot.checked ? '1' : '0', lang: S.lang });
-    if (S.player !== 'auto') q.set('player', S.player);
-    if ((linkSel ? linkSel.value : S.link) === 'server') q.set('link', 'server');
-    if (Q.get('scene')) q.set('scene', Q.get('scene'));
-    location.search = q.toString();
-  };
+  for (const [input, key] of [[conns,'conns'],[lim,'limit'],[bl,'blend'],[bs,'blendSec'],[linkSel,'link']]) {
+    if (!input) continue;
+    const note = el('span', { id: input.id + '-pending', className:'pending', hidden: true });
+    note.setAttribute('role','status');
+    input.setAttribute('aria-describedby', [input.getAttribute('aria-describedby'), note.id].filter(Boolean).join(' '));
+    input._pendingNote = note;
+    input.oninput = input.onchange = () => { pending[key] = input.value; presentation.pendingNotes(); };
+  }
   const check = (input, text) => { const l = el('label', { className: 'check' }, input, ' ' + text); return l; };
   p.append(row(t('speed'), 'speed', sel, kb, kbErr), row(t('connections'), 'conns', conns), row(t('limitTo'), 'limit', lim), row(t('blend'), 'blend', bl), row(t('blendSeconds'), 'blendsec', bs),
-    el('div', { className: 'row' }, restart, check(det, t('detailed')), check(mot, t('motion'))));
+    el('div', { className: 'row' }, check(det, t('detailed')), check(mot, t('motion'))));
+  for (const input of [sel,kb,conns,lim,bl,bs,linkSel]) if (input?._pendingNote) input.parentElement.append(input._pendingNote);
+  presentation.pendingNotes();
+  if (!(+pending.kbps > 0)) kb.onchange();
   if (reducedMotion) p.append(el('p', { className: 'note', textContent: t('motionReduced') }));
   // sizes and times
   ui.sumRows = [];
@@ -664,7 +702,7 @@ function renderPanel() {
   tableRoles(ui.tlTable, t('timelineTable'));
   ui.tlDetails = el('details', { id: 'timeline-details' }, el('summary', { textContent: t('timelineTable') }), ui.tlTable);
   ui.player = el('div');
-  ui.msgs = el('div', { id: 'msgs' });
+  ui.msgs = document.getElementById('msgs');
   ui.msgs.setAttribute('role', 'status');
   ui.xrBtn = el('button', { id: 'enter3d', type: 'button', textContent: t('enter3d'), hidden: true });
   ui.xrLine = el('p', { className: 'note', textContent: ui.xrState ? t(ui.xrState) : '' });
@@ -675,10 +713,11 @@ function renderPanel() {
   ui.detail = el('table', { id: 'detail' }, el('thead', {}, dHead), ui.detailBody);
   tableRoles(ui.detail, t('component'));
   p.append(el('h3', { textContent: t('summary') }), ui.summary, el('h3', { textContent: t('simulated') }), ui.stream.bar, ui.streamText,
-    el('h3', { textContent: t('timeline') }), legend, ui.timeline, ui.tlDetails, el('h3', { textContent: t('player') }), ui.player, ui.msgs,
+    el('h3', { textContent: t('timeline') }), legend, ui.timeline, ui.tlDetails, el('h3', { textContent: t('player') }), ui.player,
     el('div', { className: 'row' }, ui.xrBtn), ui.xrLine, ui.detailHead = el('h3', { textContent: t('component') }), ui.detail);
   setupXr(ui.xrBtn, ui.xrLine);
   if (hadFocus && document.getElementById(hadFocus)) document.getElementById(hadFocus).focus();
+  presentation.revealAddressTarget();
   render();
 }
 
@@ -765,9 +804,11 @@ function render() {
   if (R.playerOff) lines.push(t('playerOff'));
   syncLines(ui.player, lines.filter(Boolean).map((s) => ({ text: s, cls: '' })));
   syncLines(ui.msgs, R.messages.map((m) => ({ text: (m.kind === 'problem' ? t('problem') + ' ' : '') + t(m.key, ...m.args), cls: m.kind })));
+  syncLines(document.getElementById('problems'), R.messages.filter((m) => m.kind === 'problem').map((m) => ({ text: t('problem') + ' ' + t(m.key,...m.args), cls:'problem' })));
   // the words for what the 3D view shows
   const nTex = texs.length, nPic = texs.filter((x) => x.mode === 'picture').length;
-  setText(document.getElementById('scene-text'), t('sceneText') + ' ' + (nTex ? t('sceneState', nPic, nTex) : t('sceneStateWait')));
+  presentation.render(R, texs, fmtBytes, fmtTime);
+  setText(document.getElementById('scene-text'), t('sceneText') + ' ' + (presentation.comparisonText || (nTex ? t('sceneState', nPic, nTex) : t('sceneStateWait'))));
 }
 
 // keep a list of lines in step with what is to be shown, touching only what changed (a live region says only changes)
@@ -867,6 +908,7 @@ window.testerState = () => ({
   comps: comps.map((c) => ({ name: c.name, kind: c.kind, state: c.state, received: c.received, size: c.size })),
   textures: texs.map((x) => ({ name: x.name, mode: x.mode, failed: x.failed, tiles: x.tiles, subs: x.subs, times: x.times })),
   messages: R.messages.map((m) => t(m.key, ...m.args)),
+  comparison: { ready:presentation.ready, holding:presentation.holding, method:presentation.method, saved:presentation.saved.size },
   jobs: jobs.length, jobsRunning, submissions: R.submissions, motion: S.motion, motionClock, lang: language(),
 });
 window.testerResult = null;

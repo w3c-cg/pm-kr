@@ -3,7 +3,10 @@ Draft proposal, not submitted. Written in the glTF extension template (extension
 Text: CC-BY-4.0.
 -->
 
-# KHR\_texture\_procedural\_rendering
+<a id="khr_texture_procedural_rendering"></a>
+# Dynamic Procedural Texture Rendering
+
+Draft identifier: `KHR_texture_procedural_rendering`.
 
 ## Contributors
 
@@ -21,7 +24,7 @@ Written against the glTF 2.0 spec.
 
 ## Overview
 
-Procedural Texture Rendering gives a texture a first layer that is computed and a last layer that is its picture.
+Dynamic Procedural Texture Rendering gives a texture a first layer that is computed and a last layer that is its picture.
 A texture that uses this extension names a **procedure**: a small program, typically a few hundred bytes to a few kilobytes, that draws an approximation of the texture's picture at any resolution.
 The texture keeps its ordinary picture in `texture.source`.
 
@@ -236,7 +239,7 @@ They can work together in two ways, and this proposal asks for the working group
 
 ## Known Implementations
 
-* The Procedural Texture Rendering demo: a web page that loads the reference scene in the order above, with a WebGPU player and a WebAssembly player of the `p2p` operators, and a panel that simulates a connection speed. It is the folder this document lies in.
+* The Dynamic Procedural Texture Rendering demo: a web page that loads the reference scene in the order above, with a WebGPU player and a WebAssembly player of the `p2p` operators, and a panel that simulates a connection speed. It is the folder this document lies in.
 * `ptr_texture.py`: writes the extension into a glTF asset and validates it against this document.
 
 The reference scene passes the Khronos glTF Validator with no error and no warning, and three.js's `GLTFLoader`, which does not know the extension, draws it from its pictures.

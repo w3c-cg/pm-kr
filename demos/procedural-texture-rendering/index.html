@@ -4,35 +4,61 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<title>Procedural Texture Rendering: a 3D scene drawn before its pictures arrive</title>
+<title>Dynamic Procedural Texture Rendering: a 3D scene drawn before its pictures arrive</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22%3E%3Crect width=%2216%22 height=%2216%22 rx=%223%22 fill=%22%237a46d4%22/%3E%3Cpath d=%22M3 11h10M3 8h7M3 5h4%22 stroke=%22%23fff%22 stroke-width=%221.6%22/%3E%3C/svg%3E">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<a class="skip" id="skip" href="#panel">Skip to the download panel</a>
+<a class="skip" id="skip" href="#demo-controls">Skip to the demo controls</a>
 <header>
   <div class="head-text">
-    <h1 id="h-title">Procedural Texture Rendering</h1>
-    <p id="h-lead">This 3D courtyard appears almost at once, even on a dial-up connection. Each surface is first drawn from a tiny recipe, called a procedure, and its photograph takes over when its download ends.</p>
-    <p id="h-next">Pick a connection speed in the panel and press “Restart with these settings”.</p>
-    <p id="h-status" class="note">A working demo by Daniel Ramos, offered as input to the W3C PM-KR Community Group, and a proposal for the glTF 3D format. It is not part of glTF yet.</p>
+    <h1 id="h-title">Dynamic Procedural Texture Rendering</h1>
+    <p id="h-lead">Watch this scene appear before its photographs arrive.</p>
+    <p id="h-next">Choosing a speed plays the scene again.</p>
+    <p id="h-status" class="note">Individual input by Daniel Ramos. A proposal for glTF, not part of glTF.</p>
   </div>
   <div class="head-lang">
     <label for="lang" id="l-lang">Language</label>
     <select id="lang"></select>
   </div>
 </header>
+<div id="demo-controls" class="demo-controls" tabindex="-1">
+  <label id="quick-label" for="quick-speed"></label>
+  <select id="quick-speed" aria-describedby="quick-hint"></select>
+  <button id="restart" type="button"></button>
+  <span id="quick-hint" class="note"></span>
+  <div id="comparison" hidden>
+    <p id="compare-error" class="note" role="status" hidden></p>
+    <label id="compare-label" for="compare-method"></label><select id="compare-method"></select>
+    <button id="compare-hold" type="button" aria-pressed="false"></button>
+    <span id="split-control" hidden><label id="split-position-label" for="split-position"></label><input id="split-position" type="range" min="0" max="100" value="50"></span>
+  </div>
+</div>
 <main>
   <section id="view" aria-labelledby="h-scene">
     <h2 id="h-scene" class="sr">The scene</h2>
     <canvas id="scene" role="img" aria-labelledby="h-scene" aria-describedby="scene-text"></canvas>
-    <div id="first" hidden></div>
+    <div id="first" class="sr" hidden></div>
     <p id="scene-text" class="sr"></p>
+    <div id="split-divider" hidden aria-hidden="true"></div>
+    <div id="split-labels" hidden aria-hidden="true"><span id="split-computed"></span><span id="split-photo"></span></div>
   </section>
-  <section id="panel" aria-labelledby="panel-title" tabindex="-1"></section>
+  <p id="scene-state" role="status" aria-atomic="true"></p>
+  <div id="problems" role="status"></div>
+  <div id="surface-list"><h2 id="surfaces-title" class="sr"></h2><ul id="surface-states" aria-labelledby="surfaces-title"></ul></div>
+  <section id="seeing" aria-labelledby="h-seeing">
+    <h2 id="h-seeing"></h2>
+    <ol>
+      <li><svg viewBox="0 0 96 64" aria-hidden="true"><rect x="24" y="5" width="48" height="54" rx="4"/><path d="M34 20h28M34 30h20M34 40h28M34 50h15"/></svg><span id="step-recipe"></span></li>
+      <li><svg viewBox="0 0 96 64" aria-hidden="true"><rect x="5" y="5" width="86" height="54" rx="4"/><path d="M6 23h84M6 41h84M27 5v18M60 5v18M42 23v18M73 23v18M27 41v18M60 41v18"/></svg><span id="step-draw"></span></li>
+      <li><svg viewBox="0 0 96 64" aria-hidden="true"><rect x="5" y="5" width="86" height="54" rx="4"/><circle cx="70" cy="20" r="7"/><path d="m6 53 24-26 23 22 13-13 24 20M38 14l8 8 14-15"/></svg><span id="step-photo"></span></li>
+    </ol>
+    <p id="why-now"></p>
+  </section>
 </main>
+<details id="measurements"><summary id="details-label"></summary><p class="note" id="compare-note"></p><div id="msgs" role="status"></div><section id="panel" aria-labelledby="panel-title" tabindex="-1"></section></details>
 <section id="about" aria-labelledby="h-about">
-  <h2 id="h-about">About this demo</h2>
+  <h2 id="h-about">About Dynamic Procedural Texture Rendering</h2>
   <div class="cols">
     <div>
       <h3 id="a-how-h">How the scene loads</h3>
