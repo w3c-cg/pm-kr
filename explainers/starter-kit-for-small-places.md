@@ -26,6 +26,12 @@ It is enough to be open, and everything in it can be changed later.
 The person chooses a place, changes the names and the pictures, and is open.
 Nothing in it needs an autonomous agent or a specialist.
 
+## Free kits, and a market of experts
+
+The basic kits are free.
+People who know the craft build on them and charge for tailoring and for advanced features, as happened with WordPress themes.
+So the kit does not replace the experts: it gives them customers who are already open.
+
 ## Where it exists today
 
 - Textures as procedures: the [Dynamic Procedural Texture Rendering demo](https://w3c-cg.github.io/pm-kr/demos/procedural-texture-rendering/), a courtyard drawn from 15.5 KB of procedures in a plain glTF 2.0 scene.
