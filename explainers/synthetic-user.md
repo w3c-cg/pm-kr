@@ -25,6 +25,33 @@ The term comes from Knowledge3D, where "AI accounts = user accounts".
 No new protocol is needed: accounts, sign-in, permissions and delegation already exist on the web.
 What a site needs is to be able to read the declaration and the mandate.
 
+## A bot is not a Synthetic User
+
+The word "bot" was already taken when this proposal was written, and that is why the proposal does not start from it.
+It comes from the chat networks of the late 1980s and early 1990s.
+The Jargon File defines a bot as "An IRC or MUD user who is actually a program".
+A bot acts by itself on what happens around it: an event or a schedule starts each act, and no person asks for it.
+
+AI inside does not change that.
+The IRC protocol of May 1993 (RFC 1459, section 4.4.2) already speaks of "automatons (clients with either an AI or other interactive program controlling their actions)".
+A bot is still a bot, even with AI in it.
+
+The difference is who starts the act and who answers for it.
+
+| | Bot | Synthetic User |
+| --- | --- | --- |
+| What starts an act | an event or a schedule | a person's request, for that task |
+| Who answers for it | the institution that runs it | the person who gave the mandate |
+| How it appears | a service of a system | a profile like a person's account, declared as synthetic |
+
+Bots keep their place, and it is point 4 above: inside an institution that answers for them.
+An automated factory is the plain example: its machines and robots are bots, even when AI drives them.
+
+A body does not decide it either.
+In the spatial web a Synthetic User can have a virtual body, and that body may or may not match a real robot.
+A robot on a factory line is a bot.
+A body, virtual or real, that acts on a person's request under that person's mandate is a Synthetic User's.
+
 ## Where it works today
 
 - **Sparky Stereo OS** (https://github.com/Sparky-OS/sparky-stereo-os): AI partners work as Synthetic Users under one person's identity, on that person's request; each contribution carries one disclosure line, and the project credits people and partners by CRediT role in [docs/ai-provenance.md](https://github.com/Sparky-OS/sparky-stereo-os/blob/main/docs/ai-provenance.md).

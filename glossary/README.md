@@ -189,6 +189,8 @@ Offered to the group as a stepping stone, not as a specification.
 
 **Shared name.** Synthetic User.
 
+**Not a bot.** A bot starts its own acts, with or without AI; a Synthetic User acts on a person's request ([explainer](../explainers/synthetic-user.md#a-bot-is-not-a-synthetic-user)).
+
 **In the specifications.**
 
 | Where | Its name | Status |
