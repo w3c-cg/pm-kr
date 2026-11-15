@@ -61,6 +61,7 @@ Where a group adopts an explainer, it becomes the group's draft and its status l
 | [The knowledge layer](knowledge-layer.md) | What a scene graph does not say: what things are, what they do, where that knowledge came from | world and AI people |
 | [Actionable knowledge representation](actionable-knowledge-representation.md) | An object that shows what it does, where it is; games did it first | interface and AI people |
 | [Procedures first, the image last](dpfr.md) | Dynamic Procedural Foveated Rendering, a proposal for assets that arrive before their images | asset and engine people |
+| [A starter kit for small places](starter-kit-for-small-places.md) | Generic defaults a café, a shop or a small business can start from: places, procedural textures, a scan, actions that show themselves, an assistant | small businesses and world builders |
 | [Where the work belongs](web-of-worlds-task-force.md) | A Web of Worlds Task Force inside and outside W3C, and the map of groups | everyone in the workshop's scope |
 
 The dated inputs these explainers draw on are in [talks/](../talks/), the names in the [glossary](../glossary/README.md), and the longer arguments in the [reports](../reports/README.md).
