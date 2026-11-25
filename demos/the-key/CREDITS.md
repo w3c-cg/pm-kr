@@ -10,7 +10,7 @@ The hall, studio, accounts, keys and helper are fictional.
 - Kay Lousberg made [KayKit Space Base Bits](https://kaylousberg.com/game-assets/space-base-bits). It supplies `cargo_A` and `lights`, plus `basemodule_D`, `basemodule_B` and `basemodule_E` for the reception, lobby exhibits and lab benches. The author's [CC0 1.0 notice](vendor/KAYKIT-LICENSE.txt) is included.
 - Kay Lousberg made the Knight from [KayKit Character Pack: Adventurers](https://github.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0/tree/672074b73ba276876a19e8816ecdc5241817ab47), posed as Mica. The author's [CC0 1.0 notice](vendor/adventurers-LICENSE.txt) is included.
 - The kit meshes carry new surface coordinates and plain material names. The named procedures draw their textures in the viewer.
-- Rob Tuytel made the Poly Haven [Floor Tiles 06](https://polyhaven.com/a/floor_tiles_06) reference, under [CC0 1.0](https://polyhaven.com/license). The floor uses the existing fitted procedure by Daniel Campos Ramos.
+- Rob Tuytel made the CC0 1.0 reference textures [Floor Tiles 06](https://polyhaven.com/a/floor_tiles_06), [Metal Plate](https://polyhaven.com/a/metal_plate), [Rusty Metal 02](https://polyhaven.com/a/rusty_metal_02) and [Rock 05](https://polyhaven.com/a/rock_05). Daniel Campos Ramos fitted the published floor, wall and ceiling procedures to those references.
 
 ## The technique
 
