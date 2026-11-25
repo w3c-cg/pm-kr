@@ -198,7 +198,7 @@ export async function createWorld(textures, qr, scene) {
   box(hatch, 1.17, .75, .1, 0, .79, .41, 'trim');
   const hatchLeaf = box(hatch, .99, .53, .06, 0, .79, .473, 'divider');
   box(hatch, .12, .035, .045, 0, .82, .518, 'violet', false);
-  sign(hatch, 'PARCEL HATCH', 0, 1.64, .54, .031, 'violet');
+  sign(hatch, 'PARCEL HATCH', 0, 1.64, .20, .031, 'violet');
   const parcel = clone(hatch, 'cargo', 0, 1.37, .05);
   parcel.scale.setScalar(.52);
   parcel.visible = false;
