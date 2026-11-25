@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 460">
+  <rect width="960" height="460" fill="#111b22"/>
+  <g fill="none" stroke="#2d414a" stroke-width="1">
+    <path d="M320 30V430M640 30V430M30 230H930"/>
+  </g>
+  <g font-family="monospace" font-size="15" fill="#c5d6d7" text-anchor="middle">
+    <text x="160" y="210">VISITOR · ROUND BOW / CUT TEETH</text>
+    <text x="480" y="210">ACCOUNT · HEX BOW / FORK</text>
+    <text x="800" y="210">MANDATE · DIAMOND / STOP</text>
+    <text x="160" y="435">DOOR · RECESSED LOCK</text>
+    <text x="480" y="435">PORTAL · OPEN ARCH</text>
+    <text x="800" y="435">QR PLATE · CHAMFERED RIM</text>
+  </g>
+  <g fill="#d29a4b">
+    <path fill-rule="evenodd" d="M160 45a29 29 0 1 0 0 58 29 29 0 0 0 0-58m0 11a18 18 0 1 1 0 36 18 18 0 0 1 0-36z"/>
+    <path d="M151 99h18v41h11v10h-7v10h8v10h-30z"/>
+  </g>
+  <path fill="#48a99d" fill-rule="evenodd" d="M480 42l31 18v29l-31 18-31-18V60zm0 12-20 12v17l20 12 20-12V66z"/>
+  <path fill="#547281" d="M463 102h34v68h-11v-18h-12v18h-11z"/>
+  <path fill="#48a99d" d="M467 111h7v30h-7zm19 0h7v30h-7z"/>
+  <path fill="#9369bb" d="M800 43l32 36-24 38v37h5v8h-5v10h-16v-10h-5v-8h5v-37l-24-38z"/>
+  <path fill="#91a3ac" d="M800 65l13 14-13 14-13-14z"/>
+  <path fill="#42606e" d="M106 397v-100l20-29h68l20 29v100z"/>
+  <path fill="#6a8591" d="M114 388v-89l15-22h62l15 22v89z"/>
+  <path fill="none" stroke="#344b55" d="M129 307v70m62-70v70" stroke-width="3"/>
+  <rect x="172" y="325" width="20" height="24" rx="3" fill="#16242b"/>
+  <path stroke="#e4ad60" d="M182 331v11" stroke-width="2"/>
+  <path fill="#42606e" d="M420 397v-98l28-31h64l28 31v98h-17v-91l-22-23h-42l-22 23v91z"/>
+  <path fill="none" stroke="#d29a4b" d="M429 382v-75m102 75v-75m-75-30h48" stroke-width="3"/>
+  <path fill="#6a8591" d="M758 270h84l19 19v84l-19 19h-84l-19-19v-84z"/>
+  <rect x="750" y="281" width="100" height="100" rx="3" fill="#18272d"/>
+  <rect x="758" y="289" width="84" height="84" fill="#e1e8e5"/>
+  <path fill="#18272d" fill-rule="evenodd" d="M765 297h20v20h-20zm4 4v12h12v-12zm45-4h20v20h-20zm4 4v12h12v-12zm-53 44h20v20h-20zm4 4v12h12v-12z"/>
+  <path fill="#18272d" d="M792 305h16v7h-16zm-4 14h9v8h-9zm12 10h24v7h-24zm-11 12h9v12h-9zm17 11h14v8h-14zm21-10h7v18h-7z"/>
+</svg>
