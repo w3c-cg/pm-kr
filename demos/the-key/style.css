@@ -190,3 +190,8 @@ footer nav { display: flex; gap: .85rem; }
 .top-actions button { padding-inline: .48rem; }
   .key { padding-inline: .4rem; }
 }
+
+/* Keep the full finder pattern visible while the address plate is in use. */
+#play[data-reading-address] :is(.key-heading, #inventory) { display: none; }
+#play[data-reading-address] .hud { bottom: .55rem; }
+#play[data-reading-address] #notice { margin: .26rem 0 0; min-height: 0; }

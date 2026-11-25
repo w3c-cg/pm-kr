@@ -159,6 +159,11 @@ export async function start() {
     const target = currentTarget();
     if (!target) return;
     const room = story.activate(target, performance.now());
+    if (target.id === 'qr' && !renderer.xr.isPresenting) {
+      rig.position.set(target.x + 2.15, 0, target.z);
+      rig.rotation.y = Math.PI / 2;
+      camera.rotation.x = .01;
+    }
     if (room === 'lobby') {
       lastHallStation = target;
       placeCursor(state, rig);
@@ -178,6 +183,7 @@ export async function start() {
   const notice = $('#notice');
   const targetText = $('#target');
   const reticle = $('#reticle');
+  const play = $('#play');
   const useButton = $('#use');
   const locationText = $('#location');
   const mandateLimit = $('#mandate-limit');
@@ -204,6 +210,7 @@ export async function start() {
     const inspectingAddress = target?.id === 'qr';
     carry(state, now / 1000, inspectingAddress);
     reticle.hidden = inspectingAddress;
+    play.toggleAttribute('data-reading-address', inspectingAddress);
     xrPrompt(renderer.xr.isPresenting, target, state);
     setText(targetText, target?.label || 'Walk up to a station');
     targetText.dataset.station = target?.id || '';
