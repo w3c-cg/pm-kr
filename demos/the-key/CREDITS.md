@@ -5,8 +5,11 @@ The hall, studio, accounts, keys and helper are fictional.
 
 ## The scene
 
-- Daniel Campos Ramos made the hall, lobby, procedural materials, signs, helper, keys, door, portal frame and QR plate. The geometry, source models and reference drawing are under [CC0 1.0](source/CC0-1.0.txt).
-- Kay Lousberg made the cargo prop for [KayKit Space Base Bits](https://kaylousberg.com/game-assets/space-base-bits). The source is CC0 1.0 and the author’s [licence notice](vendor/KAYKIT-LICENSE.txt) is included. The hall uses the mesh with new surface coordinates and a procedural material.
+- Daniel Campos Ramos arranged the hall, lobby and members’ lab and made their procedural materials, signs, keys, doors, portal frame and QR plate. The geometry, source models and reference drawing are under [CC0 1.0](source/CC0-1.0.txt).
+- Kenney Vleugels made the [Modular Space Kit](https://kenney.nl/assets/modular-space-kit). It supplies `template-wall`, `template-wall-detail-a`, `template-floor-detail-a` and `template-detail` for the bulkheads, ribbed walls, deck panels and pillars. The author's [CC0 1.0 notice](vendor/kenney-LICENSE.txt) is included.
+- Kay Lousberg made [KayKit Space Base Bits](https://kaylousberg.com/game-assets/space-base-bits). It supplies `cargo_A` and `lights`, plus `basemodule_D`, `basemodule_B` and `basemodule_E` for the reception, lobby exhibits and lab benches. The author's [CC0 1.0 notice](vendor/KAYKIT-LICENSE.txt) is included.
+- Kay Lousberg made the Knight from [KayKit Character Pack: Adventurers](https://github.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0/tree/672074b73ba276876a19e8816ecdc5241817ab47), posed as Mica. The author's [CC0 1.0 notice](vendor/adventurers-LICENSE.txt) is included.
+- The kit meshes carry new surface coordinates and plain material names. The named procedures draw their textures in the viewer.
 - Rob Tuytel made the Poly Haven [Floor Tiles 06](https://polyhaven.com/a/floor_tiles_06) reference, under [CC0 1.0](https://polyhaven.com/license). The floor uses the existing fitted procedure by Daniel Campos Ramos.
 
 ## The technique

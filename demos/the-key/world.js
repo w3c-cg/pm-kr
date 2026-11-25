@@ -2,10 +2,13 @@
 import * as THREE from 'three';
 import { GLTFLoader } from './vendor/loaders/GLTFLoader.js';
 import { lettering } from './letters.js';
-import { KEYS, STATIONS } from './story.js';
+import { KEYS, ROOMS, STATIONS } from './story.js';
 
-export const LOBBY_Z = -26;
-const MODEL_NAMES = ['visitor', 'account', 'mandate', 'door', 'portal', 'qr-plate', 'cargo'];
+const MODEL_NAMES = [
+  'visitor', 'account', 'mandate', 'door', 'portal', 'qr-plate', 'cargo',
+  'bulkhead', 'ribbed-wall', 'deck-panel', 'pillar', 'reception-module', 'lobby-exhibit',
+  'lab-module', 'beacon', 'mica'
+];
 
 async function fetchModel(name, loader) {
   const url = new URL(`models/${name}.glb`, import.meta.url);
@@ -21,7 +24,7 @@ export async function createWorld(textures, qr, scene) {
   const glow = {};
   for (const [name, { texture }] of textures) {
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-    material[name] = new THREE.MeshStandardMaterial({ name, map: texture, roughness: .62 });
+    material[name] = new THREE.MeshLambertMaterial({ name, map: texture });
     glow[name] = new THREE.MeshBasicMaterial({ name, map: texture });
   }
   const loader = new GLTFLoader();
@@ -39,8 +42,10 @@ export async function createWorld(textures, qr, scene) {
 
   const hall = new THREE.Group();
   const lobby = new THREE.Group();
-  lobby.position.z = LOBBY_Z;
-  scene.add(hall, lobby);
+  const lab = new THREE.Group();
+  lobby.position.z = ROOMS.lobby.z;
+  lab.position.z = ROOMS.lab.z;
+  scene.add(hall, lobby, lab);
   scene.background = new THREE.Color('#101822');
   scene.fog = new THREE.Fog('#14262c', 14, 40);
   scene.add(new THREE.HemisphereLight('#dae7ff', '#ac6948', 2.15));
@@ -73,7 +78,7 @@ export async function createWorld(textures, qr, scene) {
     const group = makeGroup(parent, x, y, z);
     box(group, text.length * size * 6 + .25, size * 7 + .16, .05, 0, 0, 0, 'ink');
     const textMesh = lettering(text, glow[color], size);
-    textMesh.position.z = .027;
+    textMesh.position.z = .045;
     group.add(textMesh);
     return group;
   }
@@ -82,31 +87,62 @@ export async function createWorld(textures, qr, scene) {
     lamp.position.set(x, y, z);
     parent.add(lamp);
   }
-  function corridor(room, width, depth, y) {
-    box(room, width, .2, depth, 0, -.11, 0, 'floor');
-    box(room, width, .2, depth, 0, y, 0, 'slate');
-    box(room, width, y, .22, 0, y/2, -depth/2, 'slate');
-    box(room, width, y, .22, 0, y/2, depth/2, 'slate');
-    for (const side of [-1, 1]) {
-      box(room, .22, y, depth, side * width/2, y/2, 0, 'slate');
-      box(room, .3, .23, depth, side * (width/2 - .07), .16, 0, 'trim');
-      box(room, .12, .05, depth, side * (width/2 - .2), 2.68, 0, 'teal', false);
-      box(room, .045, .008, depth, side * 1.38, .004, 0, 'amber', false);
+  function installSet(room, name, poses, finish = null) {
+    const model = assets.get(name).scene;
+    model.updateMatrixWorld(true);
+    const socket = new THREE.Object3D();
+    const matrix = new THREE.Matrix4();
+    model.traverse(part => {
+      if (!part.isMesh) return;
+      const batch = new THREE.InstancedMesh(part.geometry, finish || part.material, poses.length);
+      poses.forEach(([x, h, z, yaw, sx, sy, sz, pitch = 0], i) => {
+        socket.position.set(x, h, z);
+        socket.rotation.set(pitch, yaw, 0, 'YXZ');
+        socket.scale.set(sx, sy, sz);
+        socket.updateMatrix();
+        batch.setMatrixAt(i, matrix.multiplyMatrices(socket.matrix, part.matrixWorld));
+      });
+      room.add(batch);
+    });
+  }
+  function corridor(room, width, depth, height, wallTrim) {
+    const floor = [];
+    const ceiling = [];
+    const walls = [];
+    const beams = [];
+    const lx = Math.ceil(width / 4);
+    const lz = Math.ceil(depth / 4);
+    const dx = width / lx;
+    const dz = depth / lz;
+    for (let x = 0; x < lx; x++) {
+      const px = (x + .5) * dx - width/2;
+      for (let z = 0; z < lz; z++) {
+        const pz = (z + .5) * dz - depth/2;
+        floor.push([px, -.012, pz, 0, dx/4, 1, dz/4]);
+        ceiling.push([px, height, pz, 0, dx/4, 1, dz/4, Math.PI]);
+      }
+      walls.push([px, 0, -depth/2, Math.PI, dx/4, height/4.25, .60]);
+      walls.push([px, 0, depth/2, 0, dx/4, height/4.25, .60]);
     }
-    for (let z = -depth/2 + 1; z < depth/2; z += 3.2) {
-      box(room, width, .21, .24, 0, y - .18, z, 'trim');
-      box(room, width * .74, .042, .12, 0, y - .31, z + .28, 'white', false);
+    for (let z = 0; z < lz; z++) {
+      const pz = (z + .5) * dz - depth/2;
       for (const side of [-1, 1]) {
-        box(room, .32, y - .2, .29, side * (width/2 - .19), y/2, z, 'trim');
+        walls.push([side * width/2, 0, pz, side * Math.PI/2, dz/4, height/4.25, .55]);
+        beams.push([side * (width/2 - .12), 0, pz + dz/2, 0, .43, height/4.23, .61]);
       }
     }
+    installSet(room, 'deck-panel', floor);
+    installSet(room, 'deck-panel', ceiling, material.ceiling);
+    for (const z of [-depth/3, 0, depth/3]) {
+      box(room, width - .28, .16, .39, 0, height - .08, z, 'trim');
+      box(room, width * .72, .025, .09, 0, height - .17, z, 'white', false);
+    }
+    installSet(room, wallTrim, walls);
+    installSet(room, 'pillar', beams);
   }
-  corridor(hall, 16.1, 15.7, 4.9);
-  corridor(lobby, 9.4, 11.6, 4.3);
-  for (let x = -7.35; x < 8; x += 1.05) {
-    box(hall, .71, .27, .24, x, 4.38, -7.64, 'trim');
-    box(hall, .53, .044, .025, x, 4.41, -7.49, 'teal', false);
-  }
+  corridor(hall, 16.25, 15.6, 4.9, 'bulkhead');
+  corridor(lobby, 9.6, 11.6, 4.3, 'ribbed-wall');
+  corridor(lab, 9.6, 11.6, 4.3, 'bulkhead');
 
   const field = new THREE.Shape();
   field.moveTo(-.93, 0);
@@ -141,36 +177,28 @@ export async function createWorld(textures, qr, scene) {
   const member = gate(hall, stations.member, 'MEMBERS ENTRY', 'teal');
   member.visible = false;
   gate(lobby, stations.return, 'RETURN TO HALL', 'teal');
+  gate(lab, stations['lab-return'], 'RETURN TO HALL', 'violet');
 
-  sign(hall, 'MORROWGLASS STUDIO', 0, 4.60, -7.36, .040, 'white');
+  sign(hall, 'MORROWGLASS STUDIO', 0, 4.43, -7.02, .053, 'white');
   const reception = makeGroup(hall, stations.desk.x, 0, stations.desk.z);
-  box(reception, 2.12, 1.04, .75, 0, .52, 0, 'slate');
-  box(reception, 2.28, .1, .85, 0, 1.07, 0, 'trim');
-  box(reception, 1.94, .035, .022, 0, 1, .394, 'teal', false);
-  sign(reception, 'ACCOUNT DESK', 0, .69, .405, .023, 'teal');
-  const terminal = box(reception, .53, .35, .06, 0, 1.31, -.15, 'trim');
-  terminal.rotation.x = -.24;
-  const face = box(reception, .45, .27, .02, 0, 1.32, -.11, 'teal', false);
-  face.rotation.x = -.24;
+  const console = clone(reception, 'reception-module', 0, 0, 0);
+  console.scale.set(.9, 1.09, .38);
+  sign(reception, 'ACCOUNT DESK', 0, .72, .49, .024, 'teal');
+  const face = box(reception, .55, .28, .05, 0, 1.24, .11, 'teal', false);
+  face.rotation.x = -.3;
   const accountKey = clone(reception, 'account', .63, 1.45, .06);
 
   const helper = makeGroup(hall, stations.helper.x, 0, stations.helper.z);
-  object(helper, new THREE.CylinderGeometry(.64, .76, .21, 14), material.trim, 0, .1, 0);
-  const mica = makeGroup(helper, 0, .15, 0);
-  object(mica, new THREE.CapsuleGeometry(.3, .39, 3, 10), material.slate, 0, .65, 0);
-  object(mica, new THREE.SphereGeometry(.28, 14, 10), material.trim, 0, 1.18, 0);
-  box(mica, .38, .17, .12, 0, 1.2, .24, 'ink');
-  for (const x of [-.089, .089]) {
-    box(mica, .052, .043, .015, x, 1.21, .307, 'violet', false);
-    object(mica, new THREE.CapsuleGeometry(.074, .24, 2, 8), material.trim, x * 3.9, .66, 0);
-  }
-  sign(helper, 'MICA', 0, 1.94, .04, .028, 'violet');
+  const mica = clone(helper, 'mica', 0, .02, 0);
+  mica.scale.setScalar(.83);
+  mica.name = 'mica';
+  sign(helper, 'MICA', 0, 2.12, .09, .028, 'violet');
   const hatch = makeGroup(hall, stations.hatch.x, 0, stations.hatch.z);
   box(hatch, 1.38, 1.36, .78, 0, .68, 0, 'slate');
   box(hatch, 1.17, .75, .1, 0, .79, .41, 'trim');
   const hatchLeaf = box(hatch, .99, .53, .06, 0, .79, .473, 'divider');
   box(hatch, .12, .035, .045, 0, .82, .518, 'violet', false);
-  sign(hatch, 'PARCEL HATCH', 0, 1.6, .15, .021, 'violet');
+  sign(hatch, 'PARCEL HATCH', 0, 1.64, .54, .031, 'violet');
   const parcel = clone(hatch, 'cargo', 0, 1.37, .05);
   parcel.scale.setScalar(.52);
   parcel.visible = false;
@@ -194,19 +222,25 @@ export async function createWorld(textures, qr, scene) {
   plaque.add(modules);
   sign(plaque, 'LOBBY ADDRESS', 0, .92, .04, .021, 'white');
 
-  box(lobby, 8.6, .3, 1.3, 0, .15, -4.95, 'trim');
-  for (const x of [-3.12, 3.12]) {
-    object(lobby, new THREE.CylinderGeometry(.66, .8, .18, 12), material.trim, x, .09, -2.13);
-    const exhibit = object(lobby, new THREE.IcosahedronGeometry(.48, 1), material.teal, x, 1.1, -2.13);
-    exhibit.rotation.z = .24;
-    const cargo = clone(lobby, 'cargo', x, 0, 2.5);
-    cargo.rotation.y = x < 0 ? .24 : -.35;
+  sign(lobby, 'PUBLIC LOBBY', 0, 3.92, -4.40, .032, 'teal');
+  sign(lab, 'MEMBERS LAB', 0, 3.92, -4.40, .032, 'violet');
+  for (const x of [-3.05, 3.05]) {
+    const exhibit = clone(lobby, 'lobby-exhibit', x, 0, -1.76);
+    exhibit.rotation.y = x < 0 ? .35 : -.35;
+    const bench = clone(lab, 'lab-module', x, 0, -.85);
+    bench.rotation.y = x < 0 ? Math.PI/2 : -Math.PI/2;
+    const beacon = clone(lab, 'beacon', x, 0, 2.7);
+    beacon.scale.setScalar(.85);
   }
-  for (const x of [-6.82, 6.82]) clone(hall, 'cargo', x, 0, 3.34);
+  for (const x of [-6.78, 6.78]) {
+    clone(hall, 'beacon', x, 0, 2.96);
+    const cargo = clone(hall, 'cargo', x, 0, 5.15);
+    cargo.scale.setScalar(1.4);
+  }
 
   function carriedKeys(parent) {
     const ring = makeGroup(parent, .41, -.36, -.85);
-    ring.rotation.z = -.13;
+    ring.name = 'carried-keyring';
     const assembly = object(ring, new THREE.TorusGeometry(.085, .009, 6, 22), material.trim, 0, .084, 0);
     assembly.rotation.y = -.21;
     const keyModels = KEYS.map((key, i) => {
@@ -215,58 +249,88 @@ export async function createWorld(textures, qr, scene) {
       model.rotation.z = .22 - i * .18;
       return [key.id, model];
     });
-    return (state, time, inspectingAddress) => {
+    ring.traverse(part => {
+      if (!part.isMesh) return;
+      part.renderOrder = 4;
+      part.material = part.material.clone();
+    });
+    let wasImmersive;
+    return (state, time, inspectingAddress, immersive) => {
+      if (immersive !== wasImmersive) {
+        wasImmersive = immersive;
+        ring.position.set(immersive ? 1.94 : .41, immersive ? -.91 : -.36, immersive ? -12.35 : -.85);
+        ring.scale.setScalar(immersive ? 2.43 : 1);
+        ring.traverse(part => {
+          if (!part.isMesh) return;
+          part.material.depthTest = !immersive;
+          part.material.depthWrite = !immersive;
+        });
+      }
       ring.visible = !inspectingAddress;
       for (const [id, model] of keyModels) {
         model.visible = state.keys.has(id);
-        model.position.y = id === state.selected ? -.035 : -.075;
+        model.position.y = id === state.selected ? -.035 : -.091;
       }
       ring.rotation.z = -.13 + Math.sin(time * 3) * .022;
     };
   }
 
   function xrPrompt(parent) {
-    const display = makeGroup(parent, 0, -.23, -1.08);
+    const display = makeGroup(parent, -.57, -1.11, -12.35);
+    display.name = 'immersive-interface';
     display.visible = false;
-    box(display, .85, .137, .02, 0, 0, 0, 'ink', false);
-    let last = '';
-    let firstLine;
-    let secondLine;
-    const outcomes = {
-      arrival: 'VISITOR KEY RECEIVED', account: 'ACCOUNT KEY RECEIVED', lent: 'RELAY LENT FOR 30 SECONDS',
-      delivered: 'PARCEL DELIVERED', expired: 'RELAY EXPIRED', spent: 'RELAY ALREADY USED',
-      'wrong-door': 'KEY ISSUED FOR A DIFFERENT DOOR', 'wrong-key': 'THIS KEY HAS A DIFFERENT SCOPE',
-      address: 'PUBLIC LOBBY ADDRESS'
+    const surface = name => {
+      const copy = glow[name].clone();
+      copy.depthTest = false;
+      copy.depthWrite = false;
+      return copy;
     };
-    return (active, target, state) => {
+    const finishes = Object.fromEntries(['ink', 'white', ...KEYS.map(key => key.color)].map(name => [name, surface(name)]));
+    const backing = object(display, new THREE.PlaneGeometry(3.37, 1.5), finishes.ink, 0, 0, 0);
+    backing.renderOrder = 3;
+    let last = '';
+    const lines = [];
+    function wrap(message) {
+      const paragraphs = [];
+      for (const word of message.split(' ')) {
+        const index = paragraphs.length - 1;
+        if (index >= 0 && paragraphs[index].length + word.length < 38) paragraphs[index] += ' ' + word;
+        else paragraphs.push(word);
+      }
+      return paragraphs;
+    }
+    return (active, station, notice, selected) => {
       display.visible = active;
       if (!active) return;
-      const primary = target ? 'TRIGGER  ' + target.label : 'WALK UP TO A STATION';
-      const selected = KEYS.find(key => key.id === state.selected);
-      const secondary = selected.name + '  ' + (outcomes[state.outcome] || state.room);
-      const next = primary + secondary;
+      const key = KEYS.find(item => item.id === selected);
+      const next = JSON.stringify([station, notice, key.name]);
       if (next === last) return;
       last = next;
-      for (const line of [firstLine, secondLine]) {
-        if (!line) continue;
+      for (const line of lines.splice(0)) {
         line.children[0].dispose();
         line.removeFromParent();
       }
-      firstLine = lettering(primary, glow.white, .0045);
-      firstLine.position.set(0, .026, .012);
-      secondLine = lettering(secondary, glow[selected.color], .0032);
-      secondLine.position.set(0, -.026, .012);
-      display.add(firstLine, secondLine);
+      const content = [station, 'Action / F / Trigger', 'Selected key: ' + key.name, ...wrap(notice)];
+      backing.scale.y = (content.length * .22 + .09) / 1.5;
+      display.userData.text = content;
+      content.forEach((text, index) => {
+        const line = lettering(text, finishes[index === 2 ? key.color : 'white'], .014);
+        line.position.set(0, (content.length - 1) * .11 - index * .22, .006);
+        line.children[0].renderOrder = 4;
+        lines.push(line);
+        display.add(line);
+      });
     };
   }
 
   function update(state, time) {
     hall.visible = state.room === 'hall';
     lobby.visible = state.room === 'lobby';
+    lab.visible = state.room === 'lab';
     member.visible = state.keys.has('account');
     accountKey.visible = !member.visible;
     accountKey.rotation.y = time * .9;
-    mica.position.y = .15 + Math.sin(time * 2.4) * .035;
+    mica.rotation.y = Math.sin(time * 1.7) * .10;
     hatchLeaf.position.y = state.parcel ? .98 : .79;
     parcel.visible = state.parcel;
     textures.get('field').texture.offset.y = (time * .10) % 1;

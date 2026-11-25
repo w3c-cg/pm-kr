@@ -1,5 +1,5 @@
 // BSD-2-Clause
-export async function connectXR(renderer, camera, { use, nextKey, resize }) {
+export async function connectXR(renderer, camera, { action, cycleKey, resize }) {
   const button = document.querySelector('#xr');
   const status = document.querySelector('#xr-status');
   const mode = document.querySelector('#display-mode');
@@ -29,8 +29,7 @@ export async function connectXR(renderer, camera, { use, nextKey, resize }) {
   }
 
   let session;
-  let position;
-  let orientation;
+  let desktopCamera;
   button.hidden = false;
   say('2D', 'The browser can open an immersive WebXR session.');
   button.addEventListener('click', async () => {
@@ -41,16 +40,20 @@ export async function connectXR(renderer, camera, { use, nextKey, resize }) {
       finally { button.disabled = false; }
       return;
     }
-    position = camera.position.clone();
-    orientation = camera.quaternion.clone();
+    desktopCamera = {
+      position: camera.position.clone(), quaternion: camera.quaternion.clone(),
+      fov: camera.fov, near: camera.near, far: camera.far, zoom: camera.zoom
+    };
     try {
       session = await navigator.xr.requestSession('immersive-vr', { requiredFeatures: ['local-floor'] });
-      session.addEventListener('select', use);
-      session.addEventListener('squeeze', nextKey);
+      session.addEventListener('select', action);
+      session.addEventListener('squeeze', event => cycleKey(event.inputSource.handedness === 'left' ? -1 : 1));
       session.addEventListener('end', () => {
         session = null;
+        const { position, quaternion, ...optics } = desktopCamera;
         camera.position.copy(position);
-        camera.quaternion.copy(orientation);
+        camera.quaternion.copy(quaternion);
+        Object.assign(camera, optics);
         requestAnimationFrame(resize);
         button.textContent = 'Enter 3D';
         say('2D', 'The immersive WebXR session ended.');
@@ -60,7 +63,10 @@ export async function connectXR(renderer, camera, { use, nextKey, resize }) {
       say('WebXR', 'The browser is presenting the scene in immersive WebXR.');
     } catch (error) {
       if (session) await session.end().catch(() => {});
-      say('2D · WebXR could not start', 'The browser could not start immersive WebXR. ' + error.message);
+      const reason = error.name === 'NotSupportedError'
+        ? 'The browser declined immersive WebXR with the required local-floor reference space.'
+        : 'The browser could not start immersive WebXR with local-floor.';
+      say('2D · WebXR could not start', reason + ' ' + error.message);
     } finally {
       button.disabled = false;
     }

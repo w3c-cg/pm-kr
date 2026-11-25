@@ -5,15 +5,22 @@ export const KEYS = [
   { id: 'mandate', name: 'Relay', kind: 'Lent key', scope: 'Mica’s parcel hatch', color: 'violet' }
 ];
 
+export const ROOMS = {
+  hall: { z: 0, label: 'Headquarters hall' },
+  lobby: { z: -26, label: 'Public lobby' },
+  lab: { z: -48, label: 'Members’ lab' }
+};
+
 export const STATIONS = [
   { id: 'public', label: 'Public lobby', x: 0, z: -5.9, room: 'hall', key: 'visitor' },
   { id: 'member', label: 'Members’ entrance', x: 5.05, z: -5.9, room: 'hall', key: 'account' },
   { id: 'false', label: 'Archive door', x: -5.05, z: -5.9, room: 'hall' },
   { id: 'desk', label: 'Account desk', x: 4.5, z: .35, room: 'hall' },
-  { id: 'helper', label: 'Mica the helper', x: -4.5, z: .35, room: 'hall' },
+  { id: 'helper', label: 'Mica the helper', x: -3.2, z: -4.68, room: 'hall' },
   { id: 'hatch', label: 'Parcel hatch', x: -4.85, z: -3.05, room: 'hall', key: 'mandate' },
   { id: 'qr', label: 'Lobby address', x: -7.7, z: -2.35, room: 'hall' },
-  { id: 'return', label: 'Return to the hall', x: 0, z: -4.35, room: 'lobby' }
+  { id: 'return', label: 'Return to the hall', x: 0, z: -4.35, room: 'lobby' },
+  { id: 'lab-return', label: 'Return to the hall', x: 0, z: -4.35, room: 'lab' }
 ];
 
 export const LIMIT_SECONDS = 30;
@@ -39,10 +46,10 @@ export function createStory(directLobby = false) {
     if (state.keys.has(id)) state.selected = id;
   }
 
-  function nextKey() {
+  function cycleKey(step) {
     const held = KEYS.filter(key => state.keys.has(key.id));
     const current = held.findIndex(key => key.id === state.selected);
-    select(held[(current + 1) % held.length].id);
+    select(held[(current + step + held.length) % held.length].id);
   }
 
   function activate(station, now) {
@@ -65,6 +72,7 @@ export function createStory(directLobby = false) {
       case 'qr':
         return tell('address', 'The wall code and the lobby link name the same place.');
       case 'return':
+      case 'lab-return':
         state.room = 'hall';
         return tell('return', 'You returned to the headquarters hall.', 'hall');
     }
@@ -80,10 +88,13 @@ export function createStory(directLobby = false) {
       state.parcel = true;
       return tell('delivered', 'Mica used Relay once and delivered the parcel.');
     }
+    if (station.id === 'member') {
+      state.room = 'lab';
+      return tell('member', 'Circuit opened the members’ lab.', state.room);
+    }
     state.room = 'lobby';
-    return tell(station.id, station.id === 'member' ? 'Circuit opened the members’ entrance.' :
-      'Threshold opened the public lobby.', 'lobby');
+    return tell('public', 'Threshold opened the public lobby.', state.room);
   }
 
-  return { state, activate, select, nextKey };
+  return { state, activate, select, cycleKey };
 }

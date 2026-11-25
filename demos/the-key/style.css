@@ -127,8 +127,8 @@ h1 span { color: var(--amber); }
   border-radius: .29rem;
 }
 #target { margin: 0; font-weight: 700; font-size: .93rem; }
-#use { padding: .38rem .58rem; background: var(--amber); border-color: var(--amber); color: #2a1c10; }
-#use:disabled { color: #b8c4c0; border-color: #53676d; background: #243137; }
+#action { padding: .38rem .58rem; background: var(--amber); border-color: var(--amber); color: #2a1c10; }
+#action:disabled { color: #b8c4c0; border-color: #53676d; background: #243137; }
 kbd { display: inline-block; margin-left: .3rem; border-left: 1px solid currentColor; padding-left: .4rem; font-size: .62rem; }
 #notice {
   margin: .38rem 0 .72rem;
@@ -195,3 +195,6 @@ footer nav { display: flex; gap: .85rem; }
 #play[data-reading-address] :is(.key-heading, #inventory) { display: none; }
 #play[data-reading-address] .hud { bottom: .55rem; }
 #play[data-reading-address] #notice { margin: .26rem 0 0; min-height: 0; }
+
+.key-cycle { display: flex; gap: .35rem; margin: 0 0 .35rem; }
+.key-cycle button { padding: .18rem .38rem; font-size: .72rem; }

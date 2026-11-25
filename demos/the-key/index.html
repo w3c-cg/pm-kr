@@ -29,10 +29,10 @@
       <h2>Walk the headquarters</h2>
       <p>Try the public lobby, create a pretend game-store account at the desk, then ask Mica to deliver a parcel.</p>
       <dl>
-        <div><dt>Keyboard and mouse</dt><dd>WASD to walk, drag or use ← → to look, E to use, 1–3 to choose a key.</dd></div>
-        <div><dt>Touch</dt><dd>Use the arrows to walk, drag the scene to look, tap a key and Use.</dd></div>
-        <div><dt>Standard gamepad</dt><dd>Left stick to walk, right stick to look, A or Cross to use, right bumper to change key.</dd></div>
-        <div><dt>WebXR</dt><dd>Look at a station and press the trigger. Use a stick to move and squeeze to change key.</dd></div>
+        <div><dt>Keyboard and mouse</dt><dd>WASD to walk, drag or press ← → to look. Q previous key, E next key, F Action. The 1–3 keys select directly.</dd></div>
+        <div><dt>Touch</dt><dd>Tap arrows to walk, drag to look. Tap Previous key, Next key or a key, then Action.</dd></div>
+        <div><dt>Standard gamepad</dt><dd>Left stick to walk, right stick to look. Left bumper previous key, right bumper next key, A or Cross for Action.</dd></div>
+        <div><dt>WebXR</dt><dd>Look at a station and press the trigger for Action. Move with the stick. A left squeeze selects the previous key and a right squeeze selects the next.</dd></div>
       </dl>
       <p id="gamepad-status"></p>
       <h2>What the keys stand for</h2>
@@ -55,12 +55,16 @@
     <div class="hud">
       <div class="prompt">
         <p id="target">Walk up to a station</p>
-        <button id="use" type="button" disabled>Use <kbd>E</kbd></button>
+        <button id="action" type="button" disabled>Action <kbd>F</kbd></button>
       </div>
       <p id="notice" role="status" data-outcome="loading">Starting the procedural texture player…</p>
       <div class="key-heading">
         <h2>Your keyring</h2>
         <span id="mandate-limit"></span>
+      </div>
+      <div class="key-cycle" role="group" aria-label="Change held key">
+        <button type="button" data-cycle-key="-1">Previous key <kbd>Q</kbd></button>
+        <button type="button" data-cycle-key="1">Next key <kbd>E</kbd></button>
       </div>
       <div id="inventory" role="group" aria-label="Keys you carry"></div>
     </div>

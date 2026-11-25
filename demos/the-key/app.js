@@ -2,8 +2,8 @@
 import * as THREE from 'three';
 import { PROCEDURES } from './procedures/catalogue.js';
 import { loadTextures } from './textures.js';
-import { createWorld, LOBBY_Z } from './world.js';
-import { createStory, KEYS, STATIONS } from './story.js';
+import { createWorld } from './world.js';
+import { createStory, KEYS, ROOMS, STATIONS } from './story.js';
 import { bindInput } from './input.js';
 import { connectXR } from './xr.js';
 
@@ -22,7 +22,7 @@ function locate(state, view, position, heading) {
   for (const station of STATIONS) {
     if (station.room !== state.room || (station.id === 'member' && !state.keys.has('account'))) continue;
     const offsetX = station.x - position.x;
-    const offsetZ = station.z + (state.room === 'lobby' ? LOBBY_Z : 0) - position.z;
+    const offsetZ = station.z + ROOMS[state.room].z - position.z;
     const distance = Math.hypot(offsetX, offsetZ);
     if (distance >= closest || offsetX * heading.x + offsetZ * heading.z < distance * .57) continue;
     target = station;
@@ -32,19 +32,19 @@ function locate(state, view, position, heading) {
 }
 
 function placeCursor(state, rig, afterStation = null) {
-  const roomZ = state.room === 'lobby' ? LOBBY_Z : 0;
+  const roomZ = ROOMS[state.room].z;
   const x = afterStation?.x ?? 0;
   const z = afterStation ? afterStation.z + 2 : 5.55;
-  rig.position.set(x, 0, roomZ + Math.min(z, state.room === 'lobby' ? 4.1 : 6.9));
+  rig.position.set(x, 0, roomZ + Math.min(z, state.room === 'hall' ? 6.9 : 4.1));
   rig.rotation.y = 0;
 }
 
 function obstacles(state, x, z) {
-  const localZ = z - (state.room === 'lobby' ? LOBBY_Z : 0);
-  if (state.room === 'lobby') return Math.abs(x) > 4.32 || localZ < -4.08 || localZ > 5.36;
+  const localZ = z - ROOMS[state.room].z;
+  if (state.room !== 'hall') return Math.abs(x) > 4.32 || localZ < -4.08 || localZ > 5.36;
   if (Math.abs(x) > 7.52 || localZ < -5.59 || localZ > 7.37) return true;
   return (Math.abs(x - 4.5) < 1.27 && Math.abs(localZ - .35) < .63) ||
-    (Math.abs(x + 4.5) < .93 && Math.abs(localZ - .35) < .83) ||
+    (Math.abs(x + 3.2) < .80 && Math.abs(localZ + 4.68) < .65) ||
     (Math.abs(x + 4.85) < .91 && Math.abs(localZ + 3.05) < .64);
 }
 
@@ -113,7 +113,8 @@ export async function start() {
   const world = await createWorld(textures, qr, scene);
   const procedureBytes = [...textures.values()].reduce((total, data) => total + data.bytes, 0);
   const sizes = new Intl.NumberFormat('en');
-  $('#sizes').textContent = `${sizes.format(procedureBytes)} bytes of procedures · ${sizes.format(world.shapeBytes + qrBytes.byteLength)} bytes of shapes`;
+  const size = bytes => `${sizes.format(bytes / (bytes >= 1e6 ? 1e6 : 1e3))} ${bytes >= 1e6 ? 'MB' : 'kB'} (${sizes.format(bytes)} bytes)`;
+  $('#sizes').textContent = `Procedures ${size(procedureBytes)} · Shapes ${size(world.shapeBytes + qrBytes.byteLength)}`;
   $('#engine').textContent = 'WebAssembly draws each texture. WebGL 2 draws the hall.';
   setupGuide(qr);
 
@@ -150,12 +151,11 @@ export async function start() {
     placeCursor(state, rig);
   });
   function currentTarget() {
-    const view = renderer.xr.isPresenting ? renderer.xr.getCamera() : camera;
-    view.getWorldPosition(body);
-    return locate(state, view, body, direction);
+    camera.getWorldPosition(body);
+    return locate(state, camera, body, direction);
   }
 
-  function use() {
+  function action() {
     const target = currentTarget();
     if (!target) return;
     const room = story.activate(target, performance.now());
@@ -164,7 +164,7 @@ export async function start() {
       rig.rotation.y = Math.PI / 2;
       camera.rotation.x = .01;
     }
-    if (room === 'lobby') {
+    if (room === 'lobby' || room === 'lab') {
       lastHallStation = target;
       placeCursor(state, rig);
     }
@@ -173,9 +173,12 @@ export async function start() {
       placeCursor(state, rig, lastHallStation);
     }
   }
-  $('#use').addEventListener('click', use);
-  connectXR(renderer, camera, { use, nextKey: story.nextKey, resize });
-  const sampleInput = bindInput(renderer.domElement, { use, select: story.select, nextKey: story.nextKey });
+  $('#action').addEventListener('click', action);
+  for (const button of document.querySelectorAll('[data-cycle-key]')) {
+    button.addEventListener('click', () => story.cycleKey(Number(button.dataset.cycleKey)));
+  }
+  connectXR(renderer, camera, { action, cycleKey: story.cycleKey, resize });
+  const sampleInput = bindInput(renderer.domElement, { action, select: story.select, cycleKey: story.cycleKey });
 
   let contextLost = false;
   renderer.domElement.addEventListener('webglcontextlost', event => { event.preventDefault(); contextLost = true; });
@@ -184,7 +187,7 @@ export async function start() {
   const targetText = $('#target');
   const reticle = $('#reticle');
   const play = $('#play');
-  const useButton = $('#use');
+  const actionButton = $('#action');
   const locationText = $('#location');
   const mandateLimit = $('#mandate-limit');
   let previous = performance.now();
@@ -208,16 +211,18 @@ export async function start() {
     world.update(state, now / 1000);
     const target = currentTarget();
     const inspectingAddress = target?.id === 'qr';
-    carry(state, now / 1000, inspectingAddress);
+    carry(state, now / 1000, inspectingAddress, renderer.xr.isPresenting);
     reticle.hidden = inspectingAddress;
     play.toggleAttribute('data-reading-address', inspectingAddress);
-    xrPrompt(renderer.xr.isPresenting, target, state);
-    setText(targetText, target?.label || 'Walk up to a station');
+    const station = target?.label || 'Walk up to a station';
+    const message = contextLost ? 'The browser lost its WebGL drawing context. Waiting for it to recover.' : state.notice;
+    xrPrompt(renderer.xr.isPresenting, station, message, state.selected);
+    setText(targetText, station);
     targetText.dataset.station = target?.id || '';
-    useButton.disabled = !target;
-    setText(locationText, state.room === 'hall' ? 'HEADQUARTERS HALL' : 'PUBLIC LOBBY');
+    actionButton.disabled = !target;
+    setText(locationText, ROOMS[state.room].label.toUpperCase());
     notice.dataset.outcome = contextLost ? 'error' : state.outcome;
-    setText(notice, contextLost ? 'The browser lost its WebGL drawing context. Waiting for it to recover.' : state.notice);
+    setText(notice, message);
     const seconds = Math.max(0, Math.ceil(((state.mandate?.expires || 0) - now) / 1000));
     setText(mandateLimit, !state.mandate ? '' : state.mandate.spent ? 'Relay · used' :
       seconds > 0 ? `Relay · ${seconds}s` : 'Relay · expired');

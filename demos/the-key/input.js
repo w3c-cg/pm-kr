@@ -7,7 +7,7 @@ const inputKeys = ['visitor', 'account', 'mandate'];
 const axis = value => Math.abs(value || 0) > .17 ? value : 0;
 const pressed = (pad, index) => Boolean(pad.buttons[index]?.pressed);
 
-export function bindInput(canvas, { use, select, nextKey }) {
+export function bindInput(canvas, { action, select, cycleKey }) {
   const keyboard = new Set();
   const touch = new Set();
   const padButtons = new Map();
@@ -24,7 +24,9 @@ export function bindInput(canvas, { use, select, nextKey }) {
       event.preventDefault();
     }
     if (event.repeat) return;
-    if (event.code === 'KeyE') use();
+    if (event.code === 'KeyQ') cycleKey(-1);
+    if (event.code === 'KeyE') cycleKey(1);
+    if (event.code === 'KeyF') action();
     const index = ['Digit1', 'Digit2', 'Digit3'].indexOf(event.code);
     if (index >= 0) select(inputKeys[index]);
   });
@@ -73,9 +75,11 @@ export function bindInput(canvas, { use, select, nextKey }) {
       turn += axis(pad.axes[2]);
       tilt += axis(pad.axes[3]);
       const before = padButtons.get(pad.index) || [];
-      if (pressed(pad, 0) && !before[0]) use();
-      if (pressed(pad, 5) && !before[1]) nextKey();
-      padButtons.set(pad.index, [pressed(pad, 0), pressed(pad, 5)]);
+      const buttons = [pressed(pad, 0), pressed(pad, 4), pressed(pad, 5)];
+      if (buttons[0] && !before[0]) action();
+      if (buttons[1] && !before[1]) cycleKey(-1);
+      if (buttons[2] && !before[2]) cycleKey(1);
+      padButtons.set(pad.index, buttons);
     }
     for (const index of padButtons.keys()) {
       if (pads.every(pad => pad.index !== index)) padButtons.delete(index);
