@@ -216,7 +216,8 @@ export async function createWorld(textures, qr, scene) {
       model.rotation.z = .22 - i * .18;
       return [key.id, model];
     });
-    return (state, time) => {
+    return (state, time, inspectingAddress) => {
+      ring.visible = !inspectingAddress;
       for (const [id, model] of keyModels) {
         model.visible = state.keys.has(id);
         model.position.y = id === state.selected ? -.035 : -.075;

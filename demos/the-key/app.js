@@ -177,6 +177,7 @@ export async function start() {
   renderer.domElement.addEventListener('webglcontextrestored', () => { contextLost = false; });
   const notice = $('#notice');
   const targetText = $('#target');
+  const reticle = $('#reticle');
   const useButton = $('#use');
   const locationText = $('#location');
   const mandateLimit = $('#mandate-limit');
@@ -199,9 +200,10 @@ export async function start() {
       if (!obstacles(state, rig.position.x, rig.position.z + movement.z)) rig.position.z += movement.z;
     }
     world.update(state, now / 1000);
-    carry(state, now / 1000);
-
     const target = currentTarget();
+    const inspectingAddress = target?.id === 'qr';
+    carry(state, now / 1000, inspectingAddress);
+    reticle.hidden = inspectingAddress;
     xrPrompt(renderer.xr.isPresenting, target, state);
     setText(targetText, target?.label || 'Walk up to a station');
     targetText.dataset.station = target?.id || '';
