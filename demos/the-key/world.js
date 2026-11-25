@@ -142,7 +142,7 @@ export async function createWorld(textures, qr, scene) {
   member.visible = false;
   gate(lobby, stations.return, 'RETURN TO HALL', 'teal');
 
-  sign(hall, 'MORROWGLASS STUDIO', 0, 4.05, -7.53, .040, 'white');
+  sign(hall, 'MORROWGLASS STUDIO', 0, 4.60, -7.36, .040, 'white');
   const reception = makeGroup(hall, stations.desk.x, 0, stations.desk.z);
   box(reception, 2.12, 1.04, .75, 0, .52, 0, 'slate');
   box(reception, 2.28, .1, .85, 0, 1.07, 0, 'trim');
@@ -194,7 +194,6 @@ export async function createWorld(textures, qr, scene) {
   plaque.add(modules);
   sign(plaque, 'LOBBY ADDRESS', 0, .92, .04, .021, 'white');
 
-  sign(lobby, 'MORROWGLASS LOBBY', 0, 3.73, -5.57, .035, 'teal');
   box(lobby, 8.6, .3, 1.3, 0, .15, -4.95, 'trim');
   for (const x of [-3.12, 3.12]) {
     object(lobby, new THREE.CylinderGeometry(.66, .8, .18, 12), material.trim, x, .09, -2.13);
@@ -234,7 +233,7 @@ export async function createWorld(textures, qr, scene) {
     let firstLine;
     let secondLine;
     const outcomes = {
-      arrival: 'THRESHOLD RECEIVED', account: 'CIRCUIT RECEIVED', lent: 'RELAY LENT FOR 30 SECONDS',
+      arrival: 'VISITOR KEY RECEIVED', account: 'ACCOUNT KEY RECEIVED', lent: 'RELAY LENT FOR 30 SECONDS',
       delivered: 'PARCEL DELIVERED', expired: 'RELAY EXPIRED', spent: 'RELAY ALREADY USED',
       'wrong-door': 'KEY ISSUED FOR A DIFFERENT DOOR', 'wrong-key': 'THIS KEY HAS A DIFFERENT SCOPE',
       address: 'PUBLIC LOBBY ADDRESS'
