@@ -24,5 +24,7 @@ The hall, studio, accounts, keys and helper are fictional.
 
 ## Licence
 
+The shipped model, procedure and library digests are in [ASSETS.sha256](ASSETS.sha256).
+
 The walkthrough code is under [BSD 2-clause](LICENSE.txt).
 The procedural player retains its [BSD 2-clause licence](../procedural-texture-rendering/LICENSE.txt).

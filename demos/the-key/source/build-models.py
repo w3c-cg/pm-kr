@@ -22,6 +22,7 @@ materials = {}
 
 def start():
     bpy.ops.wm.read_factory_settings(use_empty=True)
+    bpy.context.preferences.filepaths.save_version = 0
     materials.clear()
     for name, rgb in COLORS.items():
         material = bpy.data.materials.new(name)
