@@ -457,7 +457,7 @@ export async function start() {
     const inspectingAddress = target?.id === 'qr';
     inventory.frame(immersive, inspectingAddress || full);
     wheel.frame(now);
-    reticle.hidden = inspectingAddress || full;
+    reticle.hidden = inspectingAddress || full || wheel.visible;
     play.toggleAttribute('data-reading-address', inspectingAddress);
     play.toggleAttribute('data-full-screen', full);
     const item = inventory.selected();

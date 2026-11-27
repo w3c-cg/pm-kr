@@ -17,6 +17,7 @@ html, body { margin: 0; height: 100%; overflow: hidden; overscroll-behavior: non
   --safe-right: env(safe-area-inset-right, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --safe-left: env(safe-area-inset-left, 0px);
+  --footer: 2.7rem;
 }
 button, a { color: inherit; }
 button {
@@ -80,7 +81,9 @@ header {
 .masthead p { color: var(--teal); margin-bottom: .25rem; }
 h1 { font: 500 clamp(2.3rem, 6vw, 4.55rem)/.98 Georgia, serif; margin: 0; letter-spacing: -.055em; }
 h1 span { color: var(--amber); }
-.top-actions { display: flex; align-items: flex-start; gap: .5rem; pointer-events: auto; }
+.masthead { flex-shrink: 0; }
+h1 { white-space: nowrap; }
+.top-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: flex-start; gap: .5rem; pointer-events: auto; }
 #display-mode { align-self: flex-start; padding: .62rem .2rem; font: 600 .67rem/1.2 ui-monospace, monospace; color: var(--muted); }
 .top-actions button { padding: .55rem .78rem; font-size: .82rem; white-space: nowrap; }
 #xr { border-color: var(--teal); color: var(--teal); }
@@ -130,7 +133,7 @@ h1 span { color: var(--amber); }
 }
 .hud {
   left: calc(clamp(1rem, 4vw, 3.5rem) + var(--safe-left));
-  bottom: calc(3.1rem + var(--safe-bottom));
+  bottom: calc(var(--footer) + .4rem + var(--safe-bottom));
   width: min(30rem, calc(100% - 2rem - var(--safe-left) - var(--safe-right)));
 }
 .prompt {
@@ -184,7 +187,7 @@ footer {
   left: 0;
   right: 0;
   bottom: 0;
-  min-height: 2.7rem;
+  min-height: var(--footer);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -199,6 +202,8 @@ footer {
   kbd { display: none; }
 }
 @media (max-width: 540px) {
+  :root { --footer: 4.6rem; }
+  #display-mode { order: 1; flex-basis: 100%; text-align: right; padding: 0; }
   .location { top: calc(5.7rem + var(--safe-top)); }
   .top-actions button { padding-inline: .48rem; }
   .key { padding-inline: .4rem; }
@@ -290,7 +295,7 @@ footer nav { display: flex; gap: .85rem; }
 #play[data-layout="touch-landscape"] header { justify-content: flex-end; }
 /* Held upright: the text as on a desktop, the stick above it; Action and the inventory are in the text's own row. */
 #play[data-layout="touch-portrait"] :is(#touch-action, #touch-inventory) { display: none; }
-#play[data-layout="touch-portrait"] #touch-stick { bottom: calc(14rem + var(--safe-bottom)); width: 7.4rem; height: 7.4rem; }
+#play[data-layout="touch-portrait"] #touch-stick { bottom: calc(var(--footer) + 11.4rem + var(--safe-bottom)); width: 7.4rem; height: 7.4rem; }
 #play[data-layout="touch-portrait"] .hud { width: calc(100% - 2rem - var(--safe-left) - var(--safe-right)); }
 /* A mouse-first device that has been touched: the text stays, the stick appears beside it. */
 #play[data-layout="pointer-touch"] :is(#touch-action, #touch-inventory) { display: none; }

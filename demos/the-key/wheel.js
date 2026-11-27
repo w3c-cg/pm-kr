@@ -69,7 +69,7 @@ export function createWheel({ scene, camera, renderer, viewport, inventory, choo
   back.name = 'wheel-backing';
   group.add(back, face);
 
-  const backing = new THREE.Mesh(new THREE.RingGeometry(.52, 1.04, 72), surface(null, .78));
+  const backing = new THREE.Mesh(new THREE.CircleGeometry(1.04, 72), surface(null, .82));
   backing.material.color.set('#0b161d');
   backing.renderOrder = 10;
   const rim = new THREE.Mesh(new THREE.RingGeometry(1.03, 1.06, 96), surface(null, .9));
@@ -81,9 +81,9 @@ export function createWheel({ scene, camera, renderer, viewport, inventory, choo
   const hub = new THREE.Mesh(new THREE.CircleGeometry(HUB, 64), surface(hubTexture));
   hub.renderOrder = 13;
   hub.name = 'wheel-hub';
-  const plateTexture = canvasTexture(1024, 232, () => {});
-  const plate = new THREE.Mesh(new THREE.PlaneGeometry(2.1, 2.1 * 232 / 1024), surface(plateTexture));
-  plate.position.set(0, -1.32, 0);
+  const plateTexture = canvasTexture(1024, 264, () => {});
+  const plate = new THREE.Mesh(new THREE.PlaneGeometry(2.1, 2.1 * 264 / 1024), surface(plateTexture));
+  plate.position.set(0, -1.34, 0);
   plate.renderOrder = 13;
   face.add(hub, plate);
 
@@ -102,7 +102,7 @@ export function createWheel({ scene, camera, renderer, viewport, inventory, choo
     for (const tile of tiles.values()) tile.removeFromParent();
     tiles.clear();
     hits.length = 0;
-    const size = Math.min(.33, 2 * Math.PI * RING / list.length * .78);
+    const size = Math.min(.3, 2 * Math.PI * RING / list.length * .7);
     list.forEach((item, index) => {
       const angle = Math.PI / 2 - index * 2 * Math.PI / list.length;
       const tile = new THREE.Group();
@@ -175,16 +175,16 @@ export function createWheel({ scene, camera, renderer, viewport, inventory, choo
     }
     hubTexture.needsUpdate = true;
     const p = plateTexture.image.getContext('2d');
-    p.clearRect(0, 0, 1024, 232);
-    p.fillStyle = '#0d1820e6';
-    p.beginPath(); p.roundRect(4, 4, 1016, 224, 18); p.fill();
-    p.fillStyle = '#dfe8ee';
-    p.font = '28px system-ui, sans-serif';
+    p.clearRect(0, 0, 1024, 264);
+    p.fillStyle = '#0d1820f2';
+    p.beginPath(); p.roundRect(4, 4, 1016, 256, 18); p.fill();
+    p.fillStyle = '#f0f4ef';
+    p.font = '31px system-ui, sans-serif';
     p.textAlign = 'left';
-    wrap(p, item.mechanism, 960).slice(0, 4).forEach((line, i) => p.fillText(line, 32, 48 + i * 36));
-    p.fillStyle = '#85e3d2';
-    p.font = '600 26px system-ui, sans-serif';
-    p.fillText(state.peek ? 'Now in hand. I opens the inventory.' : HINTS[state.source] || HINTS.pointer, 32, 208);
+    wrap(p, item.mechanism, 960).slice(0, 4).forEach((line, i) => p.fillText(line, 32, 52 + i * 40));
+    p.fillStyle = '#9ff0e0';
+    p.font = '600 29px system-ui, sans-serif';
+    p.fillText(state.peek ? 'Now in hand. I opens the inventory.' : HINTS[state.source] || HINTS.pointer, 32, 238);
     plateTexture.needsUpdate = true;
   }
 
