@@ -108,7 +108,7 @@ function frame(src) {
   }), timeout(10000, src)]);
 }
 let sequence = 0;
-function ask(target, origin, payload, transfer = []) {
+function ask(target, origin, payload, transfer = [], ms = 8000) {
   const id = ++sequence;
   return Promise.race([new Promise(resolve => {
     const listen = event => {
@@ -119,7 +119,7 @@ function ask(target, origin, payload, transfer = []) {
     };
     window.addEventListener('message', listen);
     target.postMessage({ id, payload }, origin, transfer);
-  }), timeout(8000, 'echo ' + id)]);
+  }), timeout(ms, 'echo ' + id)]);
 }
 
 async function run() {
@@ -173,13 +173,6 @@ async function run() {
   const viaPort = new Promise(resolve => { channel.port1.onmessage = event => resolve(event.data.via); });
   const portReply = await ask(echo.contentWindow, echoOrigin, channel.port2, [channel.port2]);
   row('B5 a MessagePort is transferred and the other origin answers through it', SPEC.transfer, ['MessagePort', 'transferred MessagePort'], [portReply.type, await Promise.race([viaPort, timeout(5000, 'port')])]);
-  const lent = document.querySelector('#lent');
-  if (lent.transferControlToOffscreen) {
-    const offscreen = lent.transferControlToOffscreen();
-    row('B6 an OffscreenCanvas of this page is transferred and drawn by the other origin', SPEC.transfer, { type: 'OffscreenCanvas', width: 360, height: 64 }, await ask(echo.contentWindow, echoOrigin, offscreen, [offscreen]));
-  } else {
-    row('B6 an OffscreenCanvas of this page is transferred and drawn by the other origin', SPEC.transfer, { type: 'OffscreenCanvas', width: 360, height: 64 }, 'no transferControlToOffscreen');
-  }
   const cloned = await Promise.all([
     ask(echo.contentWindow, echoOrigin, new Map([['a', 1], ['b', 2]])),
     ask(echo.contentWindow, echoOrigin, new Date('2026-11-26T12:00:00Z')),
@@ -211,6 +204,20 @@ async function run() {
   row('C4 a service frame fetches another origin without CORS', SPEC.cors, 'TypeError', outcome('fetch another origin without CORS'));
   await new Promise(resolve => setTimeout(resolve, 800));
   row('C5 a sandboxed service frame tries to navigate the world page away', SPEC.sandbox, before, location.href, 'frame saw: ' + outcome('navigate the world page'));
+  // Rows B6 and B6b run last: Chromium (full binary, site isolation) ends the process of a frame that draws into an OffscreenCanvas
+  // transferred from another site, a few milliseconds after it has answered, and that process also holds every other frame of that site.
+  const lent = document.querySelector('#lent');
+  const b6Expected = { type: 'OffscreenCanvas', width: 360, height: 64 };
+  if (lent.transferControlToOffscreen) {
+    const offscreen = lent.transferControlToOffscreen();
+    row('B6 an OffscreenCanvas of this page is transferred and drawn by the other origin', SPEC.transfer, b6Expected, await ask(echo.contentWindow, echoOrigin, offscreen, [offscreen]));
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    const alive = await ask(echo.contentWindow, echoOrigin, 'still there?', [], 3000).then(() => 'answers', () => 'no answer');
+    row('B6b the frame that drew into the transferred canvas still answers', SPEC.transfer, 'answers', alive,
+      alive === 'answers' ? '' : 'the browser ended that frame’s process after it had answered (the page and the frames of other sites go on)');
+  } else {
+    row('B6 an OffscreenCanvas of this page is transferred and drawn by the other origin', SPEC.transfer, b6Expected, 'no transferControlToOffscreen');
+  }
   document.title = 'DONE ' + rows.filter(r => r.pass).length + '/' + rows.length + ' webgpu:' + gpuState;
 }
 run().catch(error => { row('run', '', 'completed', 'error: ' + error.message); document.title = 'DONE with error'; });

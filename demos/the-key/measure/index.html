@@ -17,7 +17,7 @@ canvas { border: 1px solid #3a5260; }
 <p>Each row states what the specification says, what this browser did, and whether the two agree. The page runs on the world's origin; the other origins are the test services.</p>
 <p id="agent"></p>
 <table><thead><tr><th>Row</th><th>Specification</th><th>Expected</th><th>Measured</th><th></th></tr></thead><tbody id="rows"></tbody></table>
-<p>A canvas of this page, drawn by a frame from another origin through a transferred OffscreenCanvas:</p>
+<p>A canvas of this page, drawn by a frame from another origin through a transferred OffscreenCanvas (rows B6 and B6b run last: B6b asks that frame, afterwards, whether it is still running, because some Chromium versions end the process of a frame that drew into a transferred canvas):</p>
 <canvas id="lent" width="360" height="64"></canvas>
 <div id="frames"></div>
 <script type="module" src="measure.js"></script>
