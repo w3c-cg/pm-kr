@@ -52,8 +52,8 @@ function wrap(g, text, width) {
   }
   return lines;
 }
-// Drawn over the world (no depth test) but writing its depth, so a browser that places its screen plane from
-// the depth buffer (the Stereo Browser's camera for a 2D page) counts the menu where it is.
+// Drawn over the world (no depth test) but writing its depth, so a camera that reads the depth buffer sees the
+// menu where it floats.
 function surface(texture, opacity = 1) {
   return new THREE.MeshBasicMaterial({ map: texture || null, transparent: true, opacity, depthTest: false, depthWrite: true, toneMapped: false });
 }
