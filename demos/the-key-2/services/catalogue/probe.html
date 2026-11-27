@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>probe</title></head><body>
+<script type="module">
+import { serviceAddresses } from './addresses.mjs';
+
+const addressesReady = serviceAddresses(location);
+// BSD-2-Clause. A service frame that tries to read what is not its own; it reports each attempt.
+async function attempt(name, fn) {
+  try { const value = await fn(); return { name, outcome: 'allowed', value: String(value).slice(0, 80) }; }
+  catch (error) { return { name, outcome: error.name || 'Error', message: String(error.message).slice(0, 120) }; }
+}
+window.addEventListener('message', async event => {
+  const addresses = await addressesReady;
+  const worldOrigin = new URL(addresses.world).origin;
+  if (event.source !== window.parent || event.origin !== worldOrigin || event.data?.kind !== 'probe') return;
+  const results = [
+    await attempt('read the world page', () => window.parent.document.title),
+    await attempt('read the camera service frame', () => window.parent.frames[event.data.otherIndex].document.title),
+    await attempt('read the world page storage', () => window.parent.localStorage.length),
+    await attempt('fetch another origin without CORS', async () => (await fetch(addresses.world)).status),
+    await attempt('navigate the world page', () => { window.top.location.href = addresses.services.catalogue; return 'navigated'; })
+  ];
+  event.source.postMessage({ kind: 'probe-result', results }, event.origin);
+});
+</script></body></html>

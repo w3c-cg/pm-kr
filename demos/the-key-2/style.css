@@ -1,0 +1,304 @@
+:root {
+  font-family: system-ui, sans-serif;
+  color: #e7eeea;
+  background: #121a1e;
+  --panel: #111a20;
+  --line: #53676d;
+  --muted: #afc1c1;
+  --amber: #ffbd72;
+  --teal: #85e3d2;
+  --violet: #d8b8fa;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow: hidden; overscroll-behavior: none; background: #121a1e; }
+/* Safe areas of the screen (notches, rounded corners, the system's bars), zero where there are none. */
+:root {
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --footer: 2.7rem;
+}
+button, a { color: inherit; }
+button {
+  font: inherit;
+  color: #f0f4ef;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: .28rem;
+  cursor: pointer;
+}
+button:disabled { cursor: default; }
+[hidden] { display: none !important; }
+:focus-visible { outline: 2px solid #fff2cc; outline-offset: 3px; }
+/* The scene fills what the browser gives it: the dynamic viewport follows the address bar and rotation.
+   In the page's normal flow (the page itself never scrolls): with position: fixed, Chromium's headless shell
+   on SwiftShader timed out taking a screenshot of the canvas. */
+#play {
+  overflow: hidden;
+  isolation: isolate;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  background: #17262b;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+#viewport, #viewport canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+#viewport canvas { display: block; touch-action: none; cursor: grab; }
+#viewport canvas:active { cursor: grabbing; }
+#play::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg, #101a1dc9 0%, #101a1d00 28%, #101a1d02 59%, #101a1dde 100%);
+}
+/* While the menu is shown its plate stands in the lower band: the lower shading would dim the plate's words. */
+#play[data-menu-shown]::after { background: linear-gradient(180deg, #101a1dc9 0%, #101a1d00 28%); }
+header, .location, #guide, #services-panel, #tablet-panel, #reticle, #touch-controls, .hud, footer, .startup-error { position: absolute; z-index: 2; }
+#guide, #services-panel, #tablet-panel { touch-action: pan-y; -webkit-user-select: text; user-select: text; }
+header {
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: calc(clamp(1rem, 3vw, 2rem) + var(--safe-top)) calc(clamp(1rem, 4vw, 3.5rem) + var(--safe-right))
+    clamp(1rem, 3vw, 2rem) calc(clamp(1rem, 4vw, 3.5rem) + var(--safe-left));
+  pointer-events: none;
+}
+.masthead { text-shadow: 0 1px 5px #000b; }
+.masthead p, .location, .key-heading, kbd, .key-kind {
+  margin: 0;
+  font: 600 .67rem/1.2 ui-monospace, monospace;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+.masthead p { color: var(--teal); margin-bottom: .25rem; }
+h1 { font: 500 clamp(2.3rem, 6vw, 4.55rem)/.98 Georgia, serif; margin: 0; letter-spacing: -.055em; }
+h1 span { color: var(--amber); }
+.masthead { flex-shrink: 0; }
+h1 { white-space: nowrap; }
+.top-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: flex-start; gap: .5rem; pointer-events: auto; }
+#display-mode { align-self: flex-start; padding: .62rem .2rem; font: 600 .67rem/1.2 ui-monospace, monospace; color: var(--muted); }
+.top-actions button { padding: .55rem .78rem; font-size: .82rem; white-space: nowrap; }
+#xr { border-color: var(--teal); color: var(--teal); }
+.location {
+  top: calc(clamp(7.5rem, 15vw, 9.5rem) + var(--safe-top));
+  left: calc(clamp(1rem, 4vw, 3.5rem) + var(--safe-left));
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+  padding: .42rem .55rem;
+  border-left: 1px solid #83d9c8;
+  background: #111a20de;
+  color: #dcefea;
+  pointer-events: none;
+}
+.location i { width: .37rem; height: .37rem; background: var(--teal); border-radius: 50%; }
+#guide {
+  z-index: 4;
+  top: calc(4.5rem + var(--safe-top));
+  right: calc(clamp(1rem, 4vw, 3.5rem) + var(--safe-right));
+  width: min(26rem, calc(100% - 2rem - var(--safe-left) - var(--safe-right)));
+  max-height: calc(100% - 5.5rem - var(--safe-top) - var(--safe-bottom));
+  overflow: auto;
+  padding: 1.1rem 1.35rem;
+  border: 1px solid var(--line);
+  border-radius: .28rem;
+  background: #111a20fa;
+  box-shadow: 0 1.25rem 3rem #0007;
+  font-size: .875rem;
+  line-height: 1.5;
+}
+#guide h2 { font-size: 1rem; margin: .55rem 0; }
+#guide p, #guide dl { color: var(--muted); margin: .4rem 0 .75rem; }
+#guide dt { font-weight: 600; color: #eee; }
+#guide dd { margin: 0 0 .38rem; }
+#guide a { color: var(--teal); }
+#reticle {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: .49rem;
+  height: .49rem;
+  border: 1px solid #f9faf5;
+  border-radius: 50%;
+  box-shadow: 0 0 .1rem .07rem #000b;
+  pointer-events: none;
+}
+.hud {
+  left: calc(clamp(1rem, 4vw, 3.5rem) + var(--safe-left));
+  bottom: calc(var(--footer) + .4rem + var(--safe-bottom));
+  width: min(30rem, calc(100% - 2rem - var(--safe-left) - var(--safe-right)));
+}
+.prompt {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: .65rem;
+  padding: .26rem .36rem .26rem .79rem;
+  background: #101b21ec;
+  border: 1px solid var(--line);
+  border-radius: .29rem;
+}
+#target { margin: 0; font-weight: 700; font-size: .93rem; }
+#action { padding: .38rem .58rem; background: var(--amber); border-color: var(--amber); color: #2a1c10; }
+.prompt #target { flex: 1; }
+#inventory-open { padding: .38rem .58rem; border-color: var(--teal); color: var(--teal); }
+/* The items as buttons kept off screen for screen readers and keyboard focus; the wheel in the world shows them. */
+.off-screen { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+#action:disabled { color: #b8c4c0; border-color: #53676d; background: #243137; }
+kbd { display: inline-block; margin-left: .3rem; border-left: 1px solid currentColor; padding-left: .4rem; font-size: .62rem; }
+#notice {
+  margin: .38rem 0 .72rem;
+  display: block;
+  min-height: 2.6em;
+  padding: .32rem .5rem;
+  font-size: .81rem;
+  line-height: 1.32;
+  background: #111a20ed;
+  border-left: 2px solid var(--teal);
+}
+#notice:is([data-outcome="wrong-door"], [data-outcome="wrong-key"], [data-outcome="expired"], [data-outcome="spent"], [data-outcome="error"]) {
+  border-color: #ff9369;
+  color: #ffd4bf;
+}
+.key-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin-bottom: .35rem; }
+.key-heading h2 { font: inherit; }
+#mandate-limit { letter-spacing: .02em; color: var(--violet); }
+.key {
+  text-align: left;
+  min-width: 0;
+  padding: .48rem .54rem .52rem;
+  color: var(--key-color);
+  background: #111a20eb;
+}
+.key[aria-pressed="true"] { border-color: var(--key-color); background: #233238; }
+.key:disabled { color: #a6b4b3; border-color: #4c5f66; }
+.key-name { display: block; font-weight: 700; font-size: .88rem; }
+.key-kind { display: block; font-size: .53rem; letter-spacing: .08em; margin-top: .18rem; }
+.startup-error { top: 33%; left: 5%; background: #18191e; padding: 1rem; }
+footer {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  min-height: var(--footer);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .4rem 1rem;
+  padding: .45rem calc(clamp(1rem, 4vw, 3.5rem) + var(--safe-right)) calc(.45rem + var(--safe-bottom)) calc(clamp(1rem, 4vw, 3.5rem) + var(--safe-left));
+  color: var(--muted);
+  font-size: .75rem;
+  background: #121a1ecc;
+}
+@media (pointer: coarse) {
+  kbd { display: none; }
+}
+@media (max-width: 540px) {
+  :root { --footer: 4.6rem; }
+  #display-mode { order: 1; flex-basis: 100%; text-align: right; padding: 0; }
+  .location { top: calc(5.7rem + var(--safe-top)); }
+  .top-actions button { padding-inline: .48rem; }
+  .key { padding-inline: .4rem; }
+}
+footer nav { display: flex; gap: .85rem; }
+/* Keep the full finder pattern visible while the address plate is in use. */
+#play[data-reading-address] .key-heading { display: none; }
+#play[data-reading-address] #notice { margin: .26rem 0 0; min-height: 0; }
+
+.key-cycle { display: flex; gap: .35rem; margin: 0 0 .35rem; }
+.key-cycle button { padding: .18rem .38rem; font-size: .72rem; }
+
+.item-card { background: #0d1820cc; border: 1px solid #3c5560; padding: .45rem .6rem; margin-top: .4rem; font-size: .78rem; }
+.item-card #item-kind { color: var(--muted); }
+.item-card p { margin: .25rem 0 0; color: #cfdce2; font-size: .72rem; }
+#services-panel, #tablet-panel { top: calc(4.5rem + var(--safe-top)); right: calc(clamp(1rem, 4vw, 3.5rem) + var(--safe-right)); width: min(26rem, calc(100% - 2rem)); max-height: calc(100% - 5.5rem); overflow: auto; background: #0d1820ee; border: 1px solid #3c5560; padding: .8rem 1rem; font-size: .8rem; }
+#tablet-panel { top: auto; bottom: calc(12rem + var(--safe-bottom)); }
+#services-panel h2, #tablet-panel h2 { font-size: .95rem; margin: 0 0 .5rem; }
+#roles, #tablet-routes { display: grid; gap: .3rem; margin: .4rem 0; }
+#roles button, #tablet-routes button { text-align: left; padding: .35rem .5rem; font-size: .75rem; }
+#tablet-routes button[aria-pressed="true"] { border-color: var(--teal); background: #1f3a3c; }
+#service-list { padding-left: 1rem; margin: .5rem 0 0; }
+#service-list li { margin: .25rem 0; }
+#service-list button, #add-service button { padding: .15rem .35rem; font-size: .7rem; }
+#tablet-status { color: #cfdce2; margin: .4rem 0 0; }
+#tablet-overlay { position: absolute; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
+#tablet-overlay iframe { pointer-events: auto; }
+#tablet-overlay-full { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+#tablet-overlay-full:not(:empty) { pointer-events: auto; background: #000; }
+#tablet-desktop { position: fixed; left: -20000px; top: 0; width: 1280px; height: 800px; }
+#service-frames { position: fixed; left: -20000px; top: 0; width: 1px; height: 1px; overflow: hidden; }
+#play[data-full-screen] :is(.hud, #touch-controls, .location, header, #tablet-panel, #services-panel, footer) { display: none; }
+#tablet-return { position: absolute; top: .8rem; right: .8rem; z-index: 4; padding: .5rem .8rem; background: #0d1820ee; color: #e8eef2; }
+
+/* Touch controls, as in a game: a stick to walk (a drag on the scene looks), Action and the inventory. */
+#touch-controls { display: none; inset: 0; pointer-events: none; }
+#touch-controls > * { position: absolute; pointer-events: auto; touch-action: none; }
+#touch-stick {
+  left: calc(1.4rem + var(--safe-left));
+  bottom: calc(1.4rem + var(--safe-bottom));
+  width: 8.6rem;
+  height: 8.6rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, #0d182066 0 58%, #0d1820aa 59%);
+  border: 1px solid #85e3d266;
+}
+#touch-stick span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 3.5rem;
+  height: 3.5rem;
+  margin: -1.75rem 0 0 -1.75rem;
+  border-radius: 50%;
+  background: #85e3d2bb;
+  box-shadow: 0 0 .6rem #000a;
+}
+#touch-stick[data-active] { border-color: var(--teal); }
+#touch-controls button { display: grid; place-items: center; padding: 0; border-radius: 50%; }
+#touch-controls svg { width: 58%; height: 58%; fill: currentColor; stroke: currentColor; }
+#touch-action {
+  right: calc(1.4rem + var(--safe-right));
+  bottom: calc(1.6rem + var(--safe-bottom));
+  width: 4.9rem;
+  height: 4.9rem;
+  background: #ffbd72e6;
+  border: 2px solid var(--amber);
+  color: #2a1c10;
+}
+#touch-action:disabled { background: #243137cc; border-color: #53676d; color: #b8c4c0; }
+#touch-inventory {
+  right: calc(7rem + var(--safe-right));
+  bottom: calc(5.2rem + var(--safe-bottom));
+  width: 3.6rem;
+  height: 3.6rem;
+  background: #0d1820cc;
+  border: 2px solid var(--teal);
+  color: var(--teal);
+}
+#play[data-inventory-open] #touch-inventory { background: #1f3a3c; }
+/* What an Action gave, without words: a ring of colour round the Action button. */
+#play:is([data-outcome="wrong-door"], [data-outcome="wrong-key"], [data-outcome="expired"], [data-outcome="spent"], [data-outcome="error"], [data-outcome="refused"]) #touch-action { box-shadow: 0 0 0 .3rem #ff9369aa; }
+#play:is([data-outcome="opened"], [data-outcome="public"], [data-outcome="grant"], [data-outcome="signed-in"], [data-outcome="enrolled"]) #touch-action { box-shadow: 0 0 0 .3rem #85e3d2aa; }
+
+/* A touch-first device held sideways: the controls over the scene, the text out of the way.
+   The Guide and the panels still open from the buttons at the top; held upright, the text returns. */
+#play:is([data-layout="touch-landscape"], [data-layout="touch-portrait"], [data-layout="pointer-touch"]) #touch-controls { display: block; }
+#play[data-layout="touch-landscape"] :is(.masthead, .location, .hud, footer, #display-mode) { display: none; }
+#play[data-layout="touch-landscape"] header { justify-content: flex-end; }
+/* Held upright: the text as on a desktop, the stick above it; Action and the inventory are in the text's own row. */
+#play[data-layout="touch-portrait"] :is(#touch-action, #touch-inventory) { display: none; }
+#play[data-layout="touch-portrait"] #touch-stick { bottom: calc(var(--footer) + 11.4rem + var(--safe-bottom)); width: 7.4rem; height: 7.4rem; }
+#play[data-layout="touch-portrait"] .hud { width: calc(100% - 2rem - var(--safe-left) - var(--safe-right)); }
+/* A mouse-first device that has been touched: the text stays, the stick appears beside it. */
+#play[data-layout="pointer-touch"] :is(#touch-action, #touch-inventory) { display: none; }
+#play[data-layout="pointer-touch"] #touch-stick { left: auto; right: calc(1.4rem + var(--safe-right)); bottom: calc(3.6rem + var(--safe-bottom)); }
+.credit { font-size: .75rem; }

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Walk a game studio’s headquarters with its people, carry keys from today’s internet, hold Knowledge3D’s tablet and compose services from several origins.">
+<title>The Key · Web of Worlds</title>
+<link rel="stylesheet" href="style.css">
+<script type="importmap">{"imports":{"three":"./vendor/three.module.min.js"}}</script>
+<script type="module" src="boot.js"></script>
+</head>
+<body>
+<main>
+  <section id="play" aria-label="Morrowglass Studio walkthrough" data-layout="pointer">
+    <div id="viewport" aria-label="3D scene"></div>
+    <header>
+      <div class="masthead">
+        <p>Web of Worlds</p>
+        <h1>The Key<span>.</span></h1>
+      </div>
+      <div class="top-actions">
+        <span id="display-mode"></span>
+        <button id="services-toggle" type="button" aria-expanded="false" aria-controls="services-panel">Services</button>
+        <button id="guide-toggle" type="button" aria-expanded="false" aria-controls="guide">Guide</button>
+        <button id="xr" type="button" hidden>Enter 3D</button>
+      </div>
+    </header>
+    <div id="guide" tabindex="-1" hidden>
+      <h2>Walk the headquarters</h2>
+      <p>People walk the hall, queue at the desk and turn to you when you come near. Try the doors with the keys you carry, hold the tablet, and place the services you choose.</p>
+      <dl>
+        <div><dt>Keyboard and mouse</dt><dd>WASD to walk, drag or press ← → to look. F Action. I opens the inventory: click an item, or Q and E then F; Use acts with it at once. Outside the inventory Q and E still change the item in hand. With the tablet held: R route, T size, X put it away.</dd></div>
+        <div><dt>Touch</dt><dd>The stick walks, a drag on the scene looks. The ring button opens the inventory: tap an item to take it. The round button is Action. Held sideways the text steps aside for the controls; hold the phone upright to read it.</dd></div>
+        <div><dt>Standard gamepad</dt><dd>Left stick to walk, right stick to look. Y opens the inventory: the left stick points at an item, A takes it, B closes. Left bumper previous item, right bumper next item, A or Cross for Action.</dd></div>
+        <div><dt>WebXR</dt><dd>Look at a station and press the trigger for Action. Move with the stick. B or Y opens the inventory: point the ray at an item and pull the trigger. A left squeeze selects the previous item and a right squeeze the next. Without controllers, the keys work as above.</dd></div>
+      </dl>
+      <p id="gamepad-status"></p>
+      <h2>What the keys stand for</h2>
+      <p>Each key says on itself which mechanism is real here: OAuth 2.0 with PKCE, OpenID Connect, WebAuthn with a security key or a fingerprint, and a TLS client certificate run for real against the local test server. Threshold, Circuit and Relay are represented only.</p>
+      <h2>People</h2>
+      <p id="people-status">Loading the people…</p>
+      <h2>Dynamic Procedural Texture Rendering</h2>
+      <p id="sizes">Measuring procedures and shapes…</p>
+      <p id="engine"></p>
+      <p id="xr-status" role="status">Checking WebXR support…</p>
+      <p id="service-depth-status" role="status"></p>
+      <p><a id="address" href="#lobby">Public lobby address</a></p>
+      <p class="credit">Individual input by Daniel Campos Ramos to the W3C PM-KR Community Group. <a href="../">Demos</a> · <a href="CREDITS.md">Credits</a></p>
+    </div>
+    <div id="services-panel" hidden>
+      <h2>Services you compose</h2>
+      <p>The page runs none of their code: each runs in its own frame from its own origin and only declares what to draw.</p>
+      <div id="roles" role="group" aria-label="Compose for a role"></div>
+      <form id="add-service"><label>Add a service by address <input id="service-address" autocomplete="off"></label> <button type="submit">Add card</button></form>
+      <ul id="service-list"></ul>
+    </div>
+    <div id="tablet-panel" hidden>
+      <h2>Memory Tablet</h2>
+      <div id="tablet-routes" role="group" aria-label="What the tablet shows"></div>
+      <label>Size <select id="tablet-size"><option value="8in">8-inch tablet</option><option value="12in">12-inch tablet</option><option value="wall">Wall-sized projection</option></select></label>
+      <label>Desktop password <input id="desktop-password" type="password" autocomplete="off"></label>
+      <button id="tablet-stow" type="button">Put away <kbd>X</kbd></button>
+      <p id="tablet-status" role="status"></p>
+    </div>
+    <div class="location"><i aria-hidden="true"></i><span id="location">HEADQUARTERS HALL</span></div>
+    <div id="reticle" aria-hidden="true"></div>
+    <div id="touch-controls">
+      <div id="touch-stick" role="group" aria-label="Walk: hold and drag in the direction to walk"><span></span></div>
+      <button id="touch-inventory" type="button" data-inventory-toggle="touch" aria-label="Inventory">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><circle cx="12" cy="3.6" r="1.9"/><circle cx="19.3" cy="7.8" r="1.9"/><circle cx="19.3" cy="16.2" r="1.9"/><circle cx="12" cy="20.4" r="1.9"/><circle cx="4.7" cy="16.2" r="1.9"/><circle cx="4.7" cy="7.8" r="1.9"/></svg>
+      </button>
+      <button id="touch-action" type="button" aria-label="Action" disabled>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6" fill="none" stroke-width="2.2"/><circle cx="12" cy="12" r="4.2"/></svg>
+      </button>
+    </div>
+    <div class="hud">
+      <div class="prompt">
+        <p id="target">Walk up to a station</p>
+        <button id="inventory-open" type="button" data-inventory-toggle="pointer">Items <kbd>I</kbd></button>
+        <button id="action" type="button" disabled>Action <kbd>F</kbd></button>
+      </div>
+      <p id="notice" role="status" data-outcome="loading">Starting the procedural texture player…</p>
+      <div class="item-card">
+        <strong id="item-name"></strong> <span id="item-kind"></span>
+        <span id="mandate-limit"></span>
+        <p id="item-mechanism"></p>
+      </div>
+    </div>
+    <div id="inventory" class="off-screen" role="group" aria-label="Your inventory"></div>
+    <div id="tablet-overlay-full"></div>
+    <div id="tablet-desktop" aria-hidden="true"></div>
+    <noscript><p class="startup-error">This walkthrough needs JavaScript to draw the 3D hall.</p></noscript>
+    <footer>
+      <span>Individual input by Daniel Campos Ramos to the W3C PM-KR Community Group.</span>
+      <nav aria-label="Demo information">
+        <a href="../">Demos</a>
+        <a href="CREDITS.md">Credits</a>
+        <a id="test-member" href="members/" hidden>Get the demo client certificate</a>
+      </nav>
+    </footer>
+  </section>
+</main>
+</body>
+</html>

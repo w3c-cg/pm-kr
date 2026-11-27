@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Key Demo Client Certificate</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main>
+<h1>Demo client certificate</h1>
+<p id="member-status">Loading the member door status…</p>
+<div id="member-import" hidden>
+<p>Everyone can use this shared test identity for the server-room door in The Key.</p>
+<p><a href="test-visitor.p12" download>Download the test client certificate</a></p>
+<p>Import it under personal certificates in your browser or operating system. The import password is <code>the-key-demo</code>.</p>
+<p>Return to the hall and use the Member certificate at the server-room door. When the browser asks, choose The Key test visitor.</p>
+</div>
+<script type="module">
+import { worldAddresses } from '../addresses.mjs';
+import { memberDoorURL, localMemberNotice } from '../mechanisms.js';
+
+const status = document.querySelector('#member-status');
+try {
+  const door = memberDoorURL(await worldAddresses(location));
+  status.textContent = door ? 'The public test door asks for the client certificate when it opens its own HTTPS connection.' : localMemberNotice;
+  document.querySelector('#member-import').hidden = !door;
+} catch (error) {
+  status.textContent = error.message;
+}
+</script>
+<p><a href="../">Return to the hall</a></p>
+</main>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>echo</title></head><body>
+<script type="module">
+import { serviceAddresses } from './addresses.mjs';
+
+const worldOriginReady = serviceAddresses(location).then(addresses => new URL(addresses.world).origin);
+// BSD-2-Clause. Measurement partner on another origin: it reports what arrived and how, and answers through any port it is given.
+function describe(value) {
+  if (value instanceof ArrayBuffer) { const v = new Uint8Array(value); let sum = 0; for (const b of v) sum = (sum + b) % 65521; return { type: 'ArrayBuffer', byteLength: value.byteLength, sum }; }
+  if (typeof ImageBitmap !== 'undefined' && value instanceof ImageBitmap) {
+    const c = new OffscreenCanvas(value.width, value.height); const g = c.getContext('2d'); g.drawImage(value, 0, 0);
+    return { type: 'ImageBitmap', width: value.width, height: value.height, pixel: Array.from(g.getImageData(1, 1, 1, 1).data) };
+  }
+  if (value instanceof MessagePort) { value.postMessage({ via: 'transferred MessagePort', from: location.origin }); return { type: 'MessagePort' }; }
+  if (typeof OffscreenCanvas !== 'undefined' && value instanceof OffscreenCanvas) {
+    const g = value.getContext('2d'); g.fillStyle = 'rgb(30, 160, 220)'; g.fillRect(0, 0, value.width, value.height);
+    g.fillStyle = '#fff'; g.font = '20px sans-serif'; g.fillText('drawn by ' + location.host, 10, 40);
+    return { type: 'OffscreenCanvas', width: value.width, height: value.height };
+  }
+  if (value instanceof Map) return { type: 'Map', size: value.size };
+  if (value instanceof Date) return { type: 'Date', iso: value.toISOString() };
+  if (value instanceof Blob) return { type: 'Blob', size: value.size };
+  if (ArrayBuffer.isView(value)) return { type: value.constructor.name, length: value.length };
+  return { type: typeof value };
+}
+// A message that cannot be deserialized here arrives as 'messageerror' (HTML §9.4.3): say so instead of staying silent.
+window.addEventListener('messageerror', async event => {
+  if (event.source !== window.parent || event.origin !== await worldOriginReady) return;
+  event.source?.postMessage({ id: -1, from: location.origin, received: { type: 'messageerror' } }, event.origin);
+});
+window.addEventListener('message', async event => {
+  if (event.source !== window.parent || event.origin !== await worldOriginReady) return;
+  const { id, payload } = event.data || {};
+  let received;
+  try { received = describe(payload); } catch (error) { received = { type: 'error', name: error.name, message: String(error.message).slice(0, 160) }; }
+  const answer = { id, from: location.origin, received };
+  if (payload instanceof Blob) answer.received.text = await payload.text();
+  event.source.postMessage(answer, event.origin);
+});
+</script></body></html>

@@ -1,0 +1,22 @@
+# The optional member listener requests the test certificate during the handshake.
+Listen @PORT@ https
+<VirtualHost *:@PORT@>
+    ServerName @HOST@
+    DocumentRoot /opt/the-key-demo/member-root
+    SSLEngine on
+    SSLProtocol -all +TLSv1.2 +TLSv1.3
+    @SERVER_TLS@
+    SSLCACertificateFile /opt/the-key-demo/client-ca.pem
+    SSLVerifyClient require
+    SSLVerifyDepth 1
+    <Location "/">
+        Require all denied
+    </Location>
+    <LocationMatch "^@MEMBERS_RE@door$">
+        Require expr "%{SSL_CLIENT_VERIFY} == 'SUCCESS'"
+        RequestHeader set X-The-Key-Client-Verified "%{SSL_CLIENT_VERIFY}s"
+        RequestHeader set X-The-Key-Client-CN "%{SSL_CLIENT_S_DN_CN}s"
+        RequestHeader set X-The-Key-Issuer-CN "%{SSL_CLIENT_I_DN_CN}s"
+    </LocationMatch>
+    ProxyPassMatch "^@MEMBERS_RE@door$" "http://127.0.0.1:8450$0" retry=0 connectiontimeout=3 timeout=15
+</VirtualHost>
