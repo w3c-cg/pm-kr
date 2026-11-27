@@ -26,7 +26,7 @@ FIGURES = [
     ("omar", .95, .52, .76, .64, .62, "young_african_male", "short04", "male_casualsuit06", "HandsInPockets"),
     ("hugo", .91, .77, .28, .53, .49, "middleage_asian_male", "short01", "male_elegantsuit01", "Proud"),
     ("lea", .16, .36, .46, .43, .72, "young_caucasian_female2", "braid01", "female_casualsuit02", "OnPhoneLeft"),
-    ("mica", .40, .43, .60, .41, .72, "middleage_asian_female", "short02", "female_casualsuit01", "Proud"),
+    ("mica", .40, .43, .60, .41, .72, "middleage_asian_female", "short02", "female_casualsuit01", "GracefulArms"),
 ]
 RIG_TO_BVH = {
     "Root": "Hips", "pelvis": "Hips",
@@ -42,6 +42,7 @@ for suffix, side in (("l", "Left"), ("r", "Right")):
 DISPLAY = Matrix.Rotation(-math.pi / 2, 4, 'X')
 SOURCE = DISPLAY.inverted()
 FILES = {f.stem: f for f in MOTION.glob("*/*.bvh")}
+HAND_TARGETS = {"scale": .25, "fingers-length": .18, "fingers-diameter": .14}
 
 
 def names_bytes(names):
@@ -60,6 +61,7 @@ def columns(matrix):
 def read_motion(path):
     header, samples = path.read_text().split("MOTION", 1)
     names, parents, stack, channels = [], [], [], []
+    offsets, ends = {}, {}
     pending = None
     for line in header.splitlines():
         words = line.split()
@@ -72,6 +74,12 @@ def read_motion(path):
             pending = None
         elif words == ["}"]:
             stack.pop()
+        elif words[:1] == ["OFFSET"]:
+            offset = Vector(tuple(map(float, words[1:])))
+            if stack[-1] is None:
+                ends[names[stack[-2]]] = offset
+            else:
+                offsets[names[stack[-1]]] = offset
         elif words[:1] == ["CHANNELS"]:
             channels.append(len(words[2:]))
             expected = ["Yrotation", "Xrotation", "Zrotation"]
@@ -82,7 +90,7 @@ def read_motion(path):
     frames = np.loadtxt(rows[2:], dtype=np.float64)
     if frames.shape != (int(rows[0].split()[-1]), sum(channels)):
         raise ValueError(f"Invalid frame table in {path.name}")
-    return names, parents, interval, frames
+    return names, parents, offsets, ends, interval, frames
 
 
 def motion_window(frames, interval, walking):
@@ -98,12 +106,30 @@ def motion_window(frames, interval, walking):
 
 
 def retarget(path, names, parents, rests, local, height):
-    sources, source_parents, interval, frames = read_motion(path)
+    sources, source_parents, offsets, ends, interval, frames = read_motion(path)
     walking = path.stem.endswith("_FW")
     frames, interval = motion_window(frames, interval, walking)
     source_ids = {name: i for i, name in enumerate(sources)}
     targets = [(i, source_ids[RIG_TO_BVH[name]]) for i, name in enumerate(names) if name in RIG_TO_BVH]
     target_sources = dict(targets)
+    ids = {name: i for i, name in enumerate(names)}
+    to_rig = SOURCE.to_quaternion()
+    to_source = DISPLAY.to_quaternion()
+    bind = [rest.to_quaternion() for rest in rests]
+    # BVH arms are extended along X. The fitted MPFB rig binds in an A pose
+    # with its forearms already bent. Align each segment before applying the
+    # captured global rotation, preserving bone lengths and the fitted roll.
+    for suffix, side in (("l", "Left"), ("r", "Right")):
+        segments = (
+            ("clavicle", "upperarm", offsets[side + "Shoulder"]),
+            ("upperarm", "lowerarm", offsets[side + "Elbow"]),
+            ("lowerarm", "hand", offsets[side + "Wrist"]),
+            ("hand", "middle_01", ends[side + "Wrist"]),
+        )
+        for parent, child, source_vector in segments:
+            i, j = ids[f"{parent}_{suffix}"], ids[f"{child}_{suffix}"]
+            fitted = rests[j].translation - rests[i].translation
+            bind[i] = fitted.rotation_difference(to_rig @ source_vector) @ bind[i]
     rotations = []
     translations = []
     prior = {}
@@ -116,8 +142,8 @@ def retarget(path, names, parents, rests, local, height):
         shifted = []
         for i, parent in enumerate(parents):
             if i in target_sources:
-                delta = SOURCE.to_quaternion() @ world[target_sources[i]] @ DISPLAY.to_quaternion()
-                rotation = delta @ rests[i].to_quaternion()
+                delta = to_rig @ world[target_sources[i]] @ to_source
+                rotation = delta @ bind[i]
             else:
                 rotation = shifted[parent] @ local[i].to_quaternion()
             shifted.append(rotation)
@@ -233,6 +259,13 @@ def build(figure, index):
     macro.update(gender=gender, age=age, muscle=muscle, weight=weight, height=height,
                  race={key: .84 if key == race else .08 for key in macro["race"]})
     body = HumanService.create_human(macro_detail_dict=macro)
+    # Apply MPFB's own bilateral proportion targets before fitting the bones
+    # and clothing. Each starts from this figure's individual macro shape.
+    targets = Path(mpfb.__file__).parent / "data/targets/hands"
+    for side in ("l", "r"):
+        for measure, weight_value in HAND_TARGETS.items():
+            file = targets / f"{side}-hand-{measure}-decr.target.gz"
+            TargetService.load_target(body, str(file), weight=weight_value)
     rig = HumanService.add_builtin_rig(body, "game_engine")
     meshes = [(body, diffuse(ASSETS / "skins" / skin / f"{skin}.mhmat"), 60000)]
     for kind, asset_name, particles in (("clothes", outfit, 59000), ("clothes", "shoes01", 8500),

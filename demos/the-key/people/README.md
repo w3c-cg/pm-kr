@@ -12,12 +12,11 @@ The core assets credit Data Collection AB, Joel Palmius and Jonas Hauquier.
 | Omar | `young_african_male`, `short04`, `male_casualsuit06` | `HandsInPockets_FW`, `HandsInPockets_ID` |
 | Hugo | `middleage_asian_male`, `short01`, `male_elegantsuit01` | `Proud_FW`, `Proud_ID` |
 | Léa | `young_caucasian_female2`, `braid01`, `female_casualsuit02` | `OnPhoneLeft_FW`, `OnPhoneLeft_ID` |
-| Mica | `middleage_asian_female`, `short02`, `female_casualsuit01`, with Daniel Campos Ramos’s Metal Plate procedure | `Proud_FW`, `Proud_ID` |
+| Mica | `middleage_asian_female`, `short02`, `female_casualsuit01`, with Daniel Campos Ramos’s Metal Plate procedure | `GracefulArms_FW`, `GracefulArms_ID` |
 
 All seven use `shoes01` and `low-poly` eyes.
 [100STYLE](https://zenodo.org/records/8127870) is by Ian Mason, Sebastian Starke and Taku Komura and licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 Each animation in this demo uses a trimmed motion loop retargeted to its own figure.
 The figure and motion files use [Dave Raggett's SPLT and ANIM formats](https://www.w3.org/2026/11/animation/).
 
-The separately licensed milestone 1 review fixture uses the original local manifest in the source tree.
 The public assembler requires the seven-model manifest generated from the CC0 inputs.
