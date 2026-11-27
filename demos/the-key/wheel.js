@@ -215,8 +215,8 @@ export function createWheel({ scene, camera, renderer, viewport, inventory, choo
       state.mode = '2d';
       state.plane = null;
       distance = 1;
-      // Fit the wheel and its plate below it inside the smaller side of the view.
-      radius = .34 * Math.min(w, h) / focal * distance;
+      // Fit the wheel and its plate below it inside the smaller side of the view, clear of the page's footer line.
+      radius = .32 * Math.min(w, h) / focal * distance;
     }
     forward.set(0, 0, -1).applyQuaternion(quaternion);
     group.position.copy(position).addScaledVector(forward, distance);

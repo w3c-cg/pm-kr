@@ -470,6 +470,7 @@ export async function start() {
     touchAction.disabled = actionButton.disabled;
     play.dataset.outcome = state.outcome;
     play.toggleAttribute('data-inventory-open', wheel.isOpen);
+    play.toggleAttribute('data-menu-shown', wheel.visible);
     setText(locationText, ROOMS[state.room].label.toUpperCase());
     notice.dataset.outcome = contextLost ? 'error' : state.outcome;
     setText(notice, message);

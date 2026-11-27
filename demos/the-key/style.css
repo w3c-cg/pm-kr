@@ -57,6 +57,8 @@ button:disabled { cursor: default; }
   pointer-events: none;
   background: linear-gradient(180deg, #101a1dc9 0%, #101a1d00 28%, #101a1d02 59%, #101a1dde 100%);
 }
+/* While the menu is shown its plate stands in the lower band: the lower shading would dim the plate's words. */
+#play[data-menu-shown]::after { background: linear-gradient(180deg, #101a1dc9 0%, #101a1d00 28%); }
 header, .location, #guide, #services-panel, #tablet-panel, #reticle, #touch-controls, .hud, footer, .startup-error { position: absolute; z-index: 2; }
 #guide, #services-panel, #tablet-panel { touch-action: pan-y; -webkit-user-select: text; user-select: text; }
 header {
