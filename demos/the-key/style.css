@@ -31,16 +31,15 @@ button {
 button:disabled { cursor: default; }
 [hidden] { display: none !important; }
 :focus-visible { outline: 2px solid #fff2cc; outline-offset: 3px; }
-/* The scene fills what the browser gives it: the dynamic viewport follows the address bar and rotation. */
+/* The scene fills what the browser gives it: the dynamic viewport follows the address bar and rotation.
+   In the page's normal flow (the page itself never scrolls): with position: fixed, Chromium's headless shell
+   on SwiftShader timed out taking a screenshot of the canvas. */
 #play {
   overflow: hidden;
   isolation: isolate;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
+  position: relative;
+  width: 100%;
   height: 100vh;
-  width: 100dvw;
   height: 100dvh;
   background: #17262b;
   touch-action: none;
