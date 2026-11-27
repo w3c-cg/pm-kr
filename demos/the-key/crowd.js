@@ -88,7 +88,7 @@ export function createCrowd(seed, count, layout) {
       return;
     }
     if (kind === 'talk') {
-      const partner = agents.find(b => b !== a && ['idle', 'pause', 'browse', 'look'].includes(b.state) &&
+      const partner = agents.find(b => b !== a && ['idle', 'walk', 'pause', 'browse', 'look'].includes(b.state) &&
         distance(at(a), at(b)) < 2.8 && nav.clear(at(a), at(b)));
       if (partner) {
         const duration = 2.5 + rand() * 2;
