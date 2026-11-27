@@ -1,5 +1,6 @@
-// BSD-2-Clause. The inventory, as in a game: a slot bar of items (keys, service cards, the tablet),
-// Q and E move the selection, F is Action. The world, not the key, is the centre of the view.
+// BSD-2-Clause. The inventory, as in a game: items (keys, service cards, the tablet) chosen in a menu that
+// floats in the world (wheel.js); Q and E move the selection, F is Action. The world, not the key, is the
+// centre of the view.
 import * as THREE from 'three';
 import { KEYS, DEFAULT_CARDS } from './story.js';
 import { localMemberNotice, memberDoorURL } from './mechanisms.js';
@@ -66,9 +67,10 @@ export function createInventory({ story, camera, world, panel, addresses, say })
     mechanism: 'A thing you hold, with the old internet inside it (Knowledge3D Memory Tablet).' };
   let selectedId = 'visitor';
   const icons = new Map();
-  const iconFor = item => {
-    if (!icons.has(item.id)) icons.set(item.id, icon(item));
-    return icons.get(item.id);
+  const iconFor = (item, size = 96) => {
+    const key = item.id + '@' + size;
+    if (!icons.has(key)) icons.set(key, icon(item, size));
+    return icons.get(key);
   };
 
   function items() {
@@ -112,9 +114,10 @@ export function createInventory({ story, camera, world, panel, addresses, say })
     if (index >= 0) { cards.splice(index, 1); saveCards(cards); }
   }
 
-  // The 2D slot bar.
+  // The items as a list of buttons kept off screen: the wheel shows them, and this list carries the same
+  // choice to screen readers and keyboard focus.
   const buttons = new Map();
-  function renderBar() {
+  function renderList() {
     const list = items();
     for (const [id, button] of buttons) if (!list.some(item => item.id === id)) { button.remove(); buttons.delete(id); }
     list.forEach((item, index) => {
@@ -122,20 +125,15 @@ export function createInventory({ story, camera, world, panel, addresses, say })
       if (!button) {
         button = document.createElement('button');
         button.type = 'button';
-        button.className = 'slot';
         button.dataset.item = item.id;
-        const picture = iconFor(item);
-        picture.setAttribute('aria-hidden', 'true');
-        const label = document.createElement('span');
-        label.textContent = item.name;
-        button.append(picture, label);
         button.addEventListener('click', () => select(item.id));
         buttons.set(item.id, button);
       }
       if (panel.children[index] !== button) panel.insertBefore(button, panel.children[index] || null);
+      const label = `${item.name}: ${item.kind}. ${item.mechanism}`;
+      if (button.textContent !== label) button.textContent = label;
       const on = String(item.id === selected().id);
       if (button.getAttribute('aria-pressed') !== on) button.setAttribute('aria-pressed', on);
-      button.title = item.kind + ' — ' + item.mechanism;
     });
   }
 
@@ -160,44 +158,19 @@ export function createInventory({ story, camera, world, panel, addresses, say })
     return model;
   }
 
-  // The same bar inside an immersive session, placed as the immersive interface is (far and large).
-  const xrBar = new THREE.Group();
-  xrBar.name = 'immersive-slot-bar';
-  xrBar.position.set(0, -2.05, -12.35);
-  xrBar.visible = false;
-  camera.add(xrBar);
-  const xrSlots = new Map();
-  function renderXrBar() {
-    const list = items();
-    const width = .62;
-    for (const [id, slot] of xrSlots) if (!list.some(item => item.id === id)) { slot.removeFromParent(); xrSlots.delete(id); }
-    list.forEach((item, index) => {
-      let slot = xrSlots.get(item.id);
-      if (!slot) {
-        const texture = new THREE.CanvasTexture(iconFor(item));
-        texture.colorSpace = THREE.SRGBColorSpace;
-        slot = new THREE.Mesh(new THREE.PlaneGeometry(.54, .54), new THREE.MeshBasicMaterial({ map: texture, transparent: true, depthTest: false, depthWrite: false }));
-        slot.renderOrder = 6;
-        const frame = new THREE.Mesh(new THREE.PlaneGeometry(.6, .6), new THREE.MeshBasicMaterial({ color: '#0d1820', transparent: true, opacity: .85, depthTest: false, depthWrite: false }));
-        frame.renderOrder = 5;
-        frame.position.z = -.001;
-        slot.add(frame);
-        xrBar.add(slot);
-        xrSlots.set(item.id, slot);
-      }
-      slot.position.set((index - (list.length - 1) / 2) * width, item.id === selected().id ? .14 : 0, 0);
-      slot.children[0].material.color.set(item.id === selected().id ? '#3a6f86' : '#0d1820');
-    });
+  // Low on the right, inside the view whatever its shape.
+  function placeHand() {
+    const halfHeight = Math.tan(camera.fov * Math.PI / 360) * .66;
+    hand.position.set(halfHeight * camera.aspect * .46, -halfHeight * .655, -.66);
   }
 
   function frame(immersive, hidden) {
-    renderBar();
+    renderList();
     const item = selected();
     for (const model of handModels.values()) model.removeFromParent();
     if (!hidden && item.type !== 'tablet') hand.add(handModel(item));
     hand.visible = !immersive && !hidden;
-    xrBar.visible = immersive && !hidden;
-    if (immersive) renderXrBar();
+    if (!immersive) placeHand();
   }
 
   return { items, selected, select, cycle, addCard, removeCard, cards, tablet, frame, iconFor };

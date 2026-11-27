@@ -5,13 +5,16 @@ import { loadTextures } from './textures.js';
 import { createWorld } from './world.js';
 import { createStory, ROOMS, STATIONS } from './story.js';
 import { bindInput } from './input.js';
-import { connectXR } from './xr.js';
+import { connectXR, addControllers } from './xr.js';
 import { createPeople } from './people.js';
 import { createInventory } from './inventory.js';
 import { worldAddresses } from './addresses.mjs';
 import { createMechanisms } from './mechanisms.js';
 import { createServiceHost } from './services.js';
 import { createTablet, ROUTES } from './tablet.js';
+import { fitCamera, pixelRatio, createLayout } from './view.js';
+import { createWheel } from './wheel.js';
+import { bindTouch } from './touch.js';
 
 const $ = selector => document.querySelector(selector);
 const setText = (element, value) => { if (element && element.textContent !== value) element.textContent = value; };
@@ -94,7 +97,6 @@ export async function start() {
   } catch {
     throw new Error('This browser could not create a WebGL 2 context.');
   }
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.6));
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.21;
   viewport.append(renderer.domElement);
@@ -156,18 +158,37 @@ export async function start() {
   const serviceDepthMessage = 'This session has no shared screen plane for service drawings. They are available in 2D.';
   scene.onBeforeRender = () => {
     if (renderer.xr.isPresenting) tablet.frame();
+    wheel.beforeRender();
     services.projection.update(renderer);
     const unavailable = renderer.xr.isPresenting && services.placed.size && services.projection.unavailable;
     setText(serviceDepthNote, unavailable ? serviceDepthMessage : '');
   };
   const tablet = createTablet({ camera, scene, renderer, say, viewport, origins: mechanisms.origins, params });
+  const wheel = createWheel({ scene, camera, renderer, viewport, inventory,
+    choose: id => inventory.select(id), use: () => action() });
+  // The inventory as the input sees it: it does not open over the tablet's full screen.
+  const menu = {
+    get isOpen() { return wheel.isOpen; },
+    toggle: source => { if (!tablet.state.full) wheel.toggle(source); },
+    close: wheel.close, step: wheel.step, take: wheel.take, point: wheel.point, hover: wheel.hover, tap: wheel.tap, ray: wheel.ray
+  };
+  // Q and E outside the wheel still change the item in hand at once; the wheel shows it for a moment.
+  function cycleKey(step, source = 'keys') {
+    inventory.cycle(step);
+    if (!wheel.isOpen && !tablet.state.full) wheel.open(source, true);
+  }
+  const play = $('#play');
+  const layout = createLayout(play);
+  const view = { focal: 0, ratio: 1, css: [0, 0] };
 
   function resize() {
     const { clientWidth: w, clientHeight: h } = viewport;
     if (renderer.xr.isPresenting) return;
+    view.ratio = pixelRatio(w, h);
+    renderer.setPixelRatio(view.ratio);
     renderer.setSize(w, h, false);
-    camera.aspect = w / Math.max(h, 1);
-    camera.updateProjectionMatrix();
+    view.focal = fitCamera(camera, w, h);
+    view.css = [w, h];
   }
   const resizeObserver = new ResizeObserver(resize);
   resizeObserver.observe(viewport);
@@ -224,6 +245,7 @@ export async function start() {
   }
 
   function action() {
+    if (wheel.isOpen) { wheel.take(); return; }
     if (tablet.state.full) {
       if (!tablet.state.input) tablet.unbind();
       return;
@@ -266,11 +288,10 @@ export async function start() {
     }
   }
   $('#action').addEventListener('click', action);
-  for (const button of document.querySelectorAll('[data-cycle-key]')) {
-    button.addEventListener('click', () => inventory.cycle(Number(button.dataset.cycleKey)));
-  }
-  connectXR(renderer, camera, { action, cycleKey: inventory.cycle, resize });
-  const sampleInput = bindInput(renderer.domElement, { action, select: inventory.select, cycleKey: inventory.cycle });
+  const pointers = addControllers(renderer, rig);
+  connectXR(renderer, camera, { action, cycleKey, resize, pointers, wheel: menu });
+  const touch = bindTouch({ action, inventory: menu });
+  const sampleInput = bindInput(renderer.domElement, { action, select: inventory.select, cycleKey, wheel: menu, stick: touch.sample });
   window.addEventListener('keydown', event => {
     if (event.repeat || event.target instanceof Element && event.target.closest('input, textarea, select, #guide')) return;
     if (!tablet.state.held || tablet.state.full) return;
@@ -390,8 +411,9 @@ export async function start() {
   const notice = $('#notice');
   const targetText = $('#target');
   const reticle = $('#reticle');
-  const play = $('#play');
   const actionButton = $('#action');
+  const touchAction = $('#touch-action');
+  let frames = 0;
   const locationText = $('#location');
   const mandateLimit = $('#mandate-limit');
   let previous = performance.now();
@@ -402,6 +424,10 @@ export async function start() {
     const immersive = renderer.xr.isPresenting;
     const full = tablet.state.full;
     const input = sampleInput(renderer.xr.getSession());
+    frames++;
+    // While the inventory is open the person stands still: the pointer, the stick or the ray choose in it.
+    if (wheel.isOpen) Object.assign(input, { strafe: 0, forward: 0, turn: 0, tilt: 0, dx: 0, dy: 0 });
+    if (wheel.isOpen && immersive) for (const pointer of pointers.rays()) wheel.ray(pointer.origin, pointer.direction);
     if (!full) {
       rig.rotation.y -= input.turn * dt * 1.7 + input.dx * .0034;
       if (!immersive) {
@@ -430,16 +456,20 @@ export async function start() {
     const target = full ? null : currentTarget();
     const inspectingAddress = target?.id === 'qr';
     inventory.frame(immersive, inspectingAddress || full);
+    wheel.frame(now);
     reticle.hidden = inspectingAddress || full;
     play.toggleAttribute('data-reading-address', inspectingAddress);
     play.toggleAttribute('data-full-screen', full);
     const item = inventory.selected();
     const station = full ? 'Memory Tablet · full screen' : target?.label || 'Walk up to a station';
     const message = contextLost ? 'The browser lost its WebGL drawing context. Waiting for it to recover.' : state.notice;
-    xrPrompt(immersive, station, serviceDepthNote.textContent || message, item);
+    xrPrompt(immersive && !wheel.visible, station, serviceDepthNote.textContent || message, item);
     setText(targetText, station);
     targetText.dataset.station = target?.id || '';
-    actionButton.disabled = !(target || item.type !== 'key' || full);
+    actionButton.disabled = !(target || item.type !== 'key' || full || wheel.isOpen);
+    touchAction.disabled = actionButton.disabled;
+    play.dataset.outcome = state.outcome;
+    play.toggleAttribute('data-inventory-open', wheel.isOpen);
     setText(locationText, ROOMS[state.room].label.toUpperCase());
     notice.dataset.outcome = contextLost ? 'error' : state.outcome;
     setText(notice, message);
@@ -462,6 +492,7 @@ export async function start() {
   renderer.setAnimationLoop(frame);
   const proof = {
     renderer, scene, camera, rig, story, textures, world, people, inventory, services, tablet, mechanisms, notes, action, compose, timing, stations: STATIONS,
+    wheel, layout, view, pointers, get frames() { return frames; },
     setPose(x, z, yaw = 0, pitch = .02) { rig.position.set(x, 0, z); rig.rotation.y = yaw; camera.rotation.x = pitch; },
     // For captures: stop the loop after drawing one more frame (a still), and start it again.
     still() { return new Promise(resolve => { renderer.setAnimationLoop(now => { frame(now); renderer.setAnimationLoop(null); resolve(); }); }); },
@@ -469,7 +500,8 @@ export async function start() {
     report: () => ({
       room: state.room, outcome: state.outcome, notice: state.notice, keys: [...state.keys], selected: inventory.selected().id,
       opened: [...state.opened], tablet: tablet.report(), services: services.report(), people: people?.snapshot() || null,
-      mechanisms: mechanisms.log, immersive: renderer.xr.isPresenting
+      mechanisms: mechanisms.log, immersive: renderer.xr.isPresenting, wheel: wheel.report(), layout: layout.layout,
+      view: { ...view, fov: camera.fov, aspect: camera.aspect, buffer: [renderer.domElement.width, renderer.domElement.height] }
     })
   };
   return proof;

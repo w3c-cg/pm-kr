@@ -1,5 +1,40 @@
 // BSD-2-Clause
-export async function connectXR(renderer, camera, { action, cycleKey, resize }) {
+import * as THREE from 'three';
+
+/** Controllers of an immersive session: a visible ray each, kept with the person's rig. */
+export function addControllers(renderer, rig) {
+  const controllers = [0, 1].map(index => {
+    const controller = renderer.xr.getController(index);
+    const ray = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3(0, 0, -4)]),
+      new THREE.LineBasicMaterial({ color: '#85e3d2', transparent: true, opacity: .85, depthTest: false, depthWrite: false }));
+    ray.renderOrder = 30;
+    ray.visible = false;
+    controller.add(ray);
+    controller.userData.ray = ray;
+    controller.addEventListener('connected', event => {
+      controller.userData.source = event.data;
+      ray.visible = event.data.targetRayMode === 'tracked-pointer';
+    });
+    controller.addEventListener('disconnected', () => { controller.userData.source = null; ray.visible = false; });
+    rig.add(controller);
+    return controller;
+  });
+  const origin = new THREE.Vector3();
+  const direction = new THREE.Vector3();
+  const rotation = new THREE.Matrix4();
+  /** Each pointing controller's ray in world space. */
+  function rays() {
+    return controllers.filter(c => c.userData.source?.targetRayMode === 'tracked-pointer').map(controller => {
+      controller.updateWorldMatrix(true, false);
+      origin.setFromMatrixPosition(controller.matrixWorld);
+      direction.set(0, 0, -1).applyMatrix4(rotation.extractRotation(controller.matrixWorld)).normalize();
+      return { source: controller.userData.source, origin: origin.clone(), direction: direction.clone() };
+    });
+  }
+  return { controllers, rays };
+}
+
+export async function connectXR(renderer, camera, { action, cycleKey, resize, pointers, wheel }) {
   const button = document.querySelector('#xr');
   const status = document.querySelector('#xr-status');
   const mode = document.querySelector('#display-mode');
@@ -46,8 +81,18 @@ export async function connectXR(renderer, camera, { action, cycleKey, resize }) 
     };
     try {
       session = await navigator.xr.requestSession('immersive-vr', { requiredFeatures: ['local-floor'] });
-      session.addEventListener('select', action);
-      session.addEventListener('squeeze', event => cycleKey(event.inputSource.handedness === 'left' ? -1 : 1));
+      session.addEventListener('select', event => {
+        // With the inventory open, Trigger takes the item the controller's ray points at.
+        if (!wheel.isOpen) { action(); return; }
+        const pointer = pointers.rays().find(entry => entry.source === event.inputSource);
+        if (pointer) wheel.ray(pointer.origin, pointer.direction, true);
+        else wheel.take();
+      });
+      session.addEventListener('squeeze', event => {
+        const step = event.inputSource.handedness === 'left' ? -1 : 1;
+        if (wheel.isOpen) wheel.step(step);
+        else cycleKey(step, 'controller');
+      });
       session.addEventListener('end', () => {
         session = null;
         const { position, quaternion, ...optics } = desktopCamera;

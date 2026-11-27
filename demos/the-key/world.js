@@ -312,7 +312,7 @@ export async function createWorld(textures, qr, scene) {
         line.children[0].dispose();
         line.removeFromParent();
       }
-      const content = [station, 'Action / F / Trigger', 'Selected: ' + key.name, ...wrap(notice)];
+      const content = [station, 'F or Trigger: Action. I or Y: Items', 'Selected: ' + key.name, ...wrap(notice)];
       backing.scale.y = (content.length * .22 + .09) / 1.5;
       display.userData.text = content;
       content.forEach((text, index) => {
