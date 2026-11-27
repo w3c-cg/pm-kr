@@ -135,7 +135,7 @@ export async function start() {
   const peopleNote = $('#people-status');
   const people = params.get('people') === '0' ? null : await createPeople(scene, world.hall, {
     seed: Number(params.get('seed') || 949), count: addresses.mode === 'public' ? 6 : Number(params.get('crowd') || 6),
-    pattern: textures.get('bulkhead').texture, say: text => setText(peopleNote, text)
+    layout: world.crowdLayout, pattern: textures.get('bulkhead').texture, say: text => setText(peopleNote, text)
   });
   if (people) {
     world.mica.visible = false;
@@ -421,7 +421,8 @@ export async function start() {
     const inHall = state.room === 'hall';
     if (full && immersive) { world.hall.visible = world.lobby.visible = world.lab.visible = false; }
     const started = performance.now();
-    people?.update(dt, { x: person.x, z: person.z }, camera, renderer, inHall && !(full && immersive));
+    people?.update(dt, { x: person.x, z: person.z }, camera, renderer, inHall && !(full && immersive),
+      services.browseStops());
     timing.push(performance.now() - started);
     if (timing.length > 120) timing.shift();
     services.update(person, inHall && !(full && immersive));

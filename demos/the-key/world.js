@@ -140,7 +140,8 @@ export async function createWorld(textures, qr, scene) {
     installSet(room, wallTrim, walls);
     installSet(room, 'pillar', beams);
   }
-  corridor(hall, 16.25, 15.6, 4.9, 'bulkhead');
+  const hallWidth = 16.25, hallDepth = 15.6;
+  corridor(hall, hallWidth, hallDepth, 4.9, 'bulkhead');
   corridor(lobby, 9.6, 11.6, 4.3, 'ribbed-wall');
   corridor(lab, 9.6, 11.6, 4.3, 'bulkhead');
 
@@ -174,7 +175,7 @@ export async function createWorld(textures, qr, scene) {
   }
 
   const stations = Object.fromEntries(STATIONS.map(station => [station.id, station]));
-  gate(hall, stations.public, 'PUBLIC LOBBY', 'amber');
+  const publicGate = gate(hall, stations.public, 'PUBLIC LOBBY', 'amber');
   const doors = {
     false: gate(hall, stations.false, 'ARCHIVE DOOR', 'signal', false),
     vault: gate(hall, stations.vault, 'VAULT', 'signal', false),
@@ -244,11 +245,38 @@ export async function createWorld(textures, qr, scene) {
     const beacon = clone(lab, 'beacon', x, 0, 2.7);
     beacon.scale.setScalar(.85);
   }
+  const props = [];
   for (const x of [-6.78, 6.78]) {
-    clone(hall, 'beacon', x, 0, 2.96);
+    props.push([x < 0 ? 'west-beacon' : 'east-beacon', clone(hall, 'beacon', x, 0, 2.96)]);
     const cargo = clone(hall, 'cargo', x, 0, 5.15);
     cargo.scale.setScalar(1.4);
+    props.push([x < 0 ? 'west-cargo' : 'east-cargo', cargo]);
   }
+
+  // Reuse the installed geometry's transforms for the crowd's ground footprints.
+  // Raised signs and thin trim are above or below the space occupied by a person.
+  hall.updateMatrixWorld(true);
+  const box3 = new THREE.Box3();
+  const obstacles = [
+    ['public', publicGate], ['member', member], ...Object.entries(doors),
+    ['desk', reception], ['helper', helper], ['hatch', hatch], ['kiosk', kiosk], ...props
+  ].map(([id, object]) => {
+    const bounds = new THREE.Box3();
+    object.traverse(part => {
+      if (!part.isMesh || !part.visible) return;
+      box3.setFromObject(part);
+      if (box3.min.y < 1.65 && box3.max.y > .08) bounds.union(box3);
+    });
+    return { id, minX: bounds.min.x, maxX: bounds.max.x, minZ: bounds.min.z, maxZ: bounds.max.z };
+  });
+  const desk = obstacles.find(o => o.id === 'desk');
+  const crowdLayout = {
+    bounds: { minX: -hallWidth / 2 + .65, maxX: hallWidth / 2 - .65,
+      minZ: -hallDepth / 2 + 2.32, maxZ: hallDepth / 2 - .82 },
+    obstacles,
+    queue: Array.from({ length: 4 }, (_, i) => [stations.desk.x, desk.maxZ + .7 + i * .84]),
+    displays: [[stations.kiosk.x, stations.kiosk.z + 1.25], [stations.qr.x + 1.35, stations.qr.z]]
+  };
 
   function xrPrompt(parent) {
     const display = makeGroup(parent, -.57, -1.11, -12.35);
@@ -321,7 +349,7 @@ export async function createWorld(textures, qr, scene) {
   }
 
   return {
-    update, xrPrompt, keyModel, hall, lobby, lab, mica, doors,
+    update, xrPrompt, keyModel, hall, lobby, lab, mica, doors, crowdLayout,
     shapeBytes: [...assets.values()].reduce((sum, asset) => sum + asset.bytes, 0)
   };
 }

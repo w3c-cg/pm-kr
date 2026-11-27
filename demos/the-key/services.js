@@ -312,5 +312,13 @@ export function createServiceHost({ scene, hall, origins, say, people }) {
     }));
   }
 
-  return { place, remove, grant, link, update, select, report, placed, links, projection };
+  function browseStops() {
+    return [...placed.values()].filter(service => service.state === 'connected').map(({ anchor }) => {
+      const { x, z } = anchor.position;
+      const yaw = anchor.rotation.y;
+      return { point: [x + 1.2 * Math.sin(yaw), z + 1.2 * Math.cos(yaw)], view: [x, z] };
+    });
+  }
+
+  return { place, remove, grant, link, update, select, report, placed, links, projection, browseStops };
 }
