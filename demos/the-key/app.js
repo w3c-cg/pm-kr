@@ -169,7 +169,7 @@ export async function start() {
   // The inventory as the input sees it: it does not open over the tablet's full screen.
   const menu = {
     get isOpen() { return wheel.isOpen; },
-    toggle: source => { if (!tablet.state.full) wheel.toggle(source); },
+    toggle: source => { if (!tablet.state.full) wheel.toggle(renderer.xr.isPresenting && source === 'pointer' ? 'keys' : source); },
     close: wheel.close, step: wheel.step, take: wheel.take, point: wheel.point, hover: wheel.hover, tap: wheel.tap, ray: wheel.ray
   };
   // Q and E outside the wheel still change the item in hand at once; the wheel shows it for a moment.
