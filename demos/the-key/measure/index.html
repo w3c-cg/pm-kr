@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Measured: pictures, messages and frames across origins</title>
+<style>
+body { font: 15px/1.45 system-ui, sans-serif; background: #0f1a22; color: #e8eef2; margin: 1.5rem; }
+table { border-collapse: collapse; width: 100%; } td, th { border: 1px solid #3a5260; padding: .3rem .5rem; vertical-align: top; text-align: left; }
+.pass { color: #8fe0a0; } .fail { color: #ff9a8a; } code { color: #ffd890; }
+#frames iframe { width: 1px; height: 1px; border: 0; }
+canvas { border: 1px solid #3a5260; }
+</style>
+</head>
+<body>
+<h1>Pictures, messages and frames across origins, measured in this browser</h1>
+<p>Each row states what the specification says, what this browser did, and whether the two agree. The page runs on the world's origin; the other origins are the test services.</p>
+<p id="agent"></p>
+<table><thead><tr><th>Row</th><th>Specification</th><th>Expected</th><th>Measured</th><th></th></tr></thead><tbody id="rows"></tbody></table>
+<p>A canvas of this page, drawn by a frame from another origin through a transferred OffscreenCanvas:</p>
+<canvas id="lent" width="360" height="64"></canvas>
+<div id="frames"></div>
+<script type="module" src="measure.js"></script>
+</body>
+</html>

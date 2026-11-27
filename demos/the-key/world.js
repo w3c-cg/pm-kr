@@ -2,7 +2,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from './vendor/loaders/GLTFLoader.js';
 import { lettering } from './letters.js';
-import { KEYS, ROOMS, STATIONS } from './story.js';
+import { ROOMS, STATIONS } from './story.js';
 
 const MODEL_NAMES = [
   'visitor', 'account', 'mandate', 'door', 'portal', 'qr-plate', 'cargo',
@@ -155,6 +155,7 @@ export async function createWorld(textures, qr, scene) {
 
   function gate(parent, station, title, color, open = true) {
     const group = makeGroup(parent, station.x, 0, station.z);
+    group.rotation.y = station.yaw || 0;
     clone(group, 'portal', 0, 0, 0);
     if (open) {
       object(group, new THREE.ShapeGeometry(field), glow.field, 0, .03, -.12);
@@ -162,7 +163,8 @@ export async function createWorld(textures, qr, scene) {
       symbol.rotation.z = Math.PI/6;
       box(group, .22, .047, .022, 0, 1.61, -.08, color, false);
     } else {
-      clone(group, 'door', 0, 0, .04);
+      object(group, new THREE.ShapeGeometry(field), glow.field, 0, .03, -.16);
+      group.userData.door = clone(group, 'door', 0, 0, .04);
     }
     box(group, 2.78, .036, .63, 0, .018, .3, 'trim');
     box(group, 2.55, .025, .063, 0, .042, .56, color, false);
@@ -173,7 +175,17 @@ export async function createWorld(textures, qr, scene) {
 
   const stations = Object.fromEntries(STATIONS.map(station => [station.id, station]));
   gate(hall, stations.public, 'PUBLIC LOBBY', 'amber');
-  gate(hall, stations.false, 'ARCHIVE DOOR', 'signal', false);
+  const doors = {
+    false: gate(hall, stations.false, 'ARCHIVE DOOR', 'signal', false),
+    vault: gate(hall, stations.vault, 'VAULT', 'signal', false),
+    server: gate(hall, stations.server, 'SERVER ROOM', 'violet', false),
+    office: gate(hall, stations.office, 'STUDIO OFFICE', 'teal', false)
+  };
+  const kiosk = makeGroup(hall, stations.kiosk.x, 0, stations.kiosk.z);
+  box(kiosk, .5, 1.25, .34, 0, .625, 0, 'slate');
+  const kioskFace = box(kiosk, .42, .3, .03, 0, 1.12, .18, 'white', false);
+  kioskFace.rotation.x = -.35;
+  sign(kiosk, 'IDENTITY', 0, 1.55, .05, .018, 'white');
   const member = gate(hall, stations.member, 'MEMBERS ENTRY', 'teal');
   member.visible = false;
   gate(lobby, stations.return, 'RETURN TO HALL', 'teal');
@@ -238,43 +250,6 @@ export async function createWorld(textures, qr, scene) {
     cargo.scale.setScalar(1.4);
   }
 
-  function carriedKeys(parent) {
-    const ring = makeGroup(parent, .41, -.36, -.85);
-    ring.name = 'carried-keyring';
-    const assembly = object(ring, new THREE.TorusGeometry(.085, .009, 6, 22), material.trim, 0, .084, 0);
-    assembly.rotation.y = -.21;
-    const keyModels = KEYS.map((key, i) => {
-      const model = clone(ring, key.id, -.081 + i * .081, -.035, i * -.016);
-      model.scale.setScalar(.39);
-      model.rotation.z = .22 - i * .18;
-      return [key.id, model];
-    });
-    ring.traverse(part => {
-      if (!part.isMesh) return;
-      part.renderOrder = 4;
-      part.material = part.material.clone();
-    });
-    let wasImmersive;
-    return (state, time, inspectingAddress, immersive) => {
-      if (immersive !== wasImmersive) {
-        wasImmersive = immersive;
-        ring.position.set(immersive ? 1.94 : .41, immersive ? -.91 : -.36, immersive ? -12.35 : -.85);
-        ring.scale.setScalar(immersive ? 2.43 : 1);
-        ring.traverse(part => {
-          if (!part.isMesh) return;
-          part.material.depthTest = !immersive;
-          part.material.depthWrite = !immersive;
-        });
-      }
-      ring.visible = !inspectingAddress;
-      for (const [id, model] of keyModels) {
-        model.visible = state.keys.has(id);
-        model.position.y = id === state.selected ? -.035 : -.091;
-      }
-      ring.rotation.z = -.13 + Math.sin(time * 3) * .022;
-    };
-  }
-
   function xrPrompt(parent) {
     const display = makeGroup(parent, -.57, -1.11, -12.35);
     display.name = 'immersive-interface';
@@ -285,7 +260,7 @@ export async function createWorld(textures, qr, scene) {
       copy.depthWrite = false;
       return copy;
     };
-    const finishes = Object.fromEntries(['ink', 'white', ...KEYS.map(key => key.color)].map(name => [name, surface(name)]));
+    const finishes = Object.fromEntries(['ink', 'white', 'amber', 'teal', 'violet', 'signal'].map(name => [name, surface(name)]));
     const backing = object(display, new THREE.PlaneGeometry(3.37, 1.5), finishes.ink, 0, 0, 0);
     backing.renderOrder = 3;
     let last = '';
@@ -299,10 +274,9 @@ export async function createWorld(textures, qr, scene) {
       }
       return paragraphs;
     }
-    return (active, station, notice, selected) => {
+    return (active, station, notice, key) => {
       display.visible = active;
       if (!active) return;
-      const key = KEYS.find(item => item.id === selected);
       const next = JSON.stringify([station, notice, key.name]);
       if (next === last) return;
       last = next;
@@ -310,11 +284,11 @@ export async function createWorld(textures, qr, scene) {
         line.children[0].dispose();
         line.removeFromParent();
       }
-      const content = [station, 'Action / F / Trigger', 'Selected key: ' + key.name, ...wrap(notice)];
+      const content = [station, 'Action / F / Trigger', 'Selected: ' + key.name, ...wrap(notice)];
       backing.scale.y = (content.length * .22 + .09) / 1.5;
       display.userData.text = content;
       content.forEach((text, index) => {
-        const line = lettering(text, finishes[index === 2 ? key.color : 'white'], .014);
+        const line = lettering(text, finishes[index === 2 && finishes[key.color] ? key.color : 'white'], .014);
         line.position.set(0, (content.length - 1) * .11 - index * .22, .006);
         line.children[0].renderOrder = 4;
         lines.push(line);
@@ -333,11 +307,21 @@ export async function createWorld(textures, qr, scene) {
     mica.rotation.y = Math.sin(time * 1.7) * .10;
     hatchLeaf.position.y = state.parcel ? .98 : .79;
     parcel.visible = state.parcel;
+    for (const [id, group] of Object.entries(doors)) {
+      const door = group.userData.door;
+      const target = state.opened.has(id) ? 2.75 : 0;
+      door.position.y += (target - door.position.y) * .08;
+    }
     textures.get('field').texture.offset.y = (time * .10) % 1;
   }
 
+  /** A small copy of a key's model for the hand (the three original key models; others are drawn by the inventory). */
+  function keyModel(id) {
+    return assets.has(id) ? assets.get(id).scene.clone(true) : null;
+  }
+
   return {
-    update, carriedKeys, xrPrompt,
+    update, xrPrompt, keyModel, hall, lobby, lab, mica, doors,
     shapeBytes: [...assets.values()].reduce((sum, asset) => sum + asset.bytes, 0)
   };
 }

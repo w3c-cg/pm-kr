@@ -1,0 +1,15 @@
+# Included inside the named SSL virtual host.
+ProxyPass "@API@" "http://127.0.0.1:8450@API@" retry=0 connectiontimeout=3 timeout=15
+
+# Only the dedicated TLS listener may forward these certificate results.
+<Location "@API@">
+    RequestHeader unset X-The-Key-Client-Verified
+    RequestHeader unset X-The-Key-Client-CN
+    RequestHeader unset X-The-Key-Issuer-CN
+</Location>
+
+<Directory "/var/www/html@WORLD@">
+    Options -Indexes
+    Require all granted
+    AddType text/javascript .mjs
+</Directory>

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
-<meta name="description" content="Walk a game studio’s headquarters and see what a key can carry in the Web of Worlds.">
+<meta name="description" content="Walk a game studio’s headquarters with its people, carry keys from today’s internet, hold Knowledge3D’s tablet and compose services from several origins.">
 <title>The Key · Web of Worlds</title>
 <link rel="stylesheet" href="style.css">
 <script type="importmap">{"imports":{"three":"./vendor/three.module.min.js"}}</script>
@@ -21,28 +21,46 @@
       </div>
       <div class="top-actions">
         <span id="display-mode"></span>
+        <button id="services-toggle" type="button" aria-expanded="false" aria-controls="services-panel">Services</button>
         <button id="guide-toggle" type="button" aria-expanded="false" aria-controls="guide">Guide</button>
         <button id="xr" type="button" hidden>Enter 3D</button>
       </div>
     </header>
     <div id="guide" tabindex="-1" hidden>
       <h2>Walk the headquarters</h2>
-      <p>Try the public lobby, create a pretend game-store account at the desk, then ask Mica to deliver a parcel.</p>
+      <p>People walk the hall, queue at the desk and turn to you when you come near. Try the doors with the keys you carry, hold the tablet, and place the services you choose.</p>
       <dl>
-        <div><dt>Keyboard and mouse</dt><dd>WASD to walk, drag or press ← → to look. Q previous key, E next key, F Action. The 1–3 keys select directly.</dd></div>
-        <div><dt>Touch</dt><dd>Tap arrows to walk, drag to look. Tap Previous key, Next key or a key, then Action.</dd></div>
-        <div><dt>Standard gamepad</dt><dd>Left stick to walk, right stick to look. Left bumper previous key, right bumper next key, A or Cross for Action.</dd></div>
-        <div><dt>WebXR</dt><dd>Look at a station and press the trigger for Action. Move with the stick. A left squeeze selects the previous key and a right squeeze selects the next.</dd></div>
+        <div><dt>Keyboard and mouse</dt><dd>WASD to walk, drag or press ← → to look. Q previous item, E next item, F Action. With the tablet held: R route, T size, X put it away.</dd></div>
+        <div><dt>Touch</dt><dd>Tap arrows to walk, drag to look. Tap Previous or Next, or an item in the bar, then Action.</dd></div>
+        <div><dt>Standard gamepad</dt><dd>Left stick to walk, right stick to look. Left bumper previous item, right bumper next item, A or Cross for Action.</dd></div>
+        <div><dt>WebXR</dt><dd>Look at a station and press the trigger for Action. Move with the stick. A left squeeze selects the previous item and a right squeeze the next.</dd></div>
       </dl>
       <p id="gamepad-status"></p>
       <h2>What the keys stand for</h2>
-      <p>A passkey answers only to the site that issued it. A grant has a scope and a lifetime. A mandate lets a helper act within the limits you give it.</p>
-      <p>All three are simulations in this demo.</p>
+      <p>Each key says on itself which mechanism is real here: OAuth 2.0 with PKCE, OpenID Connect, WebAuthn with a security key or a fingerprint, and a TLS client certificate run for real against the local test server. Threshold, Circuit and Relay are represented only.</p>
+      <h2>People</h2>
+      <p id="people-status">Loading the people…</p>
       <h2>Dynamic Procedural Texture Rendering</h2>
       <p id="sizes">Measuring procedures and shapes…</p>
       <p id="engine"></p>
       <p id="xr-status" role="status">Checking WebXR support…</p>
+    <p id="service-depth-status" role="status"></p>
       <p><a id="address" href="#lobby">Public lobby address</a></p>
+    </div>
+    <div id="services-panel" hidden>
+      <h2>Services you compose</h2>
+      <p>The page runs none of their code: each runs in its own frame from its own origin and only declares what to draw.</p>
+      <div id="roles" role="group" aria-label="Compose for a role"></div>
+      <form id="add-service"><label>Add a service by address <input id="service-address" autocomplete="off"></label> <button type="submit">Add card</button></form>
+      <ul id="service-list"></ul>
+    </div>
+    <div id="tablet-panel" hidden>
+      <h2>Memory Tablet</h2>
+      <div id="tablet-routes" role="group" aria-label="What the tablet shows"></div>
+      <label>Size <select id="tablet-size"><option value="8in">8-inch tablet</option><option value="12in">12-inch tablet</option><option value="wall">Wall-sized projection</option></select></label>
+      <label>Desktop password <input id="desktop-password" type="password" autocomplete="off"></label>
+      <button id="tablet-stow" type="button">Put away <kbd>X</kbd></button>
+      <p id="tablet-status" role="status"></p>
     </div>
     <div class="location"><i aria-hidden="true"></i><span id="location">HEADQUARTERS HALL</span></div>
     <div id="reticle" aria-hidden="true"></div>
@@ -58,16 +76,19 @@
         <button id="action" type="button" disabled>Action <kbd>F</kbd></button>
       </div>
       <p id="notice" role="status" data-outcome="loading">Starting the procedural texture player…</p>
-      <div class="key-heading">
-        <h2>Your keyring</h2>
+      <div class="item-card">
+        <strong id="item-name"></strong> <span id="item-kind"></span>
         <span id="mandate-limit"></span>
+        <p id="item-mechanism"></p>
       </div>
-      <div class="key-cycle" role="group" aria-label="Change held key">
-        <button type="button" data-cycle-key="-1">Previous key <kbd>Q</kbd></button>
-        <button type="button" data-cycle-key="1">Next key <kbd>E</kbd></button>
-      </div>
-      <div id="inventory" role="group" aria-label="Keys you carry"></div>
     </div>
+    <div class="slots">
+      <button type="button" data-cycle-key="-1" aria-label="Previous item"><kbd>Q</kbd></button>
+      <div id="inventory" role="group" aria-label="Your inventory"></div>
+      <button type="button" data-cycle-key="1" aria-label="Next item"><kbd>E</kbd></button>
+    </div>
+    <div id="tablet-overlay-full"></div>
+    <div id="tablet-desktop" aria-hidden="true"></div>
     <noscript><p class="startup-error">This walkthrough needs JavaScript to draw the 3D hall.</p></noscript>
   </section>
   <footer>
@@ -75,6 +96,7 @@
     <nav aria-label="Demo information">
       <a href="../">Demos</a>
       <a href="CREDITS.md">Credits</a>
+      <a id="test-member" href="members/" hidden>Get the demo client certificate</a>
     </nav>
   </footer>
 </main>

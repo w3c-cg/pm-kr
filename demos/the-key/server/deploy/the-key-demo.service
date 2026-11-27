@@ -1,0 +1,15 @@
+[Unit]
+Description=The Key test authentication server
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/node /opt/the-key-demo/key-world-server.mjs --mode public --site /var/www/html/demos/the-key --port 8450
+DynamicUser=yes
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

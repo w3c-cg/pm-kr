@@ -1,0 +1,31 @@
+{
+  "test": {
+    "world": "https://key-world.test:8443/demos/the-key/",
+    "auth": "https://auth.test:8443/",
+    "archive": "https://archive.test:8443/",
+    "webauthn": "https://key-world.test:8443/webauthn/",
+    "members": "https://members.test:9443/",
+    "desktop": "wss://desktop.test:6443/websockify",
+    "intranet": "https://intranet.test:8443/",
+    "services": {
+      "map": "https://floor-map.test:8443/",
+      "catalogue": "https://catalogue.test:8443/",
+      "camera": "https://camera-feed.test:8443/",
+      "pay": "https://pay-portal.test:8443/"
+    }
+  },
+  "public": {
+    "world": "https://zionbtnet.ddns.net/demos/the-key/",
+    "auth": "https://zionbtnet.ddns.net/demos/the-key/api/auth/",
+    "archive": "https://zionbtnet.ddns.net/demos/the-key/api/archive/",
+    "webauthn": "https://zionbtnet.ddns.net/demos/the-key/api/webauthn/",
+    "members": "https://zionbtnet.ddns.net/demos/the-key/members/",
+    "intranet": "https://w3c-cg.github.io/pm-kr/demos/the-key/services/intranet/",
+    "services": {
+      "map": "https://sparky-os.github.io/sparky-stereo-os/demos/the-key/floor-map/",
+      "catalogue": "https://danielcamposramos.github.io/awesome-stereoscopy/demos/the-key/catalogue/",
+      "camera": "https://w3c-cg.github.io/pm-kr/demos/the-key/services/camera-feed/",
+      "pay": "https://knowledge3d.github.io/the-key-services/pay-portal/"
+    }
+  }
+}

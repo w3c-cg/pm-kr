@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Returning to The Key</title></head>
+<body><p>Returning to the hall…</p>
+<script>
+// BSD-2-Clause. The OAuth 2.0 redirect target (RFC 6749 4.1.2): hand the code to the hall that opened this window.
+const query = new URLSearchParams(location.search);
+if (window.opener) {
+  window.opener.postMessage({ kind: 'key-world-callback', code: query.get('code'), state: query.get('state'), error: query.get('error') }, location.origin);
+}
+window.close();
+</script></body></html>

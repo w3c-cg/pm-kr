@@ -1,9 +1,9 @@
 // BSD-2-Clause. The published WebAssembly player owns the meaning of every operator.
 import { DataTexture, LinearFilter, LinearMipmapLinearFilter, SRGBColorSpace } from 'three';
 
-const playerURL = new URL('../procedural-texture-rendering/wasm-worker.js', import.meta.url);
-
-export async function loadTextures(procedures) {
+export async function loadTextures(procedures, mode) {
+  const directory = mode === 'public' ? 'texture-player/' : '../procedural-texture-rendering/';
+  const playerURL = new URL(directory + 'wasm-worker.js', import.meta.url);
   const worker = new Worker(playerURL, { type: 'module' });
   const pending = new Map();
   let sequence = 0;

@@ -42,7 +42,7 @@ button:disabled { cursor: default; }
   pointer-events: none;
   background: linear-gradient(180deg, #101a1dc9 0%, #101a1d00 28%, #101a1d02 59%, #101a1dde 100%);
 }
-header, .location, #guide, #reticle, #touch-move, .hud, .startup-error { position: absolute; z-index: 2; }
+header, .location, #guide, #services-panel, #tablet-panel, #reticle, #touch-move, .hud, .slots, .startup-error { position: absolute; z-index: 2; }
 header {
   top: 0;
   left: 0;
@@ -147,7 +147,7 @@ kbd { display: inline-block; margin-left: .3rem; border-left: 1px solid currentC
 .key-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin-bottom: .35rem; }
 .key-heading h2 { font: inherit; }
 #mandate-limit { letter-spacing: .02em; color: var(--violet); }
-#inventory { display: grid; grid-template-columns: repeat(3, 1fr); gap: .35rem; }
+#inventory { display: flex; gap: .3rem; overflow-x: auto; max-width: min(60rem, calc(100vw - 7rem)); }
 .key {
   text-align: left;
   min-width: 0;
@@ -198,3 +198,33 @@ footer nav { display: flex; gap: .85rem; }
 
 .key-cycle { display: flex; gap: .35rem; margin: 0 0 .35rem; }
 .key-cycle button { padding: .18rem .38rem; font-size: .72rem; }
+
+/* The inventory as a game slot bar. */
+.slots { left: 50%; transform: translateX(-50%); bottom: clamp(.6rem, 2vw, 1.1rem); display: flex; gap: .3rem; align-items: center; }
+.slots > button { padding: .4rem .45rem; font-size: .75rem; }
+.slot { display: grid; justify-items: center; gap: .15rem; width: 4.6rem; padding: .3rem .2rem; background: #0d1820cc; border-color: #3c5560; }
+.slot canvas { width: 2.6rem; height: 2.6rem; }
+.slot span { font-size: .58rem; line-height: 1.1; text-align: center; color: #cfdce2; }
+.slot[aria-pressed="true"] { border-color: var(--amber); background: #23343bdd; transform: translateY(-.25rem); }
+.hud { bottom: clamp(6.3rem, 13vw, 7.2rem); }
+.item-card { background: #0d1820cc; border: 1px solid #3c5560; padding: .45rem .6rem; margin-top: .4rem; font-size: .78rem; }
+.item-card #item-kind { color: var(--muted); }
+.item-card p { margin: .25rem 0 0; color: #cfdce2; font-size: .72rem; }
+#services-panel, #tablet-panel { top: 4.5rem; right: clamp(1rem, 4vw, 3.5rem); width: min(26rem, calc(100% - 2rem)); background: #0d1820ee; border: 1px solid #3c5560; padding: .8rem 1rem; font-size: .8rem; }
+#tablet-panel { top: auto; bottom: clamp(6.3rem, 13vw, 7.2rem); }
+#services-panel h2, #tablet-panel h2 { font-size: .95rem; margin: 0 0 .5rem; }
+#roles, #tablet-routes { display: grid; gap: .3rem; margin: .4rem 0; }
+#roles button, #tablet-routes button { text-align: left; padding: .35rem .5rem; font-size: .75rem; }
+#tablet-routes button[aria-pressed="true"] { border-color: var(--teal); background: #1f3a3c; }
+#service-list { padding-left: 1rem; margin: .5rem 0 0; }
+#service-list li { margin: .25rem 0; }
+#service-list button, #add-service button { padding: .15rem .35rem; font-size: .7rem; }
+#tablet-status { color: #cfdce2; margin: .4rem 0 0; }
+#tablet-overlay { position: absolute; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
+#tablet-overlay iframe { pointer-events: auto; }
+#tablet-overlay-full { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+#tablet-overlay-full:not(:empty) { pointer-events: auto; background: #000; }
+#tablet-desktop { position: fixed; left: -20000px; top: 0; width: 1280px; height: 800px; }
+#service-frames { position: fixed; left: -20000px; top: 0; width: 1px; height: 1px; overflow: hidden; }
+#play[data-full-screen] :is(.hud, .slots, .location, header, #tablet-panel, #services-panel) { display: none; }
+#tablet-return { position: absolute; top: .8rem; right: .8rem; z-index: 4; padding: .5rem .8rem; background: #0d1820ee; color: #e8eef2; }
